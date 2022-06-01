@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Api;
 
 namespace Coby.ViewModel;
 
@@ -10,6 +6,6 @@ internal class MainWindowViewModel
 {
     public MainWindowViewModel()
     {
-        Api.Http.Get(1);
+        var result = Http.Get(1);
     }
 }

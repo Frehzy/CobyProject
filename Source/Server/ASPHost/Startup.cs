@@ -1,8 +1,4 @@
 using ASPHost.Configuration;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Nancy.Owin;
 
 namespace ASPHost

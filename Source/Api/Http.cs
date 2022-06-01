@@ -1,5 +1,7 @@
 ﻿using Api.Model;
-using System;
+using Api.Operations;
+using System.Net;
+using System.Text.Json;
 
 namespace Api;
 
@@ -7,12 +9,15 @@ public static class Http
 {
     public static Dinosaur Get(int id)
     {
-        using (var client = new HttpClient())
-        {
-            var endPoint = new Uri($"https://localhost:5001/dinosaurs/1");
-            var result = client.GetAsync(endPoint).Result;
-            var json = result.Content.ReadAsStringAsync().Result;
-        }
-        return default;
+        var ip = NetOperation.GetLocalIPAddress();
+        using var client = new HttpClient();
+
+        var endPoint = new Uri($"http://{ip}:5050/dinosaurs/{id}");
+        var result = client.GetAsync(endPoint).Result;
+        var json = result.Content.ReadAsStringAsync().Result;
+
+        return result.StatusCode is HttpStatusCode.OK
+            ? JsonSerializer.Deserialize<Dinosaur>(json)
+            : default;
     }
 }

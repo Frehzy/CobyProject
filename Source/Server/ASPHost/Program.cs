@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using System.IO;
+using Api.Operations;
+using System.Net;
 
 namespace ASPHost;
 
@@ -8,15 +7,20 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        CreateHostBuilder(args).Build().Run();
+        var ip = NetOperation.GetLocalIPAddress();
+        CreateHostBuilder(args, ip).Build().Run();
     }
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
+    public static IHostBuilder CreateHostBuilder(string[] args, IPAddress ip) =>
        Host.CreateDefaultBuilder(args)
            .ConfigureWebHostDefaults(webBuilder =>
            {
                webBuilder.UseContentRoot(Directory.GetCurrentDirectory())
-                         .UseKestrel(o => o.AllowSynchronousIO = true)
+                         .UseKestrel(x =>
+                         {
+                             x.AllowSynchronousIO = true;
+                         })
+                         .UseUrls($"http://{ip}:5050")
                          .UseStartup<Startup>();
            });
 }

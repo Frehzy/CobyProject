@@ -1,6 +1,6 @@
-﻿using Nancy;
+﻿using Api.Model;
+using Nancy;
 using Nancy.ModelBinding;
-using Api.Model;
 using System.Text.Json;
 
 namespace HostData.Modules;
