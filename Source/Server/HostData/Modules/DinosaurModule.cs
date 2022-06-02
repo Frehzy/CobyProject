@@ -1,7 +1,7 @@
 ﻿using HostData.Model;
+using HostData.Serialization;
 using Nancy;
-using Nancy.ModelBinding;
-using System.Text.Json;
+using Nancy.Extensions;
 
 namespace HostData.Modules;
 
@@ -18,15 +18,16 @@ public class DinosaurModule : NancyModule
 
     public DinosaurModule() : base("/")
     {
-        Get("/dinosaurs/{id}", parameters => { return JsonSerializer.Serialize(dinosaurs[parameters.id - 1]); });
+        Get("/dinosaurs/{id}", parameters =>
+        {
+            return Json.Serialization<Dinosaur>(dinosaurs[parameters.id - 1], "03541926-da58-4d36-a9df-c2e16dbf356d");
+        });
 
         Post("/dinosaurs", parameters =>
         {
-            var model = this.BindAndValidate<Dinosaur>();
-            if (this.ModelValidationResult.IsValid is false)
-                return 422;
-
-            dinosaurs.Add(model);
+            var json = this.Request.Body.AsString();
+            var obj = Json.Deserialize<Dinosaur>(json, "03541926-da58-4d36-a9df-c2e16dbf356d");
+            dinosaurs.Add(obj);
             return dinosaurs.Count.ToString();
         });
     }

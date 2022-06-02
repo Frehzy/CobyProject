@@ -7,4 +7,6 @@ public class Dinosaur
     public int HeightInFeet { get; set; }
 
     public string Status { get; set; }
+
+    public Dinosaur() { }
 }

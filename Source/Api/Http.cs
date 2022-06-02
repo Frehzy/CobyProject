@@ -1,8 +1,7 @@
 ﻿using Api.Data;
+using Api.HttpRequest;
 using Api.InternalModel;
 using Api.Operations;
-using System.Net;
-using System.Text.Json;
 
 namespace Api;
 
@@ -11,14 +10,15 @@ public static class Http
     public static IDinosaur Get(int id)
     {
         var ip = NetOperation.GetLocalIPAddress();
-        using var client = new HttpClient();
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "dinosaurs", id);
+        var result = HttpGet.Get<Dinosaur>(uri, "03541926-da58-4d36-a9df-c2e16dbf356d");
+        return result.Content;
+    }
 
-        var endPoint = new Uri($"http://{ip}:5050/dinosaurs/{id}");
-        var result = client.GetAsync(endPoint).Result;
-        var json = result.Content.ReadAsStringAsync().Result;
-
-        return result.StatusCode is HttpStatusCode.OK
-            ? JsonSerializer.Deserialize<Dinosaur>(json)
-            : default;
+    public static void Post(IDinosaur dinosaur)
+    {
+        var ip = NetOperation.GetLocalIPAddress();
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "dinosaurs");
+        var result = HttpPost.Post(uri, "03541926-da58-4d36-a9df-c2e16dbf356d", dinosaur);
     }
 }
