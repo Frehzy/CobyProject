@@ -1,5 +1,5 @@
-﻿using Api.Model;
-using FluentValidation;
+﻿using FluentValidation;
+using HostData.Model;
 
 namespace HostData.Validators;
 

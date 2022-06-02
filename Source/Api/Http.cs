@@ -1,4 +1,5 @@
-﻿using Api.Model;
+﻿using Api.Data;
+using Api.InternalModel;
 using Api.Operations;
 using System.Net;
 using System.Text.Json;
@@ -7,7 +8,7 @@ namespace Api;
 
 public static class Http
 {
-    public static Dinosaur Get(int id)
+    public static IDinosaur Get(int id)
     {
         var ip = NetOperation.GetLocalIPAddress();
         using var client = new HttpClient();
