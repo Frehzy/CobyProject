@@ -12,10 +12,22 @@ internal static class Json
         return Encrypt(json, key);
     }
 
+    public static string Serialization<T>(IEnumerable<T> instance, string key)
+    {
+        var json = JsonSerializer.Serialize(instance);
+        return Encrypt(json, key);
+    }
+
     public static T Deserialize<T>(string json, string key)
     {
         var decryptJson = Decrypt(json, key);
         return JsonSerializer.Deserialize<T>(decryptJson);
+    }
+
+    public static IEnumerable<T> DeserializeToList<T>(string json, string key)
+    {
+        var decryptJson = Decrypt(json, key);
+        return JsonSerializer.Deserialize<List<T>>(decryptJson);
     }
 
     private static string Encrypt(string clearText, string key)

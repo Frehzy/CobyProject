@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Api.HttpRequest;
+namespace Api.Http;
 
 internal class Response<T>
 {

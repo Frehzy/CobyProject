@@ -1,11 +1,11 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 
-namespace Api.Operations;
+namespace Api.Operations.Net;
 
-public static class NetOperation
+internal class NetOperation : INetOperation
 {
-    public static IPAddress GetLocalIPAddress()
+    public IPAddress GetLocalIPAddress()
     {
         var host = Dns.GetHostEntry(Dns.GetHostName());
         foreach (var ip in host.AddressList.Where(ip => ip.AddressFamily.Equals(AddressFamily.InterNetwork)))

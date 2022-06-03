@@ -1,4 +1,4 @@
-﻿namespace Api.HttpRequest;
+﻿namespace Api.Http;
 
 internal static class HttpUtility
 {

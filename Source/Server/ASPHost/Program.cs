@@ -7,7 +7,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        var ip = NetOperation.GetLocalIPAddress();
+        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         CreateHostBuilder(args, ip).Build().Run();
     }
 
