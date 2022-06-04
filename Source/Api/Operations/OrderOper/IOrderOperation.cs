@@ -13,7 +13,7 @@ public interface IOrderOperation
 
     public bool DeleteOrder(IOrder order);
 
-    public ISession CreateSession();
+    public ISession CreateSession(Guid orderId);
 
-    public IOrder SubmitChanges(ISession session);
+    public IOrder SubmitChanges(ref ISession session);
 }

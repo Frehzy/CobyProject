@@ -2,15 +2,18 @@
 
 internal class Session
 {
+    public Guid OrderId { get; set; }
+
     public List<Order> Orders { get; set; }
 
     public int Version { get; set; }
 
     public Session() { }
 
-    public Session(IEnumerable<Order> orders, int version)
+    public Session(Guid orderId, List<Order> orders, int version)
     {
-        Orders = orders.ToList();
+        OrderId = orderId;
+        Orders = orders;
         Version = version;
     }
 }

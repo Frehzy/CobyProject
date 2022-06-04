@@ -19,7 +19,7 @@ internal class GuestController : LoggerController
         if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
             throw new ArgumentException(nameof(id));
 
-        if (session.Orders.All(x => x.Id.Equals(orderId)) is false)
+        if (session.OrderId.Equals(orderId) is false)
             throw new ArgumentException($"Нельзя добавлять в одну сессию разные id {nameof(id)}");
 
         var order = _orderCache.GetOrderById(orderId);

@@ -17,7 +17,11 @@ internal class OrderOperation : IOrderOperation
         return OrderFactory.Create(result.Content);
     }
 
-    public ISession CreateSession() => new Session();
+    public ISession CreateSession(Guid orderId)
+    {
+        var order = GetOrderById(orderId);
+        return new Session(order.Id, order.Version);
+    }
 
     public bool DeleteOrder(IOrder order)
     {
@@ -43,11 +47,12 @@ internal class OrderOperation : IOrderOperation
         return result.Content.Select(x => OrderFactory.Create(x)).ToList();
     }
 
-    public IOrder SubmitChanges(ISession session)
+    public IOrder SubmitChanges(ref ISession session)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "order/submitChanges");
         var result = HttpRequest.Post<SessionDto, OrderDto>(uri, ModuleOperation.ConfigSettings.OrganizationId.ToString(), SessionFactory.CreateDto(session));
+        session = default;
         return OrderFactory.Create(result.Content);
     }
 }
