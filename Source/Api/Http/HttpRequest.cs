@@ -18,15 +18,27 @@ internal static class HttpRequest
         return new Response<T>(response.StatusCode, uri, instance);
     }
 
-    public static Response<string> Post<T>(Uri uri, string key, T instance)
+    public static Response<T> Post<T>(Uri uri, string key, T instance)
     {
         using var client = new HttpClient();
         string json = Json.Serialization(instance, key);
         var response = client.PostAsync(uri, new StringContent(json, Encoding.UTF8, "application/json")).Result;
         if (response.StatusCode is not HttpStatusCode.OK)
-            return new Response<string>(response.StatusCode, uri, default);
+            return new Response<T>(response.StatusCode, uri, default);
 
-        var message = response.Content.ReadAsStringAsync().Result;
-        return new Response<string>(response.StatusCode, uri, message);
+        var instanceJson = response.Content.ReadAsStringAsync().Result;
+        return new Response<T>(response.StatusCode, uri, Json.Deserialize<T>(instanceJson, key));
+    }
+
+    public static Response<TOut> Post<TIn, TOut>(Uri uri, string key, TIn instance)
+    {
+        using var client = new HttpClient();
+        string json = Json.Serialization(instance, key);
+        var response = client.PostAsync(uri, new StringContent(json, Encoding.UTF8, "application/json")).Result;
+        if (response.StatusCode is not HttpStatusCode.OK)
+            return new Response<TOut>(response.StatusCode, uri, default);
+
+        var instanceJson = response.Content.ReadAsStringAsync().Result;
+        return new Response<TOut>(response.StatusCode, uri, Json.Deserialize<TOut>(instanceJson, key));
     }
 }

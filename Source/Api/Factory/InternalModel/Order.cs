@@ -1,8 +1,9 @@
-﻿using Api.Data.Order;
+﻿using Api.Data.Guest;
+using Api.Data.Order;
 
-namespace HostData.Model;
+namespace Api.Factory.InternalModel;
 
-public class Order
+internal class Order : IOrder
 {
     public Guid Id { get; set; }
 
@@ -16,11 +17,11 @@ public class Order
 
     public OrderStatus OrderStatus { get; set; }
 
-    public int Version { get; set; }
-
     public bool IsDeleted { get; set; }
 
-    public List<Guest> Guests { get; set; }
+    public int Version { get; set; }
+
+    public IReadOnlyList<IGuest> Guests { get; set; }
 
     public Order() { }
 
@@ -36,6 +37,4 @@ public class Order
         Guests = guests;
         IsDeleted = isDeleted;
     }
-
-    public List<Guest> GetGuests() => (Guests ?? Enumerable.Empty<Guest>()).ToList();
 }

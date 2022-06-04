@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 
-namespace Api.Operations.Net;
+namespace Api.Operations.NetOper;
 
 internal class NetOperation : INetOperation
 {

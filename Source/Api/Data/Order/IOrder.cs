@@ -1,8 +1,10 @@
-﻿namespace Api.Data.Order;
+﻿using Api.Data.Guest;
+
+namespace Api.Data.Order;
 
 public interface IOrder
 {
-    public Guid OrderId { get; }
+    public Guid Id { get; }
 
     public Guid TableId { get; }
 
@@ -12,7 +14,11 @@ public interface IOrder
 
     public DateTime? EndTime { get; }
 
+    public IReadOnlyList<IGuest> Guests { get; }
+
     public OrderStatus OrderStatus { get; }
+
+    public int Version { get; }
 
     public bool IsDeleted { get; }
 }

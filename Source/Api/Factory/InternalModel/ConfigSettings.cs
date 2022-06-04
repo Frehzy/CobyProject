@@ -1,6 +1,6 @@
 ﻿using Api.Configuration;
 
-namespace Api.InternalModel;
+namespace Api.Factory.InternalModel;
 
 internal class ConfigSettings : IConfigSettings
 {

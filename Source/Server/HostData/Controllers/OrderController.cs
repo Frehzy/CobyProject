@@ -1,4 +1,5 @@
-﻿using HostData.Cache.Orders;
+﻿using Api.Data.Order;
+using HostData.Cache.Orders;
 using HostData.Controllers.LogFactory;
 using HostData.Model;
 using Microsoft.Extensions.Logging;
@@ -19,15 +20,32 @@ internal class OrderController : LoggerController
         if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
             throw new ArgumentException(nameof(id));
 
-        return _orderCache.TryGetOrderById(orderId);
+        return _orderCache.GetOrderById(orderId);
     }
 
     public List<Order> GetOrders() => _orderCache.Orders.ToList();
 
-    public int AddOrUpdate(Order order)
+    public Order CreateOrder(dynamic waiterId, dynamic tableId)
     {
+        if (Guid.TryParse(waiterId.ToString(), out Guid wId) is false)
+            throw new ArgumentException(nameof(waiterId));
+
+        if (Guid.TryParse(tableId.ToString(), out Guid tId) is false)
+            throw new ArgumentException(nameof(tableId));
+
+        var order = new Order(Guid.NewGuid(), tId, wId, DateTime.Now, null, OrderStatus.Open, 1);
         _orderCache.AddOrUpdate(order);
-        return _orderCache.Orders.Count;
+        return order;
+    }
+
+    public Order SubmitChanges(Session session)
+    {
+        if (session.Orders.Count <= 0)
+            throw new InvalidOperationException(nameof(session.Orders));
+
+        var lastOrder = session.Orders.OrderByDescending(x => x.Version).First();
+        _orderCache.AddOrUpdate(lastOrder, session.Orders.Count);
+        return _orderCache.GetOrderById(lastOrder.Id);
     }
 
     public bool RemoveOrderById(dynamic id)

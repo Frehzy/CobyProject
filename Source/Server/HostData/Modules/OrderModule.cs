@@ -19,7 +19,7 @@ public class OrderModule : NancyModule
     public OrderModule(IOrderCache orderCache, IConfigCache configCache) : base("/")
     {
         _configCache = configCache;
-        _orderController = new OrderController(_logger, orderCache);
+        _orderController = new(_logger, orderCache);
 
         Get("/orders/{orderId}", parameters =>
         {
@@ -35,12 +35,31 @@ public class OrderModule : NancyModule
             return Json.Serialization<Order>(orders, _configCache.OrganizationId.ToString());
         });
 
-        Post("add/order", parameters =>
+        Get("/order/create/{waiterId}/{tableId}", parameters =>
+        {
+            var waiterId = parameters.waiterId;
+            var tableId = parameters.tableId;
+            _logger.LogInformation(Log.CreateLog(Context));
+            var order = _orderController.CreateOrder(waiterId, tableId);
+            return Json.Serialization<Order>(order, _configCache.OrganizationId.ToString());
+        });
+
+        Post("/order/remove", parameters =>
         {
             _logger.LogInformation(Log.CreateLog(Context));
             var json = this.Request.Body.AsString();
-            var obj = Json.Deserialize<Order>(json, _configCache.OrganizationId.ToString());
-            return _orderController.AddOrUpdate(obj).ToString();
+            var order = Json.Deserialize<Order>(json, _configCache.OrganizationId.ToString());
+            _orderController.RemoveOrderById(order.Id);
+            return Json.Serialization(order, _configCache.OrganizationId.ToString());
+        });
+
+        Post("/order/submitChanges", parameters =>
+        {
+            _logger.LogInformation(Log.CreateLog(Context));
+            var json = this.Request.Body.AsString();
+            var obj = Json.Deserialize<Session>(json, _configCache.OrganizationId.ToString());
+            var order = _orderController.SubmitChanges(obj);
+            return Json.Serialization(order, _configCache.OrganizationId.ToString());
         });
     }
 }

@@ -1,4 +1,4 @@
-﻿using Api.InternalModel;
+﻿using Api.Factory.InternalModel;
 using Microsoft.Extensions.Configuration;
 
 namespace Api.Configuration;

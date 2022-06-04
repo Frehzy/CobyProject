@@ -12,12 +12,14 @@ public static class Log
 
     public static string CreateLog(NancyContext context)
     {
+        var time = DateTime.Now;
         var url = context.Request.Url;
         var method = context.Request.Method;
         var protocolVersion = context.Request.ProtocolVersion;
         var body = context.Request.Body.AsString();
 
-        var resultString = string.Format($"Url: {url}\n" +
+        var resultString = string.Format($"DateTime: {time}\n" +
+                                         $"Url: {url}\n" +
                                          $"Method: {method}\n" +
                                          $"ProtocolVersion: {protocolVersion}\n" +
                                          $"Body: {body}\n");

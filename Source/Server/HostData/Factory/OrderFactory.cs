@@ -6,5 +6,13 @@ namespace HostData.Factory;
 internal static class OrderFactory
 {
     public static Order CreateOrder(IOrder order) =>
-        new(order.OrderId, order.TableId, order.WaiterId, order.StartTime, order?.EndTime, order.OrderStatus, order.IsDeleted);
+        new(order.Id,
+            order.TableId,
+            order.WaiterId,
+            order.StartTime,
+            order?.EndTime,
+            order.OrderStatus,
+            order.Version,
+            order.Guests?.Select(x => GuestFactory.Create(x)).ToList(),
+            order.IsDeleted);
 }
