@@ -10,5 +10,5 @@
   <ItemGroup>
     <ProjectReference Include="..\HostData\HostData.csproj" />
   </ItemGroup>
-
+	
 </Project>
