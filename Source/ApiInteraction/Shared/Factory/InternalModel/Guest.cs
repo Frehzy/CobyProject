@@ -1,6 +1,8 @@
-﻿namespace HostData.Model;
+﻿using Shared.Data;
 
-public class Guest
+namespace Shared.Factory.InternalModel;
+
+internal class Guest : IGuest
 {
     public Guid Id { get; set; }
 

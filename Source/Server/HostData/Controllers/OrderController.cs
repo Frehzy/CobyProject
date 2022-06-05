@@ -1,8 +1,10 @@
-﻿using Api.Data.Order;
-using HostData.Cache.Orders;
+﻿using HostData.Cache.Orders;
 using HostData.Controllers.LogFactory;
-using HostData.Model;
 using Microsoft.Extensions.Logging;
+using Shared.Data.Enum;
+using Shared.Factory;
+using Shared.Factory.Dto;
+using Shared.Factory.InternalModel;
 
 namespace HostData.Controllers;
 
@@ -15,17 +17,18 @@ internal class OrderController : LoggerController
         _orderCache = orderCache;
     }
 
-    public Order GetOrderById(dynamic id)
+    public OrderDto GetOrderById(dynamic id)
     {
         if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
             throw new ArgumentException(nameof(id));
 
-        return _orderCache.GetOrderById(orderId);
+        return OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
     }
 
-    public List<Order> GetOrders() => _orderCache.Orders.ToList();
+    public List<OrderDto> GetOrders() =>
+        _orderCache.Orders.Select(x => OrderFactory.CreateDto(x)).ToList();
 
-    public Order CreateOrder(dynamic waiterId, dynamic tableId)
+    public OrderDto CreateOrder(dynamic waiterId, dynamic tableId)
     {
         if (Guid.TryParse(waiterId.ToString(), out Guid wId) is false)
             throw new ArgumentException(nameof(waiterId));
@@ -35,17 +38,17 @@ internal class OrderController : LoggerController
 
         var order = new Order(Guid.NewGuid(), tId, wId, DateTime.Now, null, OrderStatus.Open, 1);
         _orderCache.AddOrUpdate(order);
-        return order;
+        return OrderFactory.CreateDto(order);
     }
 
-    public Order SubmitChanges(Session session)
+    public OrderDto SubmitChanges(SessionDto session)
     {
         if (session.Orders.Count <= 0)
             throw new InvalidOperationException(nameof(session.Orders));
 
         var lastOrder = session.Orders.OrderByDescending(x => x.Version).First();
-        _orderCache.AddOrUpdate(lastOrder, session.Orders.Count);
-        return _orderCache.GetOrderById(lastOrder.Id);
+        _orderCache.AddOrUpdate(OrderFactory.Create(lastOrder), session.Orders.Count);
+        return OrderFactory.CreateDto(_orderCache.GetOrderById(lastOrder.Id));
     }
 
     public bool RemoveOrderById(dynamic id)

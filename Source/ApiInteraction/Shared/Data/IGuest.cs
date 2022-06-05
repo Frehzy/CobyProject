@@ -1,4 +1,4 @@
-﻿namespace Api.Data.Guest;
+﻿namespace Shared.Data;
 
 public interface IGuest
 {

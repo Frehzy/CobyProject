@@ -1,7 +1,7 @@
-﻿using Api.Configuration;
-using Api.Operations.GuestOper;
-using Api.Operations.NetOper;
+﻿using Api.Operations.GuestOper;
 using Api.Operations.OrderOper;
+using Shared.Configuration;
+using Shared.Data;
 
 namespace Api.Operations;
 
@@ -12,7 +12,7 @@ public sealed class ModuleOperation
     private static OrderOperation _orderOperation;
     private static GuestOperation _guestOperation;
 
-    public static INetOperation NetOperation => _netOperation ??= new NetOperation();
+    public static NetOperation NetOperation => _netOperation ??= new NetOperation();
 
     public static IConfigSettings ConfigSettings => _configSettings ??= ConfigBuilder.Create();
 

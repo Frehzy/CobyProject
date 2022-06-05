@@ -1,8 +1,8 @@
-﻿using Api.Data.Order;
-using Api.Factory.Dto;
-using Api.Factory.InternalModel;
+﻿using Shared.Data;
+using Shared.Factory.Dto;
+using Shared.Factory.InternalModel;
 
-namespace Api.Factory;
+namespace Shared.Factory;
 
 internal static class OrderFactory
 {
@@ -14,7 +14,7 @@ internal static class OrderFactory
             order.EndTime,
             order.OrderStatus,
             order.Version,
-            order.Guests?.Select(x => GuestFactory.Create(x)).ToList(),
+            order.GetGuests().Select(x => GuestFactory.Create(x)).ToList(),
             order.IsDeleted);
 
     public static Order Create(OrderDto order) =>
@@ -25,7 +25,7 @@ internal static class OrderFactory
             order.EndTime,
             order.OrderStatus,
             order.Version,
-            order.Guests?.Select(x => GuestFactory.Create(x)).ToList(),
+            order.GetGuests().Select(x => GuestFactory.Create(x)).ToList(),
             order.IsDeleted);
 
     public static OrderDto CreateDto(IOrder order) =>
@@ -36,6 +36,6 @@ internal static class OrderFactory
             order.EndTime,
             order.OrderStatus,
             order.Version,
-            order.Guests?.Select(x => GuestFactory.Create(x)).ToList(),
+            order.GetGuests().Select(x => GuestFactory.CreateDto(x)).ToList(),
             order.IsDeleted);
 }

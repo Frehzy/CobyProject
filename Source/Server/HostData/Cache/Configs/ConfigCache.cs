@@ -1,8 +1,8 @@
-﻿using Api.Configuration;
+﻿using Shared.Configuration;
 
 namespace HostData.Cache.Config;
 
-public class ConfigCache : IConfigCache
+internal class ConfigCache : IConfigCache
 {
     private Guid _organizationId;
 

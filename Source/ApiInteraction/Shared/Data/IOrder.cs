@@ -1,6 +1,6 @@
-﻿using Api.Data.Guest;
+﻿using Shared.Data.Enum;
 
-namespace Api.Data.Order;
+namespace Shared.Data;
 
 public interface IOrder
 {
@@ -21,4 +21,6 @@ public interface IOrder
     public int Version { get; }
 
     public bool IsDeleted { get; }
+
+    public IReadOnlyList<IGuest> GetGuests();
 }

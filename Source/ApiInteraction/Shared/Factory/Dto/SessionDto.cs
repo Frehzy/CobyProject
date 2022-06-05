@@ -1,4 +1,4 @@
-﻿namespace Api.Factory.Dto;
+﻿namespace Shared.Factory.Dto;
 
 internal class SessionDto
 {

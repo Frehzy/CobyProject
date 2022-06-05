@@ -1,8 +1,8 @@
-﻿using Api.Data;
-using Api.Factory.Dto;
-using Api.Factory.InternalModel;
+﻿using Shared.Data;
+using Shared.Factory.Dto;
+using Shared.Factory.InternalModel;
 
-namespace Api.Factory;
+namespace Shared.Factory;
 
 internal static class SessionFactory
 {

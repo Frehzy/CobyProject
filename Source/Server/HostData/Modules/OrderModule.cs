@@ -2,11 +2,11 @@
 using HostData.Cache.Orders;
 using HostData.Controllers;
 using HostData.Controllers.LogFactory;
-using HostData.Model;
 using HostData.Serialization;
 using Microsoft.Extensions.Logging;
 using Nancy;
 using Nancy.Extensions;
+using Shared.Factory.Dto;
 
 namespace HostData.Modules;
 
@@ -25,14 +25,14 @@ public class OrderModule : NancyModule
         {
             _logger.LogInformation(Log.CreateLog(Context));
             var order = _orderController.GetOrderById(parameters.orderId);
-            return Json.Serialization<Order>(order, _configCache.OrganizationId.ToString());
+            return Json.Serialization<OrderDto>(order, _configCache.OrganizationId.ToString());
         });
 
         Get("/orders", parameters =>
         {
             _logger.LogInformation(Log.CreateLog(Context));
             var orders = _orderController.GetOrders();
-            return Json.Serialization<Order>(orders, _configCache.OrganizationId.ToString());
+            return Json.Serialization<OrderDto>(orders, _configCache.OrganizationId.ToString());
         });
 
         Get("/order/create/{waiterId}/{tableId}", parameters =>
@@ -41,14 +41,14 @@ public class OrderModule : NancyModule
             var tableId = parameters.tableId;
             _logger.LogInformation(Log.CreateLog(Context));
             var order = _orderController.CreateOrder(waiterId, tableId);
-            return Json.Serialization<Order>(order, _configCache.OrganizationId.ToString());
+            return Json.Serialization<OrderDto>(order, _configCache.OrganizationId.ToString());
         });
 
         Post("/order/remove", parameters =>
         {
             _logger.LogInformation(Log.CreateLog(Context));
-            var json = this.Request.Body.AsString();
-            var order = Json.Deserialize<Order>(json, _configCache.OrganizationId.ToString());
+            var json = Request.Body.AsString();
+            var order = Json.Deserialize<OrderDto>(json, _configCache.OrganizationId.ToString());
             _orderController.RemoveOrderById(order.Id);
             return Json.Serialization(order, _configCache.OrganizationId.ToString());
         });
@@ -56,8 +56,8 @@ public class OrderModule : NancyModule
         Post("/order/submitChanges", parameters =>
         {
             _logger.LogInformation(Log.CreateLog(Context));
-            var json = this.Request.Body.AsString();
-            var obj = Json.Deserialize<Session>(json, _configCache.OrganizationId.ToString());
+            var json = Request.Body.AsString();
+            var obj = Json.Deserialize<SessionDto>(json, _configCache.OrganizationId.ToString());
             var order = _orderController.SubmitChanges(obj);
             return Json.Serialization(order, _configCache.OrganizationId.ToString());
         });

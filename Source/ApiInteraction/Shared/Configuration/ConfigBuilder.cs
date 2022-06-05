@@ -1,7 +1,8 @@
-﻿using Api.Factory.InternalModel;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Shared.Data;
+using Shared.Factory.InternalModel;
 
-namespace Api.Configuration;
+namespace Shared.Configuration;
 
 public static class ConfigBuilder
 {

@@ -1,5 +1,4 @@
-﻿using Api.Data;
-using Api.Data.Order;
+﻿using Shared.Data;
 
 namespace Api.Operations.OrderOper;
 

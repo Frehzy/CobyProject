@@ -1,4 +1,4 @@
-﻿namespace Api.Data.Order;
+﻿namespace Shared.Data.Enum;
 
 public enum OrderStatus
 {

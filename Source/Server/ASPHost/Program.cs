@@ -1,4 +1,4 @@
-using Api.Operations;
+using Shared.Configuration;
 using System.Net;
 
 namespace ASPHost;
@@ -7,7 +7,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
+        var ip = new NetOperation().GetLocalIPAddress();
         CreateHostBuilder(args, ip).Build().Run();
     }
 

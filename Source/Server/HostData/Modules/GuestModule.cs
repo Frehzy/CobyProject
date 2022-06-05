@@ -2,11 +2,11 @@
 using HostData.Cache.Orders;
 using HostData.Controllers;
 using HostData.Controllers.LogFactory;
-using HostData.Model;
 using HostData.Serialization;
 using Microsoft.Extensions.Logging;
 using Nancy;
 using Nancy.Extensions;
+using Shared.Factory.Dto;
 
 namespace HostData.Modules;
 
@@ -25,10 +25,10 @@ public class GuestModule : NancyModule
         {
             _logger.LogInformation(Log.CreateLog(Context));
             var orderId = parameters.orderId;
-            var json = this.Request.Body.AsString();
-            var obj = Json.Deserialize<Session>(json, _configCache.OrganizationId.ToString());
+            var json = Request.Body.AsString();
+            var obj = Json.Deserialize<SessionDto>(json, _configCache.OrganizationId.ToString());
             var session = _guestController.AddGuest(orderId, obj);
-            return Json.Serialization<Session>(session, _configCache.OrganizationId.ToString());
+            return Json.Serialization<SessionDto>(session, _configCache.OrganizationId.ToString());
         });
     }
 }

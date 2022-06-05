@@ -1,8 +1,6 @@
-﻿using Api.Data.Guest;
+﻿namespace Shared.Factory.Dto;
 
-namespace Api.Factory.InternalModel;
-
-internal class Guest : IGuest
+internal class GuestDto
 {
     public Guid Id { get; set; }
 
@@ -10,9 +8,9 @@ internal class Guest : IGuest
 
     public int Rank { get; set; }
 
-    public Guest() { }
+    public GuestDto() { }
 
-    public Guest(Guid id, string name, int rank)
+    public GuestDto(Guid id, string name, int rank)
     {
         Id = id;
         Name = name;

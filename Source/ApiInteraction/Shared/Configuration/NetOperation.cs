@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 
-namespace Api.Operations.NetOper;
+namespace Shared.Configuration;
 
-internal class NetOperation : INetOperation
+public class NetOperation
 {
     public IPAddress GetLocalIPAddress()
     {

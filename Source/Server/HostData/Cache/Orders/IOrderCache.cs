@@ -1,14 +1,14 @@
-﻿using HostData.Model;
+﻿using Shared.Data;
 
 namespace HostData.Cache.Orders;
 
 public interface IOrderCache
 {
-    IReadOnlyCollection<Order> Orders { get; }
+    IReadOnlyCollection<IOrder> Orders { get; }
 
-    Order GetOrderById(Guid orderId);
+    IOrder GetOrderById(Guid orderId);
 
-    void AddOrUpdate(Order order, int version = 0);
+    void AddOrUpdate(IOrder order, int version = 0);
 
     bool RemoveOrder(Guid orderId);
 }

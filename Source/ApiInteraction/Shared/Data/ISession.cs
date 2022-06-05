@@ -1,6 +1,4 @@
-﻿using Api.Data.Order;
-
-namespace Api.Data;
+﻿namespace Shared.Data;
 
 public interface ISession
 {

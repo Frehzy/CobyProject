@@ -1,4 +1,4 @@
-﻿using Api.Configuration;
+﻿using Shared.Data;
 
 namespace HostData.Cache.Config;
 

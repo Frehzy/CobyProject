@@ -1,8 +1,6 @@
-﻿using Api.Data;
-using Api.Data.Guest;
-using Api.Data.Order;
-using Api.Factory;
-using Api.Http;
+﻿using Api.Http;
+using Shared.Data;
+using Shared.Factory;
 
 namespace Api.Operations.GuestOper;
 

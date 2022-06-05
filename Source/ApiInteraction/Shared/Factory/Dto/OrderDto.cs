@@ -1,7 +1,6 @@
-﻿using Api.Data.Order;
-using Api.Factory.InternalModel;
+﻿using Shared.Data.Enum;
 
-namespace Api.Factory.Dto;
+namespace Shared.Factory.Dto;
 
 internal class OrderDto
 {
@@ -21,11 +20,11 @@ internal class OrderDto
 
     public int Version { get; set; }
 
-    public List<Guest> Guests { get; set; }
+    public List<GuestDto> Guests { get; set; }
 
     public OrderDto() { }
 
-    public OrderDto(Guid orderId, Guid tableId, Guid waiterId, DateTime startTime, DateTime? endTime, OrderStatus orderStatus, int version, List<Guest> guests = null, bool isDeleted = false)
+    public OrderDto(Guid orderId, Guid tableId, Guid waiterId, DateTime startTime, DateTime? endTime, OrderStatus orderStatus, int version, List<GuestDto> guests = null, bool isDeleted = false)
     {
         Id = orderId;
         TableId = tableId;
@@ -37,4 +36,6 @@ internal class OrderDto
         Guests = guests;
         IsDeleted = isDeleted;
     }
+
+    public List<GuestDto> GetGuests() => (Guests ?? Enumerable.Empty<GuestDto>()).ToList();
 }

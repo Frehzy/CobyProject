@@ -1,15 +1,15 @@
-﻿using HostData.Model;
+﻿using Shared.Data;
 using System.Collections.Concurrent;
 
 namespace HostData.Cache.Orders;
 
 internal class OrderCache : IOrderCache
 {
-    private readonly ConcurrentDictionary<Guid, Order> _ordersCache = new();
+    private readonly ConcurrentDictionary<Guid, IOrder> _ordersCache = new();
 
-    public IReadOnlyCollection<Order> Orders => _ordersCache.Values.ToList();
+    public IReadOnlyCollection<IOrder> Orders => _ordersCache.Values.ToList();
 
-    public Order GetOrderById(Guid orderId)
+    public IOrder GetOrderById(Guid orderId)
     {
         var result = _ordersCache.TryGetValue(orderId, out var orderOnCache);
         return result is true
@@ -17,7 +17,7 @@ internal class OrderCache : IOrderCache
             : throw new InvalidOperationException();
     }
 
-    public void AddOrUpdate(Order order, int version = 0)
+    public void AddOrUpdate(IOrder order, int version = 0)
     {
         if (_ordersCache.TryGetValue(order.Id, out var orderOnCache) is false)
             _ordersCache.TryAdd(order.Id, order);

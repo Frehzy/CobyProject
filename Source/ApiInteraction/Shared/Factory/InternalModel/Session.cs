@@ -1,7 +1,6 @@
-﻿using Api.Data;
-using Api.Data.Order;
+﻿using Shared.Data;
 
-namespace Api.Factory.InternalModel;
+namespace Shared.Factory.InternalModel;
 
 internal class Session : ISession
 {

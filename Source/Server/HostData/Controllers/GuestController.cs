@@ -1,7 +1,8 @@
 ﻿using HostData.Cache.Orders;
 using HostData.Controllers.LogFactory;
-using HostData.Model;
 using Microsoft.Extensions.Logging;
+using Shared.Factory;
+using Shared.Factory.Dto;
 
 namespace HostData.Controllers;
 
@@ -14,7 +15,7 @@ internal class GuestController : LoggerController
         _orderCache = orderCache;
     }
 
-    public Session AddGuest(dynamic id, Session session)
+    public SessionDto AddGuest(dynamic id, SessionDto session)
     {
         if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
             throw new ArgumentException(nameof(id));
@@ -22,14 +23,14 @@ internal class GuestController : LoggerController
         if (session.OrderId.Equals(orderId) is false)
             throw new ArgumentException($"Нельзя добавлять в одну сессию разные id {nameof(id)}");
 
-        var order = _orderCache.GetOrderById(orderId);
+        var order = OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
         var guestsList = session.Orders.Count <= 0
             ? order.GetGuests()
             : session.Orders.OrderByDescending(x => x.Version).First().GetGuests();
 
-        var guest = new Guest(Guid.NewGuid(), $"Guest {guestsList.Count + 1}", guestsList.Count + 1);
+        var guest = new GuestDto(Guid.NewGuid(), $"Guest {guestsList.Count + 1}", guestsList.Count + 1);
         guestsList.Add(guest);
-        var newOrder = new Order(order.Id,
+        var newOrder = new OrderDto(order.Id,
                                  order.TableId,
                                  order.WaiterId,
                                  order.StartTime,

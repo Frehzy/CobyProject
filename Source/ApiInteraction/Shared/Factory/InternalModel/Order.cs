@@ -1,8 +1,9 @@
-﻿using Api.Data.Order;
+﻿using Shared.Data;
+using Shared.Data.Enum;
 
-namespace HostData.Model;
+namespace Shared.Factory.InternalModel;
 
-public class Order
+internal class Order : IOrder
 {
     public Guid Id { get; set; }
 
@@ -16,11 +17,11 @@ public class Order
 
     public OrderStatus OrderStatus { get; set; }
 
-    public int Version { get; set; }
-
     public bool IsDeleted { get; set; }
 
-    public List<Guest> Guests { get; set; }
+    public int Version { get; set; }
+
+    public IReadOnlyList<IGuest> Guests { get; set; }
 
     public Order() { }
 
@@ -37,5 +38,6 @@ public class Order
         IsDeleted = isDeleted;
     }
 
-    public List<Guest> GetGuests() => (Guests ?? Enumerable.Empty<Guest>()).ToList();
+    public IReadOnlyList<IGuest> GetGuests() =>
+        (Guests ?? Enumerable.Empty<IGuest>()).ToList();
 }

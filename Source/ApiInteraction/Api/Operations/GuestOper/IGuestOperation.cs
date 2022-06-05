@@ -1,6 +1,4 @@
-﻿using Api.Data;
-using Api.Data.Guest;
-using Api.Data.Order;
+﻿using Shared.Data;
 
 namespace Api.Operations.GuestOper;
 

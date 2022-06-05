@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ApiInteraction\Api\Api.csproj" />
+    <ProjectReference Include="..\..\ApiInteraction\Shared\Shared.csproj" />
   </ItemGroup>
 	
 </Project>

@@ -1,9 +1,8 @@
-﻿using Api.Data;
-using Api.Data.Order;
-using Api.Factory;
-using Api.Factory.Dto;
-using Api.Factory.InternalModel;
-using Api.Http;
+﻿using Api.Http;
+using Shared.Data;
+using Shared.Factory;
+using Shared.Factory.Dto;
+using Shared.Factory.InternalModel;
 
 namespace Api.Operations.OrderOper;
 
