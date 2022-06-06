@@ -12,7 +12,7 @@ internal static class OrderFactory
             order.WaiterId,
             order.StartTime,
             order.EndTime,
-            order.OrderStatus,
+            order.Status,
             order.Version,
             order.GetGuests().Select(x => GuestFactory.Create(x)).ToList(),
             order.IsDeleted);
@@ -23,7 +23,7 @@ internal static class OrderFactory
             order.WaiterId,
             order.StartTime,
             order.EndTime,
-            order.OrderStatus,
+            order.Status,
             order.Version,
             order.GetGuests().Select(x => GuestFactory.Create(x)).ToList(),
             order.IsDeleted);
@@ -34,7 +34,7 @@ internal static class OrderFactory
             order.WaiterId,
             order.StartTime,
             order.EndTime,
-            order.OrderStatus,
+            order.Status,
             order.Version,
             order.GetGuests().Select(x => GuestFactory.CreateDto(x)).ToList(),
             order.IsDeleted);

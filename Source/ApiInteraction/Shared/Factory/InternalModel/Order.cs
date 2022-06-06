@@ -15,7 +15,7 @@ internal class Order : IOrder
 
     public DateTime? EndTime { get; set; }
 
-    public OrderStatus OrderStatus { get; set; }
+    public OrderStatus Status { get; set; }
 
     public bool IsDeleted { get; set; }
 
@@ -32,7 +32,7 @@ internal class Order : IOrder
         WaiterId = waiterId;
         StartTime = startTime;
         EndTime = endTime;
-        OrderStatus = orderStatus;
+        Status = orderStatus;
         Version = version;
         Guests = guests;
         IsDeleted = isDeleted;

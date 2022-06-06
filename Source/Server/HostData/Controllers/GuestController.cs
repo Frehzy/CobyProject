@@ -35,13 +35,12 @@ internal class GuestController : LoggerController
                                  order.WaiterId,
                                  order.StartTime,
                                  order.EndTime,
-                                 order.OrderStatus,
+                                 order.Status,
                                  session.Version + 1,
                                  guestsList,
                                  order.IsDeleted);
 
         session.Orders.Add(newOrder);
-        session.Version++;
-        return session;
+        return session with { Version = session.Version + 1 };
     }
 }

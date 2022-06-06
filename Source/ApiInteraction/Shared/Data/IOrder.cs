@@ -16,7 +16,7 @@ public interface IOrder
 
     public IReadOnlyList<IGuest> Guests { get; }
 
-    public OrderStatus OrderStatus { get; }
+    public OrderStatus Status { get; }
 
     public int Version { get; }
 
