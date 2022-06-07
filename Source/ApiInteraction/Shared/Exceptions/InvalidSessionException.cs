@@ -46,7 +46,7 @@ public class InvalidSessionException : EntityException
     {
         var strBuilder = new StringBuilder();
         strBuilder.Append(base.ToString());
-        strBuilder.AppendLine(string.Format(@"Version: [{0}]. ", Version));
+        strBuilder.AppendFormat(string.Format(@"Version: [{0}]. ", Version), Environment.NewLine);
         return strBuilder.ToString();
     }
 

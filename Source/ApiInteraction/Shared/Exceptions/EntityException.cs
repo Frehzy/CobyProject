@@ -57,7 +57,7 @@ public class EntityException : ApiException
     {
         var strBuilder = new StringBuilder();
         strBuilder.Append(base.ToString());
-        strBuilder.AppendLine(string.Format(@"EntityId: [{0}]. ", EntityId));
+        strBuilder.AppendFormat(string.Format(@"EntityId: [{0}]. ", EntityId), Environment.NewLine);
         return strBuilder.ToString();
     }
 

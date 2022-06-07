@@ -10,6 +10,12 @@ internal class MainWindowViewModel
     {
         try
         {
+            ModuleOperation.OrderOperation.GetOrderById(Guid.NewGuid());
+        }
+        catch { }
+
+        try
+        {
             var order = ModuleOperation.OrderOperation.CreateOrder(Guid.NewGuid(), Guid.NewGuid());
             var session = ModuleOperation.OrderOperation.CreateSession(order.Id);
             ModuleOperation.OrderOperation.SubmitChanges(ref session);
@@ -26,13 +32,14 @@ internal class MainWindowViewModel
         {
             MessageBox.Show(ex.Message);
         }
-        /*var order = ModuleOperation.OrderOperation.CreateOrder(Guid.NewGuid(), Guid.NewGuid());
-        var orders = ModuleOperation.OrderOperation.GetOrders();
-        var session = ModuleOperation.OrderOperation.CreateSession(order.Id);
-        ModuleOperation.GuestOperation.CreateGuest(order, ref session);
-        ModuleOperation.GuestOperation.CreateGuest(order, ref session);
-        ModuleOperation.OrderOperation.SubmitChanges(ref session);
 
-        var orders2 = ModuleOperation.OrderOperation.GetOrders();*/
+        var newOrder = ModuleOperation.OrderOperation.CreateOrder(Guid.NewGuid(), Guid.NewGuid());
+        var orders = ModuleOperation.OrderOperation.GetOrders();
+        var session2 = ModuleOperation.OrderOperation.CreateSession(newOrder.Id);
+        ModuleOperation.GuestOperation.CreateGuest(newOrder, ref session2);
+        ModuleOperation.GuestOperation.CreateGuest(newOrder, ref session2);
+        ModuleOperation.OrderOperation.SubmitChanges(ref session2);
+
+        var newOrders = ModuleOperation.OrderOperation.GetOrders();
     }
 }

@@ -1,5 +1,3 @@
-using ASPHost.Configuration;
-using HostData.Controllers.LogFactory;
 using Nancy.Owin;
 
 namespace ASPHost
@@ -13,15 +11,10 @@ namespace ASPHost
             _configuration = configuration;
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
-
-            var appConfig = new AppConfiguration();
-            ConfigurationBinder.Bind(_configuration, appConfig);
-
-            Log.LoggerFactory = loggerFactory;
 
             app.UseOwin(x => x.UseNancy());
         }

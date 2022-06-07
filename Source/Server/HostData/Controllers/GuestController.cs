@@ -1,17 +1,15 @@
 ﻿using HostData.Cache.Orders;
-using HostData.Controllers.LogFactory;
-using Microsoft.Extensions.Logging;
 using Shared.Exceptions;
 using Shared.Factory;
 using Shared.Factory.Dto;
 
 namespace HostData.Controllers;
 
-internal class GuestController : LoggerController
+internal class GuestController
 {
     private readonly IOrderCache _orderCache;
 
-    public GuestController(ILogger logger, IOrderCache orderCache) : base(logger)
+    public GuestController(IOrderCache orderCache)
     {
         _orderCache = orderCache;
     }

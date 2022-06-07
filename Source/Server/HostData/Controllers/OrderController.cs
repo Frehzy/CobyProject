@@ -1,6 +1,4 @@
 ﻿using HostData.Cache.Orders;
-using HostData.Controllers.LogFactory;
-using Microsoft.Extensions.Logging;
 using Shared.Data.Enum;
 using Shared.Exceptions;
 using Shared.Factory;
@@ -9,11 +7,11 @@ using Shared.Factory.InternalModel;
 
 namespace HostData.Controllers;
 
-internal class OrderController : LoggerController
+internal class OrderController
 {
     private readonly IOrderCache _orderCache;
 
-    public OrderController(ILogger logger, IOrderCache orderCache) : base(logger)
+    public OrderController(IOrderCache orderCache)
     {
         _orderCache = orderCache;
     }

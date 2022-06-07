@@ -41,7 +41,7 @@ public sealed class EntityNotFoundException : EntityException
     {
         var strBuilder = new StringBuilder();
         strBuilder.Append(base.ToString());
-        strBuilder.AppendLine(string.Format(@"EntityType: [{0}]. ", EntityType));
+        strBuilder.AppendFormat(string.Format(@"EntityType: [{0}]. ", EntityType), Environment.NewLine);
         return strBuilder.ToString();
     }
 

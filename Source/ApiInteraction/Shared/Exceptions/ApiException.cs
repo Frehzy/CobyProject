@@ -13,6 +13,8 @@ public abstract class ApiException : Exception
 
     public override string Message => ToString();
 
+    public override string? StackTrace => base.StackTrace.Replace("\r\n", string.Empty);
+
     public ApiException() : base(nameof(ApiException))
         => Init();
 
@@ -53,8 +55,8 @@ public abstract class ApiException : Exception
     public override string ToString()
     {
         var strBuilder = new StringBuilder();
-        strBuilder.AppendLine(string.Format(@"Message: [{0}]. ", CustomMessage));
-        strBuilder.AppendLine(string.Format(@"TimeStamp: [{0}]. ", TimeStamp));
+        strBuilder.AppendFormat(string.Format(@"Message: [{0}]. ", CustomMessage), Environment.NewLine);
+        strBuilder.AppendFormat(string.Format(@"TimeStamp: [{0}]. ", TimeStamp), Environment.NewLine);
         return strBuilder.ToString();
     }
 
