@@ -1,36 +1,11 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
 
-namespace Api.Serialization;
+namespace Shared.Protected;
 
-internal static class Json
+internal static class Protect
 {
-    public static string Serialization<T>(T instance, string key)
-    {
-        var json = JsonSerializer.Serialize(instance);
-        return Encrypt(json, key);
-    }
-
-    public static string Serialization<T>(IEnumerable<T> instance, string key)
-    {
-        var json = JsonSerializer.Serialize(instance);
-        return Encrypt(json, key);
-    }
-
-    public static T Deserialize<T>(string json, string key)
-    {
-        var decryptJson = Decrypt(json, key);
-        return JsonSerializer.Deserialize<T>(decryptJson);
-    }
-
-    public static IEnumerable<T> DeserializeToList<T>(string json, string key)
-    {
-        var decryptJson = Decrypt(json, key);
-        return JsonSerializer.Deserialize<List<T>>(decryptJson);
-    }
-
-    private static string Encrypt(string clearText, string key)
+    public static string Encrypt(string clearText, string key)
     {
         byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
         using (Aes encryptor = Aes.Create())
@@ -51,7 +26,7 @@ internal static class Json
         return clearText;
     }
 
-    private static string Decrypt(string cipherText, string key)
+    public static string Decrypt(string cipherText, string key)
     {
         cipherText = cipherText.Replace(" ", "+");
         byte[] cipherBytes = Convert.FromBase64String(cipherText);

@@ -2,6 +2,7 @@
 using HostData.Controllers.LogFactory;
 using Microsoft.Extensions.Logging;
 using Shared.Data.Enum;
+using Shared.Exceptions;
 using Shared.Factory;
 using Shared.Factory.Dto;
 using Shared.Factory.InternalModel;
@@ -20,7 +21,7 @@ internal class OrderController : LoggerController
     public OrderDto GetOrderById(dynamic id)
     {
         if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
-            throw new ArgumentException(nameof(id));
+            throw new ArgumentException($"{nameof(id)} must be type Guid", nameof(id));
 
         return OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
     }
@@ -31,10 +32,10 @@ internal class OrderController : LoggerController
     public OrderDto CreateOrder(dynamic waiterId, dynamic tableId)
     {
         if (Guid.TryParse(waiterId.ToString(), out Guid wId) is false)
-            throw new ArgumentException(nameof(waiterId));
+            throw new ArgumentException($"{nameof(waiterId)} must be type Guid", nameof(waiterId));
 
         if (Guid.TryParse(tableId.ToString(), out Guid tId) is false)
-            throw new ArgumentException(nameof(tableId));
+            throw new ArgumentException($"{nameof(tableId)} must be type Guid", nameof(tableId));
 
         var order = new Order(Guid.NewGuid(), tId, wId, DateTime.Now, null, OrderStatus.Open, 1);
         _orderCache.AddOrUpdate(order);
@@ -44,7 +45,7 @@ internal class OrderController : LoggerController
     public OrderDto SubmitChanges(SessionDto session)
     {
         if (session.Orders.Count <= 0)
-            throw new InvalidOperationException(nameof(session.Orders));
+            throw new InvalidSessionException(session.Version, session.OrderId);
 
         var lastOrder = session.Orders.OrderByDescending(x => x.Version).First();
         _orderCache.AddOrUpdate(OrderFactory.Create(lastOrder), session.Orders.Count);
@@ -54,7 +55,7 @@ internal class OrderController : LoggerController
     public bool RemoveOrderById(dynamic id)
     {
         if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
-            throw new ArgumentException(nameof(id));
+            throw new ArgumentException($"{nameof(id)} must be type Guid", nameof(id));
 
         return _orderCache.RemoveOrder(orderId);
     }

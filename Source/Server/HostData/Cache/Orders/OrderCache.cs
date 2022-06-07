@@ -1,4 +1,5 @@
 ﻿using Shared.Data;
+using Shared.Exceptions;
 using System.Collections.Concurrent;
 
 namespace HostData.Cache.Orders;
@@ -14,7 +15,7 @@ internal class OrderCache : IOrderCache
         var result = _ordersCache.TryGetValue(orderId, out var orderOnCache);
         return result is true
             ? orderOnCache
-            : throw new InvalidOperationException();
+            : throw new EntityNotFoundException(orderId, nameof(IOrder));
     }
 
     public void AddOrUpdate(IOrder order, int version = 0)
@@ -33,7 +34,7 @@ internal class OrderCache : IOrderCache
     public bool RemoveOrder(Guid orderId)
     {
         if (_ordersCache.TryRemove(orderId, out _) is false)
-            throw new InvalidOperationException();
+            throw new EntityNotFoundException(orderId, nameof(IOrder));
 
         return true;
     }

@@ -18,11 +18,11 @@ public static class Log
         var protocolVersion = context.Request.ProtocolVersion;
         var body = context.Request.Body.AsString();
 
-        var resultString = string.Format($"DateTime: {time}\n" +
-                                         $"Url: {url}\n" +
-                                         $"Method: {method}\n" +
-                                         $"ProtocolVersion: {protocolVersion}\n" +
-                                         $"Body: {body}\n");
+        var resultString = $"DateTime: {time}\n" +
+                           $"Url: {url}\n" +
+                           $"Method: {method}\n" +
+                           $"ProtocolVersion: {protocolVersion}\n" +
+                           $"Body: {body}\n";
 
         return resultString;
     }

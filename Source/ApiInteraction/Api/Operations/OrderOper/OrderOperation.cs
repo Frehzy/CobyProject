@@ -12,7 +12,7 @@ internal class OrderOperation : IOrderOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "order/create", waiterId, tableId);
-        var result = HttpRequest.Get<OrderDto>(uri, ModuleOperation.ConfigSettings.OrganizationId.ToString());
+        var result = HttpRequest.Get<OrderDto>(uri);
         return OrderFactory.Create(result.Content);
     }
 
@@ -26,7 +26,7 @@ internal class OrderOperation : IOrderOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "order/remove");
-        var result = HttpRequest.Post<OrderDto, OrderDto>(uri, ModuleOperation.ConfigSettings.OrganizationId.ToString(), OrderFactory.CreateDto(order));
+        var result = HttpRequest.Post<OrderDto, OrderDto>(uri, OrderFactory.CreateDto(order));
         return result.Content != null;
     }
 
@@ -34,7 +34,7 @@ internal class OrderOperation : IOrderOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "orders", orderId);
-        var result = HttpRequest.Get<OrderDto>(uri, ModuleOperation.ConfigSettings.OrganizationId.ToString());
+        var result = HttpRequest.Get<OrderDto>(uri);
         return OrderFactory.Create(result.Content);
     }
 
@@ -42,7 +42,7 @@ internal class OrderOperation : IOrderOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "orders");
-        var result = HttpRequest.Get<List<OrderDto>>(uri, ModuleOperation.ConfigSettings.OrganizationId.ToString());
+        var result = HttpRequest.Get<List<OrderDto>>(uri);
         return result.Content.Select(x => OrderFactory.Create(x)).ToList();
     }
 
@@ -50,7 +50,7 @@ internal class OrderOperation : IOrderOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "order/submitChanges");
-        var result = HttpRequest.Post<SessionDto, OrderDto>(uri, ModuleOperation.ConfigSettings.OrganizationId.ToString(), SessionFactory.CreateDto(session));
+        var result = HttpRequest.Post<SessionDto, OrderDto>(uri, SessionFactory.CreateDto(session));
         session = default;
         return OrderFactory.Create(result.Content);
     }
