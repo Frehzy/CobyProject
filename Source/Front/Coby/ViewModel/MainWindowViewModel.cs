@@ -18,6 +18,9 @@ internal class MainWindowViewModel
         }
         catch (Exception ex)
         {
+            if (ex.InnerException is EntityNotFoundException)
+                throw;
+
             //MessageBox.Show(ex.Message);
         }
 
