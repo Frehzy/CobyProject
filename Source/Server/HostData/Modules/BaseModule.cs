@@ -45,7 +45,7 @@ public abstract class BaseModule : NancyModule
             catch (Exception ex)
             {
                 Log.Error(ex, ex.Message);
-                return CreateBadRequest(ex.Message);
+                return CreateBadResponse(ex.Message);
             }
         }).Result;
     }
@@ -75,7 +75,7 @@ public abstract class BaseModule : NancyModule
             StatusCode = statusCode
         };
 
-    private Response CreateBadRequest(string exceptionMessage) =>
+    private Response CreateBadResponse(string exceptionMessage) =>
         new()
         {
             StatusCode = HttpStatusCode.BadRequest,
