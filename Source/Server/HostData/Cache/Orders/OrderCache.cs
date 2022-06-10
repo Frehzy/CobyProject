@@ -31,11 +31,11 @@ internal class OrderCache : IOrderCache
         }
     }
 
-    public bool RemoveOrder(Guid orderId)
+    public IOrder RemoveOrder(Guid orderId)
     {
-        if (_ordersCache.TryRemove(orderId, out _) is false)
+        if (_ordersCache.TryRemove(orderId, out var returnOrder) is false)
             throw new EntityNotFoundException(orderId, nameof(IOrder));
 
-        return true;
+        return returnOrder;
     }
 }

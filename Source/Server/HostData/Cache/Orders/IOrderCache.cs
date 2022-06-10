@@ -10,5 +10,5 @@ public interface IOrderCache
 
     void AddOrUpdate(IOrder order, int version = 0);
 
-    bool RemoveOrder(Guid orderId);
+    IOrder RemoveOrder(Guid orderId);
 }

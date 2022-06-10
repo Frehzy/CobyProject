@@ -12,7 +12,14 @@ internal class MainWindowViewModel
         {
             ModuleOperation.OrderOperation.GetOrderById(Guid.NewGuid());
         }
-        catch { }
+        catch (EntityNotFoundException ex)
+        {
+            //MessageBox.Show(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            //MessageBox.Show(ex.Message);
+        }
 
         try
         {
@@ -22,15 +29,15 @@ internal class MainWindowViewModel
         }
         catch (EntityNotFoundException ex)
         {
-            MessageBox.Show(ex.Message);
+            //MessageBox.Show(ex.Message);
         }
         catch (InvalidSessionException ex)
         {
-            MessageBox.Show(ex.Message);
+            //MessageBox.Show(ex.Message);
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message);
+            //MessageBox.Show(ex.Message);
         }
 
         var newOrder = ModuleOperation.OrderOperation.CreateOrder(Guid.NewGuid(), Guid.NewGuid());
@@ -41,5 +48,13 @@ internal class MainWindowViewModel
         ModuleOperation.OrderOperation.SubmitChanges(ref session2);
 
         var newOrders = ModuleOperation.OrderOperation.GetOrders();
+
+        ModuleOperation.OrderOperation.DeleteOrder(newOrders.First());
+
+        var newOrders2 = ModuleOperation.OrderOperation.GetOrders();
+
+        ModuleOperation.OrderOperation.DeleteOrder(newOrders.First());
+
+        var newOrders3 = ModuleOperation.OrderOperation.GetOrders();
     }
 }

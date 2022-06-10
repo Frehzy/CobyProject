@@ -23,6 +23,11 @@ public class InvalidSessionException : EntityException
         Version = version;
     }
 
+    public InvalidSessionException(int version, Guid orderId, string message, ApiException innerException) : base(orderId, message, innerException)
+    {
+        Version = version;
+    }
+
     protected InvalidSessionException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
         if (info is null)

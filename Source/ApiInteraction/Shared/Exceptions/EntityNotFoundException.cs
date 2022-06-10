@@ -18,6 +18,11 @@ public sealed class EntityNotFoundException : EntityException
         EntityType = entityType;
     }
 
+    public EntityNotFoundException(Guid id, string entityType, ApiException innerException) : base(id, nameof(EntityNotFoundException), innerException)
+    {
+        EntityType = entityType;
+    }
+
     protected EntityNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
         if (info is null)

@@ -50,11 +50,11 @@ internal class OrderController
         return OrderFactory.CreateDto(_orderCache.GetOrderById(lastOrder.Id));
     }
 
-    public bool RemoveOrderById(dynamic id)
+    public OrderDto RemoveOrderById(dynamic id)
     {
         if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
             throw new ArgumentException($"{nameof(id)} must be type Guid", nameof(id));
 
-        return _orderCache.RemoveOrder(orderId);
+        return OrderFactory.CreateDto(_orderCache.RemoveOrder(orderId));
     }
 }

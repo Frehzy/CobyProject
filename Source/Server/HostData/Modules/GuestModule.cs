@@ -22,29 +22,10 @@ public class GuestModule : BaseModule
 
         Post("/{orderId}/guest/add", parameters =>
         {
-            try
-            {
-                Log.Information(CreateLogByContext(Context));
-                var orderId = parameters.orderId;
-                var json = Request.Body.AsString();
-                var obj = JsonSerializer.Deserialize<SessionDto>(json);
-                var session = _guestController.AddGuest(orderId, obj);
-
-                var returnJson = JsonSerializer.Serialize<SessionDto>(session);
-                Log.Information(CreateReturnLog(returnJson));
-                return returnJson;
-            }
-            catch (EntityNotFoundException ex)
-            {
-                var json = JsonSerializer.Serialize(ex.CreateDictionary(), CreateSerializerOptions());
-                Log.Error(ex, json);
-                return CreateExceptionResponse(json, nameof(EntityNotFoundException));
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, ex.Message);
-                return BadRequest(ex.Message);
-            }
+            var orderId = parameters.orderId;
+            var json = Request.Body.AsString();
+            var obj = JsonSerializer.Deserialize<SessionDto>(json);
+            return Execute<SessionDto>(Context, () => _guestController.AddGuest(orderId, obj));
         });
     }
 }
