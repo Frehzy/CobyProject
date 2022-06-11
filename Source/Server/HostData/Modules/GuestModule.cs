@@ -32,7 +32,7 @@ public class GuestModule : BaseModule
             var guestId = parameters.guestId;
             var json = Request.Body.AsString();
             var obj = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _guestController.RemoveGuestOnOrderById(orderId, guestId, obj));
+            return Execute<SessionDto>(Context, () => _guestController.RemoveGuest(orderId, guestId, obj));
         });
     }
 }

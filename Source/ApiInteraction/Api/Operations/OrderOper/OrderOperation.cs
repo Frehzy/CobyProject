@@ -11,7 +11,7 @@ internal class OrderOperation : IOrderOperation
     public IOrder CreateOrder(IWaiter waiter, ITable table)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "order/create", waiter.Id, table.Id);
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"order/create/{waiter.Id}/{table.Id}");
         var result = HttpRequest.Get<OrderDto>(uri);
         return OrderFactory.Create(result.Content);
     }
@@ -33,7 +33,7 @@ internal class OrderOperation : IOrderOperation
     public IOrder GetOrderById(Guid orderId)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "orders", orderId);
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"orders/{orderId}");
         var result = HttpRequest.Get<OrderDto>(uri);
         return OrderFactory.Create(result.Content);
     }

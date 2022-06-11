@@ -14,6 +14,7 @@ internal class ProductFactory
             product.WaiterId,
             product.PrintTime,
             product.Status,
+            product.Type,
             product.IsDeleted,
             product.Comment);
 
@@ -25,6 +26,7 @@ internal class ProductFactory
             product.WaiterId,
             product.PrintTime,
             product.Status,
+            product.Type,
             product.IsDeleted,
             product.Comment);
 
@@ -36,6 +38,7 @@ internal class ProductFactory
             product.WaiterId,
             product.PrintTime,
             product.Status,
+            product.Type,
             product.IsDeleted,
             product.Comment);
 }

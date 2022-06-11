@@ -9,5 +9,6 @@ internal record ProductDto(Guid Id,
                            Guid WaiterId,
                            DateTime? PrintTime,
                            ProductStatus Status,
+                           ProductType Type,
                            bool IsDeleted,
                            string? Comment);

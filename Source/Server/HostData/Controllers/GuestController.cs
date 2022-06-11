@@ -38,7 +38,7 @@ internal class GuestController
         });
     }
 
-    internal async Task<SessionDto> RemoveGuestOnOrderById(dynamic orderId, dynamic guestId, SessionDto session)
+    internal async Task<SessionDto> RemoveGuest(dynamic orderId, dynamic guestId, SessionDto session)
     {
         return await Task.Run(() =>
         {

@@ -19,13 +19,15 @@ internal class Product : IProduct
 
     public ProductStatus Status { get; set; }
 
+    public ProductType Type { get; set; }
+
     public bool IsDeleted { get; set; }
 
     public string? Comment { get; set; }
 
     public Product() { }
 
-    public Product(Guid id, string name, decimal price, Guid guestId, Guid waiterId, DateTime? printTime, ProductStatus status, bool isDeleted, string? comment)
+    public Product(Guid id, string name, decimal price, Guid guestId, Guid waiterId, DateTime? printTime, ProductStatus status, ProductType type,  bool isDeleted, string? comment)
     {
         Id = id;
         Name = name;
@@ -34,6 +36,7 @@ internal class Product : IProduct
         WaiterId = waiterId;
         PrintTime = printTime;
         Status = status;
+        Type = type;
         IsDeleted = isDeleted;
         Comment = comment;
     }

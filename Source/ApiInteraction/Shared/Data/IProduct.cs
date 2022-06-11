@@ -18,6 +18,8 @@ public interface IProduct
 
     public ProductStatus Status { get; }
 
+    public ProductType Type { get; }
+
     public bool IsDeleted { get; }
 
     public string? Comment { get; }
