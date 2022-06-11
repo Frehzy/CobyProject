@@ -1,5 +1,7 @@
 ﻿using HostData.Cache.Config;
 using HostData.Cache.Orders;
+using HostData.Cache.Tables;
+using HostData.Cache.Waiters;
 using HostData.Controllers;
 using Nancy;
 using Nancy.Extensions;
@@ -13,10 +15,10 @@ public class OrderModule : BaseModule
     private readonly IConfigCache _configCache;
     private readonly OrderController _orderController;
 
-    public OrderModule(IOrderCache orderCache, IConfigCache configCache) : base()
+    public OrderModule(IOrderCache orderCache, ITableCache tableCache, IWaiterCache waiterCache, IConfigCache configCache) : base()
     {
         _configCache = configCache;
-        _orderController = new(orderCache);
+        _orderController = new(orderCache, tableCache, waiterCache);
 
         Get("/orders/{orderId}", parameters =>
         {

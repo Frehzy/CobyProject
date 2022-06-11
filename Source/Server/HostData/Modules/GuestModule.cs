@@ -3,8 +3,6 @@ using HostData.Cache.Orders;
 using HostData.Controllers;
 using Nancy;
 using Nancy.Extensions;
-using Serilog;
-using Shared.Exceptions;
 using Shared.Factory.Dto;
 using System.Text.Json;
 

@@ -32,7 +32,7 @@ internal class GuestController
             var guest = new GuestDto(Guid.NewGuid(), $"Guest {guestsList.Count + 1}", guestsList.Count + 1);
             guestsList.Add(guest);
             var newOrder = new OrderDto(order.Id,
-                                     order.TableId,
+                                     order.Tables,
                                      order.Waiter,
                                      order.StartTime,
                                      order.EndTime,

@@ -7,7 +7,7 @@ internal class Order : IOrder
 {
     public Guid Id { get; set; }
 
-    public Guid TableId { get; set; }
+    public IReadOnlyList<ITable> Tables { get; set; }
 
     public IWaiter Waiter { get; set; }
 
@@ -25,10 +25,10 @@ internal class Order : IOrder
 
     public Order() { }
 
-    public Order(Guid orderId, Guid tableId, Waiter waiter, DateTime startTime, DateTime? endTime, OrderStatus orderStatus, int version, List<Guest> guests = null, bool isDeleted = false)
+    public Order(Guid orderId, Table table, Waiter waiter, DateTime startTime, DateTime? endTime, OrderStatus orderStatus, int version, List<Guest> guests = null, bool isDeleted = false)
     {
         Id = orderId;
-        TableId = tableId;
+        Tables = new List<Table>() { table } ;
         Waiter = waiter;
         StartTime = startTime;
         EndTime = endTime;
@@ -37,6 +37,22 @@ internal class Order : IOrder
         Guests = guests;
         IsDeleted = isDeleted;
     }
+
+    public Order(Guid orderId, List<Table> tables, Waiter waiter, DateTime startTime, DateTime? endTime, OrderStatus orderStatus, int version, List<Guest> guests = null, bool isDeleted = false)
+    {
+        Id = orderId;
+        Tables = tables;
+        Waiter = waiter;
+        StartTime = startTime;
+        EndTime = endTime;
+        Status = orderStatus;
+        Version = version;
+        Guests = guests;
+        IsDeleted = isDeleted;
+    }
+
+    public IReadOnlyList<ITable> GetTables() =>
+        (Tables ?? Enumerable.Empty<ITable>()).ToList();
 
     public IReadOnlyList<IGuest> GetGuests() =>
         (Guests ?? Enumerable.Empty<IGuest>()).ToList();

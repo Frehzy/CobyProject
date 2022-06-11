@@ -6,7 +6,7 @@ public interface IOrder
 {
     public Guid Id { get; }
 
-    public Guid TableId { get; }
+    public IReadOnlyList<ITable> Tables { get; }
 
     public IWaiter Waiter { get; }
 
@@ -21,6 +21,8 @@ public interface IOrder
     public int Version { get; }
 
     public bool IsDeleted { get; }
+
+    public IReadOnlyList<ITable> GetTables();
 
     public IReadOnlyList<IGuest> GetGuests();
 }

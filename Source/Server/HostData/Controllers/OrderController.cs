@@ -1,4 +1,6 @@
 ﻿using HostData.Cache.Orders;
+using HostData.Cache.Tables;
+using HostData.Cache.Waiters;
 using Shared.Data.Enum;
 using Shared.Exceptions;
 using Shared.Factory;
@@ -10,10 +12,14 @@ namespace HostData.Controllers;
 internal class OrderController
 {
     private readonly IOrderCache _orderCache;
+    private readonly ITableCache _tableCache;
+    private readonly IWaiterCache _waiterCache;
 
-    public OrderController(IOrderCache orderCache)
+    public OrderController(IOrderCache orderCache, ITableCache tableCache, IWaiterCache waiterCache)
     {
         _orderCache = orderCache;
+        _tableCache = tableCache;
+        _waiterCache = waiterCache;
     }
 
     public async Task<OrderDto> GetOrderById(dynamic id)
@@ -45,7 +51,10 @@ internal class OrderController
             if (Guid.TryParse(tableId.ToString(), out Guid tId) is false)
                 throw new ArgumentException($"{nameof(tableId)} must be type Guid", nameof(tableId));
 
-            var order = new Order(Guid.NewGuid(), tId, wId, DateTime.Now, null, OrderStatus.Open, 1);
+            var waiter = _waiterCache.GetWaiterById(wId);
+            var table = _tableCache.GetTableById(tId);
+
+            var order = new Order(Guid.NewGuid(), TableFactory.Create(table), WaiterFactory.Create(waiter), DateTime.Now, null, OrderStatus.Open, 1);
             _orderCache.AddOrUpdate(order);
             return OrderFactory.CreateDto(order);
         });
