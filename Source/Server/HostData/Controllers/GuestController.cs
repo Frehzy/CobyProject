@@ -31,7 +31,7 @@ internal class GuestController
 
             var guest = new GuestDto(Guid.NewGuid(), $"Guest {guestsList.Count + 1}", guestsList.Count + 1, false);
             guestsList.Add(guest);
-            var newOrder = order with { Version = order.Version + 1 };
+            var newOrder = order with { Guests = guestsList, Version = order.Version + 1 };
 
             session.Orders.Add(newOrder);
             return session with { Version = session.Version + 1 };
