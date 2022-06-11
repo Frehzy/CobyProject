@@ -18,7 +18,7 @@ internal class DiscountCache : IDiscountCache
             _discountsCache.TryUpdate(discount.Id, discount, discountOnCache);
     }
 
-    public IDiscount GetTableById(Guid discountId)
+    public IDiscount GetDiscountById(Guid discountId)
     {
         var result = _discountsCache.TryGetValue(discountId, out var discountOnCache);
         return result is true

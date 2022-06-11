@@ -6,7 +6,7 @@ public interface IDiscountCache
 {
     IReadOnlyCollection<IDiscount> Discounts { get; }
 
-    IDiscount GetTableById(Guid discountId);
+    IDiscount GetDiscountById(Guid discountId);
 
     void AddOrUpdate(IDiscount discount);
 
