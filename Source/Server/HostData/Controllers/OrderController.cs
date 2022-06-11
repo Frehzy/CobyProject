@@ -78,10 +78,10 @@ internal class OrderController : BaseController
         static void PrintAllProduct(OrderDto order)
         {
             var printAllProduct = order.GetProducts().Where(x => x.Status.HasFlag(ProductStatus.Added));
-            printAllProduct = printAllProduct.Select(x => x with 
-            { 
-                Status = ProductStatus.Printed, 
-                PrintTime = DateTime.Now 
+            printAllProduct = printAllProduct.Select(x => x with
+            {
+                Status = ProductStatus.Printed,
+                PrintTime = DateTime.Now
             });
         }
     }

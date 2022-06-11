@@ -24,6 +24,6 @@ internal record OrderDto(int Number,
     public List<TableDto> GetTables() =>
         (Tables ?? Enumerable.Empty<TableDto>()).ToList();
 
-    public List<GuestDto> GetGuests() => 
+    public List<GuestDto> GetGuests() =>
         (Guests ?? Enumerable.Empty<GuestDto>()).ToList();
 }

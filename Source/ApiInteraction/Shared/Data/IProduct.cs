@@ -8,7 +8,7 @@ public interface IProduct
 
     public string Name { get; }
 
-    public decimal Price { get; } 
+    public decimal Price { get; }
 
     public Guid GuestId { get; }
 

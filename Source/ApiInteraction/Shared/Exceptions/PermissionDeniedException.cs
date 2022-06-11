@@ -17,7 +17,7 @@ public sealed class PermissionDeniedException : ApiException
         Permission = permission;
     }
 
-    public PermissionDeniedException(EmployeePermission permission, string message) 
+    public PermissionDeniedException(EmployeePermission permission, string message)
         : base(message)
     {
         Permission = permission;

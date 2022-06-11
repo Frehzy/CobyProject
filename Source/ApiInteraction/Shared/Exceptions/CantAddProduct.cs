@@ -29,7 +29,7 @@ public sealed class CantAddProductException : ViolationBusinessLogicException
     public override Dictionary<string, object> CreateDictionary()
     {
         var dic = base.CreateDictionary();
-        foreach(var item in typeof(Product).GetProperties())
+        foreach (var item in typeof(Product).GetProperties())
             dic.Add(nameof(item.Name), item.GetValue(Product));
 
         foreach (DictionaryEntry data in Data)

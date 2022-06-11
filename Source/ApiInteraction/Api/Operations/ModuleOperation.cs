@@ -3,6 +3,7 @@ using Api.Operations.GuestOper;
 using Api.Operations.OrderOper;
 using Api.Operations.ProductOper;
 using Api.Operations.TableOper;
+using Api.Operations.WaiterOper;
 using Shared.Configuration;
 using Shared.Data;
 
@@ -17,6 +18,7 @@ public sealed class ModuleOperation
     private static ProductOperation _productOperation;
     private static TableOperation _tableOperation;
     private static DiscountOperation _discountOperation;
+    private static WaiterOperation _waiterOperation;
 
     public static NetOperation NetOperation => _netOperation ??= new NetOperation();
 
@@ -31,4 +33,6 @@ public sealed class ModuleOperation
     public static ITableOperation TableOperation => _tableOperation ??= new TableOperation();
 
     public static IDiscountOperation DiscountOperation => _discountOperation ??= new DiscountOperation();
+
+    public static IWaiterOperation WaiterOperation => _waiterOperation ??= new WaiterOperation();
 }

@@ -27,7 +27,7 @@ internal class Product : IProduct
 
     public Product() { }
 
-    public Product(Guid id, string name, decimal price, Guid guestId, Guid waiterId, DateTime? printTime, ProductStatus status, ProductType type,  bool isDeleted, string? comment)
+    public Product(Guid id, string name, decimal price, Guid guestId, Guid waiterId, DateTime? printTime, ProductStatus status, ProductType type, bool isDeleted, string? comment)
     {
         Id = id;
         Name = name;
