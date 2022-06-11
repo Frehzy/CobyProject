@@ -56,8 +56,8 @@ internal class MainWindowViewModel
 
         var newOrders2 = ModuleOperation.OrderOperation.GetOrders();
 
-        ModuleOperation.OrderOperation.DeleteOrder(newOrders.First());
-
-        var newOrders3 = ModuleOperation.OrderOperation.GetOrders();
+        /*ModuleOperation.OrderOperation.DeleteOrder(newOrders.First());
+        
+        var newOrders3 = ModuleOperation.OrderOperation.GetOrders();*/
     }
 }

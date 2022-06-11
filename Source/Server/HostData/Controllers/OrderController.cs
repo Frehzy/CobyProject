@@ -16,45 +16,62 @@ internal class OrderController
         _orderCache = orderCache;
     }
 
-    public OrderDto GetOrderById(dynamic id)
+    public async Task<OrderDto> GetOrderById(dynamic id)
     {
-        if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
-            throw new ArgumentException($"{nameof(id)} must be type Guid", nameof(id));
+        return await Task.Run(() =>
+        {
+            if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
+                throw new ArgumentException($"{nameof(id)} must be type Guid", nameof(id));
 
-        return OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
+            return OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
+        });
     }
 
-    public List<OrderDto> GetOrders() =>
-        _orderCache.Orders.Select(x => OrderFactory.CreateDto(x)).ToList();
-
-    public OrderDto CreateOrder(dynamic waiterId, dynamic tableId)
+    public async Task<List<OrderDto>> GetOrders()
     {
-        if (Guid.TryParse(waiterId.ToString(), out Guid wId) is false)
-            throw new ArgumentException($"{nameof(waiterId)} must be type Guid", nameof(waiterId));
-
-        if (Guid.TryParse(tableId.ToString(), out Guid tId) is false)
-            throw new ArgumentException($"{nameof(tableId)} must be type Guid", nameof(tableId));
-
-        var order = new Order(Guid.NewGuid(), tId, wId, DateTime.Now, null, OrderStatus.Open, 1);
-        _orderCache.AddOrUpdate(order);
-        return OrderFactory.CreateDto(order);
+        return await Task.Run(() =>
+        {
+            return _orderCache.Orders.Select(x => OrderFactory.CreateDto(x)).ToList();
+        });
     }
 
-    public OrderDto SubmitChanges(SessionDto session)
+    public async Task<OrderDto> CreateOrder(dynamic waiterId, dynamic tableId)
     {
-        if (session.Orders.Count <= 0)
-            throw new InvalidSessionException(session.Version, session.OrderId);
+        return await Task.Run(() =>
+        {
+            if (Guid.TryParse(waiterId.ToString(), out Guid wId) is false)
+                throw new ArgumentException($"{nameof(waiterId)} must be type Guid", nameof(waiterId));
 
-        var lastOrder = session.Orders.OrderByDescending(x => x.Version).First();
-        _orderCache.AddOrUpdate(OrderFactory.Create(lastOrder), session.Orders.Count);
-        return OrderFactory.CreateDto(_orderCache.GetOrderById(lastOrder.Id));
+            if (Guid.TryParse(tableId.ToString(), out Guid tId) is false)
+                throw new ArgumentException($"{nameof(tableId)} must be type Guid", nameof(tableId));
+
+            var order = new Order(Guid.NewGuid(), tId, wId, DateTime.Now, null, OrderStatus.Open, 1);
+            _orderCache.AddOrUpdate(order);
+            return OrderFactory.CreateDto(order);
+        });
     }
 
-    public OrderDto RemoveOrderById(dynamic id)
+    public async Task<OrderDto> SubmitChanges(SessionDto session)
     {
-        if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
-            throw new ArgumentException($"{nameof(id)} must be type Guid", nameof(id));
+        return await Task.Run(() =>
+        {
+            if (session.Orders.Count <= 0)
+                throw new InvalidSessionException(session.Version, session.OrderId);
 
-        return OrderFactory.CreateDto(_orderCache.RemoveOrder(orderId));
+            var lastOrder = session.Orders.OrderByDescending(x => x.Version).First();
+            _orderCache.AddOrUpdate(OrderFactory.Create(lastOrder), session.Orders.Count);
+            return OrderFactory.CreateDto(_orderCache.GetOrderById(lastOrder.Id));
+        });
+    }
+
+    public async Task<OrderDto> RemoveOrderById(dynamic id)
+    {
+        return await Task.Run(() =>
+        {
+            if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
+                throw new ArgumentException($"{nameof(id)} must be type Guid", nameof(id));
+
+            return OrderFactory.CreateDto(_orderCache.RemoveOrder(orderId));
+        });
     }
 }

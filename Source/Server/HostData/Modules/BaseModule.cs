@@ -12,14 +12,14 @@ public abstract class BaseModule : NancyModule
 {
     public BaseModule() : base("/") { }
 
-    protected Response Execute<T>(NancyContext context, Func<T> func)
+    protected Response Execute<T>(NancyContext context, Func<Task<T>> func)
     {
         return Task.Run(async () =>
         {
             try
             {
                 Log.Information(CreateLogByContext(context));
-                var result = func();
+                var result = await func();
                 var returnJson = JsonSerializer.Serialize(result);
                 Log.Information(CreateReturnLog(returnJson));
                 return CreateGoodResponse(returnJson);

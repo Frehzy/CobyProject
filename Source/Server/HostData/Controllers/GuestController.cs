@@ -14,32 +14,35 @@ internal class GuestController
         _orderCache = orderCache;
     }
 
-    public SessionDto AddGuest(dynamic id, SessionDto session)
+    public async Task<SessionDto> AddGuest(dynamic id, SessionDto session)
     {
-        if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
-            throw new ArgumentException($"{nameof(id)} must be type Guid", nameof(id));
+        return await Task.Run(() =>
+        {
+            if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
+                throw new ArgumentException($"{nameof(id)} must be type Guid", nameof(id));
 
-        if (session.OrderId.Equals(orderId) is false)
-            throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
+            if (session.OrderId.Equals(orderId) is false)
+                throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
 
-        var order = OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
-        var guestsList = session.Orders.Count <= 0
-            ? order.GetGuests()
-            : session.Orders.OrderByDescending(x => x.Version).First().GetGuests();
+            var order = OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
+            var guestsList = session.Orders.Count <= 0
+                ? order.GetGuests()
+                : session.Orders.OrderByDescending(x => x.Version).First().GetGuests();
 
-        var guest = new GuestDto(Guid.NewGuid(), $"Guest {guestsList.Count + 1}", guestsList.Count + 1);
-        guestsList.Add(guest);
-        var newOrder = new OrderDto(order.Id,
-                                 order.TableId,
-                                 order.WaiterId,
-                                 order.StartTime,
-                                 order.EndTime,
-                                 order.Status,
-                                 session.Version + 1,
-                                 guestsList,
-                                 order.IsDeleted);
+            var guest = new GuestDto(Guid.NewGuid(), $"Guest {guestsList.Count + 1}", guestsList.Count + 1);
+            guestsList.Add(guest);
+            var newOrder = new OrderDto(order.Id,
+                                     order.TableId,
+                                     order.WaiterId,
+                                     order.StartTime,
+                                     order.EndTime,
+                                     order.Status,
+                                     session.Version + 1,
+                                     guestsList,
+                                     order.IsDeleted);
 
-        session.Orders.Add(newOrder);
-        return session with { Version = session.Version + 1 };
+            session.Orders.Add(newOrder);
+            return session with { Version = session.Version + 1 };
+        });
     }
 }
