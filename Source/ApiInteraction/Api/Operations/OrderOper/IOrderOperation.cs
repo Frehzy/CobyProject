@@ -4,7 +4,7 @@ namespace Api.Operations.OrderOper;
 
 public interface IOrderOperation
 {
-    public IOrder CreateOrder(ICredentials credentials, IWaiter waiter, ITable table);
+    public IOrder CreateOrder(ICredentials credentials, IWaiter waiter, IReadOnlyList<ITable> tables);
 
     public IOrder GetOrderById(Guid orderId);
 

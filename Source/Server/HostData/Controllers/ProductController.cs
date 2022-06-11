@@ -64,8 +64,6 @@ internal class ProductController : BaseController
             if (session.OrderId.Equals(oId) is false)
                 throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
 
-            CheckCredentials( cId, EmployeePermission.CanRemoveDishesOnOrder);
-
             OrderDto order = OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
 
             var productsList = session.Orders.Count <= 0
@@ -73,6 +71,11 @@ internal class ProductController : BaseController
                 : session.Orders.OrderByDescending(x => x.Version).First().GetProducts();
 
             var product = productsList.First(x => x.Id.Equals(pId));
+            if (product.PrintTime is not null)
+                CheckCredentials(cId, EmployeePermission.CanRemoveDishesOnOrder);
+            else
+                CheckCredentials(cId, EmployeePermission.CanRemovePrintedDishesOnOrder);
+
             product = product with { IsDeleted = true };
 
             var newOrder = order with { Products = productsList, Version = order.Version + 1 };

@@ -38,20 +38,20 @@ internal class OrderController : BaseController
         });
     }
 
-    public async Task<OrderDto> CreateOrder(dynamic credentialsId, dynamic waiterId, dynamic tableId)
+    public async Task<OrderDto> CreateOrder(dynamic credentialsId, dynamic waiterId, IEnumerable<dynamic> tableId)
     {
         return await Task.Run(() =>
         {
             var cId = CheckDynamicGuid(credentialsId);
             var wId = CheckDynamicGuid(waiterId);
-            var tId = CheckDynamicGuid(tableId);
+            var tsId = tableId.Select(x => (Guid)CheckDynamicGuid(x));
 
             var waiter = CheckCredentials(cId, EmployeePermission.CanCreateOrder);
 
-            var table = TableFactory.Create(_tableCache.GetTableById(tId));
+            var tables = tsId.Select(x => TableFactory.Create(_tableCache.GetTableById(x)));
             var orderCount = _orderCache.Orders.OrderByDescending(x => x.Number).FirstOrDefault()?.Number ?? 0;
 
-            var order = new Order(orderCount + 1, Guid.NewGuid(), table, WaiterFactory.Create(waiter));
+            var order = new Order(orderCount + 1, Guid.NewGuid(), tables.ToList(), WaiterFactory.Create(waiter));
             _orderCache.AddOrUpdate(order);
             return OrderFactory.CreateDto(order);
         });
@@ -69,9 +69,21 @@ internal class OrderController : BaseController
             CheckCredentials(cId, EmployeePermission.CanUpdateOrder);
 
             var lastOrder = session.Orders.OrderByDescending(x => x.Version).First();
+            PrintAllProduct(lastOrder);
+
             _orderCache.AddOrUpdate(OrderFactory.Create(lastOrder), session.Orders.Count);
             return OrderFactory.CreateDto(_orderCache.GetOrderById(lastOrder.Id));
         });
+
+        static void PrintAllProduct(OrderDto order)
+        {
+            var printAllProduct = order.GetProducts().Where(x => x.Status.HasFlag(ProductStatus.Added));
+            printAllProduct = printAllProduct.Select(x => x with 
+            { 
+                Status = ProductStatus.Printed, 
+                PrintTime = DateTime.Now 
+            });
+        }
     }
 
     public async Task<OrderDto> RemoveOrderById(dynamic credentialsId, dynamic orderId)

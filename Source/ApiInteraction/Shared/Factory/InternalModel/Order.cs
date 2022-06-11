@@ -31,11 +31,11 @@ internal class Order : IOrder
 
     public Order() { }
 
-    public Order(int number, Guid id, ITable table, IWaiter waiter)
+    public Order(int number, Guid id, IReadOnlyList<ITable> table, IWaiter waiter)
     {
         Number = number;
         Id = id;
-        Tables = new List<ITable>() { table };
+        Tables = table;
         Waiter = waiter;
         StartTime = DateTime.Now;
         Guests = new List<IGuest>();
