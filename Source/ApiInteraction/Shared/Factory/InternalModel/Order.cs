@@ -21,6 +21,8 @@ internal class Order : IOrder
 
     public IReadOnlyList<IProduct>? Products { get; set; }
 
+    public IReadOnlyList<IDiscount> Discounts { get; set; }
+
     public OrderStatus Status { get; set; }
 
     public int Version { get; set; }
@@ -38,12 +40,13 @@ internal class Order : IOrder
         StartTime = DateTime.Now;
         Guests = new List<IGuest>();
         Products = new List<IProduct>();
+        Discounts = new List<IDiscount>();
         Status = OrderStatus.Open;
         Version = 1;
         IsDeleted = false;
     }
 
-    public Order(int number, Guid id, IReadOnlyList<ITable> tables, IWaiter waiter, DateTime startTime, DateTime? endTime, IReadOnlyList<IGuest>? guests, IReadOnlyList<IProduct>? products, OrderStatus status, int version, bool isDeleted)
+    public Order(int number, Guid id, IReadOnlyList<ITable> tables, IWaiter waiter, DateTime startTime, DateTime? endTime, IReadOnlyList<IGuest>? guests, IReadOnlyList<IProduct>? products, IReadOnlyList<IDiscount> discounts, OrderStatus status, int version, bool isDeleted)
     {
         Number = number;
         Id = id;
@@ -53,10 +56,14 @@ internal class Order : IOrder
         EndTime = endTime;
         Guests = guests;
         Products = products;
+        Discounts = discounts;
         Status = status;
         Version = version;
         IsDeleted = isDeleted;
     }
+
+    public IReadOnlyList<IDiscount> GetDiscounts() =>
+        (Discounts ?? Enumerable.Empty<IDiscount>()).ToList();
 
     public IReadOnlyList<IProduct> GetProducts() =>
         (Products ?? Enumerable.Empty<IProduct>()).ToList();

@@ -10,12 +10,16 @@ internal record OrderDto(int Number,
                          DateTime? EndTime,
                          List<GuestDto> Guests,
                          List<ProductDto> Products,
+                         List<DiscountDto> Discounts,
                          OrderStatus Status,
                          int Version,
                          bool IsDeleted)
 {
     public List<ProductDto> GetProducts() =>
         (Products ?? Enumerable.Empty<ProductDto>()).ToList();
+
+    public List<DiscountDto> GetDiscounts() =>
+        (Discounts ?? Enumerable.Empty<DiscountDto>()).ToList();
 
     public List<TableDto> GetTables() =>
         (Tables ?? Enumerable.Empty<TableDto>()).ToList();

@@ -15,6 +15,7 @@ internal static class OrderFactory
             order.EndTime,
             order.GetGuests().Select(x => GuestFactory.Create(x)).ToList(),
             order.GetProducts().Select(x => ProductFactory.Create(x)).ToList(),
+            order.GetDiscounts().Select(x => DiscountFactory.Create(x)).ToList(),
             order.Status,
             order.Version,
             order.IsDeleted);
@@ -28,6 +29,7 @@ internal static class OrderFactory
             order.EndTime,
             order.GetGuests().Select(x => GuestFactory.Create(x)).ToList(),
             order.GetProducts().Select(x => ProductFactory.Create(x)).ToList(),
+            order.GetDiscounts().Select(x => DiscountFactory.Create(x)).ToList(),
             order.Status,
             order.Version,
             order.IsDeleted);
@@ -41,6 +43,7 @@ internal static class OrderFactory
             order.EndTime,
             order.GetGuests().Select(x => GuestFactory.CreateDto(x)).ToList(),
             order.GetProducts().Select(x => ProductFactory.CreateDto(x)).ToList(),
+            order.GetDiscounts().Select(x => DiscountFactory.CreateDto(x)).ToList(),
             order.Status,
             order.Version,
             order.IsDeleted);

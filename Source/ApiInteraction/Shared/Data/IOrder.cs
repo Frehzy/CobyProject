@@ -20,6 +20,8 @@ public interface IOrder
 
     public IReadOnlyList<IProduct> Products { get; }
 
+    public IReadOnlyList<IDiscount> Discounts { get; }
+
     public OrderStatus Status { get; }
 
     public int Version { get; }
@@ -27,6 +29,8 @@ public interface IOrder
     public bool IsDeleted { get; }
 
     public IReadOnlyList<ITable> GetTables();
+
+    public IReadOnlyList<IDiscount> GetDiscounts();
 
     public IReadOnlyList<IGuest> GetGuests();
 

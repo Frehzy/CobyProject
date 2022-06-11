@@ -1,6 +1,6 @@
 ﻿namespace Shared.Data.Enum;
 
-public enum EmployeePermission
+public enum EmployeePermission : byte
 {
     CanCreateOrder, //заказ
     CanRemoveOrder,

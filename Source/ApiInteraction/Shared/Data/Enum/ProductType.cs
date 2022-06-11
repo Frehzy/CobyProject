@@ -1,6 +1,6 @@
 ﻿namespace Shared.Data.Enum;
 
-public enum ProductType
+public enum ProductType : byte
 {
     Goods, //продукт для блюда
     Dish, //блюдо

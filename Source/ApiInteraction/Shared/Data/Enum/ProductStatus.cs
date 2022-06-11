@@ -1,6 +1,6 @@
 ﻿namespace Shared.Data.Enum;
 
-public enum ProductStatus
+public enum ProductStatus : byte
 {
     Added,
     Printed,
