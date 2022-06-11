@@ -15,8 +15,12 @@ internal class GuestOperation : IGuestOperation
         return session.Orders.OrderByDescending(x => x.Version).SelectMany(x => x.Guests).ToList();
     }
 
-    public bool RemoveGuest(IOrder order, Guid guestId, ref ISession session)
+    public IReadOnlyList<IGuest> RemoveGuest(IOrder order, IGuest guest, ref ISession session)
     {
-        throw new NotImplementedException();
+        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{order.Id}/guest/remove/{guest.Id}");
+        var result = HttpRequest.Post(uri, SessionFactory.CreateDto(session));
+        session = SessionFactory.Create(result.Content);
+        return session.Orders.OrderByDescending(x => x.Version).SelectMany(x => x.Guests).ToList();
     }
 }

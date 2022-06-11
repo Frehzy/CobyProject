@@ -25,5 +25,14 @@ public class GuestModule : BaseModule
             var obj = JsonSerializer.Deserialize<SessionDto>(json);
             return Execute<SessionDto>(Context, () => _guestController.AddGuest(orderId, obj));
         });
+
+        Post("/{orderId}/guest/remove/{guestId}", parameters =>
+        {
+            var orderId = parameters.orderId;
+            var guestId = parameters.guestId;
+            var json = Request.Body.AsString();
+            var obj = JsonSerializer.Deserialize<SessionDto>(json);
+            return Execute<SessionDto>(Context, () => _guestController.RemoveGuestOnOrderById(orderId, guestId, obj));
+        });
     }
 }

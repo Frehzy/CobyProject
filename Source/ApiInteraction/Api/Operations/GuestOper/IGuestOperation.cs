@@ -6,5 +6,5 @@ public interface IGuestOperation
 {
     public IReadOnlyList<IGuest> CreateGuest(IOrder order, ref ISession session);
 
-    public bool RemoveGuest(IOrder order, Guid guestId, ref ISession session);
+    public IReadOnlyList<IGuest> RemoveGuest(IOrder order, IGuest guest, ref ISession session);
 }

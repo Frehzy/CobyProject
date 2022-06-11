@@ -22,7 +22,8 @@ public class OrderModule : BaseModule
 
         Get("/orders/{orderId}", parameters =>
         {
-            return Execute<OrderDto>(Context, () => _orderController.GetOrderById(parameters.orderId));
+            var orderId = parameters.orderId;
+            return Execute<OrderDto>(Context, () => _orderController.GetOrderById(orderId));
         });
 
         Get("/orders", parameters =>
