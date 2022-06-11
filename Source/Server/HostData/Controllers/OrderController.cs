@@ -38,14 +38,15 @@ internal class OrderController : BaseController
         });
     }
 
-    public async Task<OrderDto> CreateOrder(dynamic waiterId, dynamic tableId)
+    public async Task<OrderDto> CreateOrder(dynamic credentialsId, dynamic waiterId, dynamic tableId)
     {
         return await Task.Run(() =>
         {
+            var cId = CheckDynamicGuid(credentialsId);
             var wId = CheckDynamicGuid(waiterId);
             var tId = CheckDynamicGuid(tableId);
 
-            var waiter = CheckCredentials(wId, EmployeePermission.CanCreateOrder);
+            var waiter = CheckCredentials(cId, EmployeePermission.CanCreateOrder);
 
             var table = TableFactory.Create(_tableCache.GetTableById(tId));
             var orderCount = _orderCache.Orders.OrderByDescending(x => x.Number).FirstOrDefault()?.Number ?? 0;

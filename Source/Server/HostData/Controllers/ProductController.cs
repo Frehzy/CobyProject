@@ -1,6 +1,7 @@
 ﻿using HostData.Cache.Orders;
 using HostData.Cache.Products;
 using HostData.Cache.Waiters;
+using Shared.Data;
 using Shared.Data.Enum;
 using Shared.Exceptions;
 using Shared.Factory;
@@ -34,7 +35,7 @@ internal class ProductController : BaseController
 
             OrderDto order = OrderFactory.CreateDto(_orderCache.GetOrderById(oId));
 
-            var product = _productCache.GetProductById(pId);
+            IProduct product = _productCache.GetProductById(pId);
             if (product.Type.HasFlag(ProductType.Goods) is false)
                 throw new CantAddProductException(product);
 

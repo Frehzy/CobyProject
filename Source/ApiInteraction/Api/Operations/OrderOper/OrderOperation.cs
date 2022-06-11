@@ -13,10 +13,10 @@ internal class OrderOperation : IOrderOperation
         return new Credentials(waiter.Id);
     }
 
-    public IOrder CreateOrder(IWaiter waiter, ITable table)
+    public IOrder CreateOrder(ICredentials credentials, IWaiter waiter, ITable table)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"order/create/{waiter.Id}/{table.Id}");
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"order/create/{credentials.Id}/{waiter.Id}/{table.Id}");
         var result = HttpRequest.Get<OrderDto>(uri);
         return OrderFactory.Create(result.Content);
     }

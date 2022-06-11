@@ -28,7 +28,7 @@ internal class GuestController : BaseController
 
             CheckCredentials(cId, EmployeePermission.CanAddGuestOnOrder);
 
-            var order = OrderFactory.CreateDto(_orderCache.GetOrderById(oId));
+            OrderDto order = OrderFactory.CreateDto(_orderCache.GetOrderById(oId));
 
             var guestsList = session.Orders.Count <= 0
                 ? order.GetGuests()

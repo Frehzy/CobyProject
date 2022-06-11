@@ -31,11 +31,12 @@ public class OrderModule : BaseModule
             return Execute(Context, () => _orderController.GetOrders());
         });
 
-        Get("/order/create/{waiterId}/{tableId}", parameters =>
+        Get("/order/create/{credentialsId}/{waiterId}/{tableId}", parameters =>
         {
+            var credentialsId = parameters.credentialsId;
             var waiterId = parameters.waiterId;
             var tableId = parameters.tableId;
-            return Execute<OrderDto>(Context, () => _orderController.CreateOrder(waiterId, tableId));
+            return Execute<OrderDto>(Context, () => _orderController.CreateOrder(credentialsId, waiterId, tableId));
         });
 
         Post("/order/remove/{credentialsId}", parameters =>
