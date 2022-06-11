@@ -51,11 +51,11 @@ internal class OrderController
             if (Guid.TryParse(tableId.ToString(), out Guid tId) is false)
                 throw new ArgumentException($"{nameof(tableId)} must be type Guid", nameof(tableId));
 
-            var waiter = _waiterCache.GetWaiterById(wId);
-            var table = _tableCache.GetTableById(tId);
-            var orderCount = _orderCache.Orders.Count;
+            var waiter = WaiterFactory.Create(_waiterCache.GetWaiterById(wId));
+            var table = TableFactory.Create(_tableCache.GetTableById(tId));
+            var orderCount = _orderCache.Orders.OrderByDescending(x => x.Number).FirstOrDefault()?.Number ?? 0;
 
-            var order = new Order(orderCount + 1, Guid.NewGuid(), TableFactory.Create(table), WaiterFactory.Create(waiter));
+            var order = new Order(orderCount + 1, Guid.NewGuid(), table, waiter);
             _orderCache.AddOrUpdate(order);
             return OrderFactory.CreateDto(order);
         });
