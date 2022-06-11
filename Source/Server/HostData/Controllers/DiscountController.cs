@@ -1,34 +1,36 @@
 ﻿using HostData.Cache.Discounts;
 using HostData.Cache.Orders;
+using HostData.Cache.Waiters;
+using Shared.Data.Enum;
 using Shared.Exceptions;
 using Shared.Factory;
 using Shared.Factory.Dto;
 
 namespace HostData.Controllers;
 
-internal class DiscountController
+internal class DiscountController : BaseController
 {
     private readonly IOrderCache _orderCache;
     private readonly IDiscountCache _discountCache;
 
-    public DiscountController(IOrderCache orderCache, IDiscountCache discountCache)
+    public DiscountController(IOrderCache orderCache, IDiscountCache discountCache, IWaiterCache waiterCache) : base(waiterCache)
     {
         _orderCache = orderCache;
         _discountCache = discountCache;
     }
 
-    internal async Task<SessionDto> AddDiscount(dynamic orderId, dynamic discountId, SessionDto session)
+    internal async Task<SessionDto> AddDiscount(dynamic orderId, dynamic credentialsId, dynamic discountId, SessionDto session)
     {
         return await Task.Run(() =>
         {
-            if (Guid.TryParse(orderId.ToString(), out Guid oId) is false)
-                throw new ArgumentException($"{nameof(orderId)} must be type Guid", nameof(orderId));
-
-            if (Guid.TryParse(discountId.ToString(), out Guid dId) is false)
-                throw new ArgumentException($"{nameof(discountId)} must be type Guid", nameof(discountId));
+            var oId = CheckDynamicGuid(orderId);
+            var cId = CheckDynamicGuid(credentialsId);
+            var dId = CheckDynamicGuid(discountId);
 
             if (session.OrderId.Equals(oId) is false)
                 throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
+
+            CheckCredentials(cId, EmployeePermission.CanAddDiscountOnOrder);
 
             OrderDto order = OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
 
@@ -46,18 +48,18 @@ internal class DiscountController
         });
     }
 
-    internal async Task<SessionDto> RemoveDiscount(dynamic orderId, dynamic discountId, SessionDto session)
+    internal async Task<SessionDto> RemoveDiscount(dynamic orderId, dynamic credentialsId, dynamic discountId, SessionDto session)
     {
         return await Task.Run(() =>
         {
-            if (Guid.TryParse(orderId.ToString(), out Guid oId) is false)
-                throw new ArgumentException($"{nameof(orderId)} must be type Guid", nameof(orderId));
-
-            if (Guid.TryParse(discountId.ToString(), out Guid dId) is false)
-                throw new ArgumentException($"{nameof(discountId)} must be type Guid", nameof(discountId));
+            var oId = CheckDynamicGuid(orderId);
+            var cId = CheckDynamicGuid(credentialsId);
+            var dId = CheckDynamicGuid(discountId);
 
             if (session.OrderId.Equals(oId) is false)
                 throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
+
+            CheckCredentials(cId, EmployeePermission.CanRemoveDiscountOnOrder);
 
             OrderDto order = OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
 

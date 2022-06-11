@@ -4,9 +4,9 @@ namespace Api.Operations.ProductOper;
 
 public interface IProductOperation
 {
-    public IReadOnlyList<IProduct> AddProduct(IOrder order, IWaiter waiter, IProduct product, ref ISession session);
+    public IReadOnlyList<IProduct> AddProduct(IOrder order, ICredentials credentials, IProduct product, ref ISession session);
 
-    public IReadOnlyList<IProduct> RemoveProduct(IOrder order, IProduct product, ref ISession session);
+    public IReadOnlyList<IProduct> RemoveProduct(IOrder order, ICredentials credentials, IProduct product, ref ISession session);
 
     public IReadOnlyList<IProduct> GetProducts();
 }

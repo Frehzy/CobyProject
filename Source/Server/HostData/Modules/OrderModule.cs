@@ -38,18 +38,20 @@ public class OrderModule : BaseModule
             return Execute<OrderDto>(Context, () => _orderController.CreateOrder(waiterId, tableId));
         });
 
-        Post("/order/remove", parameters =>
+        Post("/order/remove/{credentialsId}", parameters =>
         {
+            var credentialsId = parameters.credentialsId;
             var json = Request.Body.AsString();
             var obj = JsonSerializer.Deserialize<OrderDto>(json);
-            return Execute(Context, () => _orderController.RemoveOrderById(obj.Id));
+            return Execute<OrderDto>(Context, () => _orderController.RemoveOrderById(credentialsId, obj.Id));
         });
 
-        Post("/order/submitChanges", parameters =>
+        Post("/order/submitChanges/{credentialsId}", parameters =>
         {
+            var credentialsId = parameters.credentialsId;
             var json = Request.Body.AsString();
             var obj = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute(Context, () => _orderController.SubmitChanges(obj));
+            return Execute<OrderDto>(Context, () => _orderController.SubmitChanges(credentialsId, obj));
         });
     }
 }

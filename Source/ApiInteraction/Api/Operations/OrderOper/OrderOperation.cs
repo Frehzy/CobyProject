@@ -8,6 +8,11 @@ namespace Api.Operations.OrderOper;
 
 internal class OrderOperation : IOrderOperation
 {
+    public ICredentials CreateCredentials(IWaiter waiter)
+    {
+        return new Credentials(waiter.Id);
+    }
+
     public IOrder CreateOrder(IWaiter waiter, ITable table)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
@@ -22,10 +27,10 @@ internal class OrderOperation : IOrderOperation
         return new Session(order.Id, order.Version);
     }
 
-    public bool DeleteOrder(IOrder order)
+    public bool DeleteOrder(IOrder order, ICredentials credentials)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "order/remove");
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"order/remove/{credentials.Id}");
         var result = HttpRequest.Post<OrderDto, OrderDto>(uri, OrderFactory.CreateDto(order));
         return result.Content != null;
     }
@@ -46,10 +51,10 @@ internal class OrderOperation : IOrderOperation
         return result.Content.Select(x => OrderFactory.Create(x)).ToList();
     }
 
-    public IOrder SubmitChanges(ref ISession session)
+    public IOrder SubmitChanges(ICredentials credentials, ref ISession session)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "order/submitChanges");
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"order/submitChanges/{credentials.Id}");
         var result = HttpRequest.Post<SessionDto, OrderDto>(uri, SessionFactory.CreateDto(session));
         session = default;
         return OrderFactory.Create(result.Content);

@@ -42,6 +42,24 @@ public abstract class BaseModule : NancyModule
                 Log.Error(ex, json);
                 return CreateExceptionResponse(json, nameof(EntityException));
             }
+            catch (PermissionDeniedException ex)
+            {
+                var json = JsonSerializer.Serialize(ex.CreateDictionary(), CreateSerializerOptions());
+                Log.Error(ex, json);
+                return CreateExceptionResponse(json, nameof(PermissionDeniedException));
+            }
+            catch (CantAddProductException ex)
+            {
+                var json = JsonSerializer.Serialize(ex.CreateDictionary(), CreateSerializerOptions());
+                Log.Error(ex, json);
+                return CreateExceptionResponse(json, nameof(CantAddProductException));
+            }
+            catch (ViolationBusinessLogicException ex)
+            {
+                var json = JsonSerializer.Serialize(ex.CreateDictionary(), CreateSerializerOptions());
+                Log.Error(ex, json);
+                return CreateExceptionResponse(json, nameof(ViolationBusinessLogicException));
+            }
             catch (Exception ex)
             {
                 Log.Error(ex, ex.Message);

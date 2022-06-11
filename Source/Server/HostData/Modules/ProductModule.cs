@@ -19,23 +19,24 @@ public class ProductModule : BaseModule
         _configCache = configCache;
         _productController = new(orderCache, productCache, waiterCache);
 
-        Post("/{orderId}/product/add/{waiterId}/{productId}", parameters =>
+        Post("/{orderId}/product/add/{credentialsId}/{productId}", parameters =>
         {
             var orderId = parameters.orderId;
-            var waiterId = parameters.waiterId;
+            var credentialsId = parameters.credentialsId;
             var productId = parameters.productId;
             var json = Request.Body.AsString();
             var obj = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _productController.AddProduct(orderId, waiterId, productId, obj));
+            return Execute<SessionDto>(Context, () => _productController.AddProduct(orderId, credentialsId, productId, obj));
         });
 
-        Post("/{orderId}/product/remove/{productId}", parameters =>
+        Post("/{orderId}/product/remove/{credentialsId}/{productId}", parameters =>
         {
             var orderId = parameters.orderId;
+            var credentialsId = parameters.credentialsId;
             var productId = parameters.productId;
             var json = Request.Body.AsString();
             var obj = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _productController.RemoveProduct(orderId, productId, obj));
+            return Execute<SessionDto>(Context, () => _productController.RemoveProduct(orderId, credentialsId, productId, obj));
         });
 
         Get("/products", parameters =>

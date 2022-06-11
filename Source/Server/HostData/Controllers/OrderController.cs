@@ -9,27 +9,24 @@ using Shared.Factory.InternalModel;
 
 namespace HostData.Controllers;
 
-internal class OrderController
+internal class OrderController : BaseController
 {
     private readonly IOrderCache _orderCache;
     private readonly ITableCache _tableCache;
-    private readonly IWaiterCache _waiterCache;
 
-    public OrderController(IOrderCache orderCache, ITableCache tableCache, IWaiterCache waiterCache)
+    public OrderController(IOrderCache orderCache, ITableCache tableCache, IWaiterCache waiterCache) : base(waiterCache)
     {
         _orderCache = orderCache;
         _tableCache = tableCache;
-        _waiterCache = waiterCache;
     }
 
-    public async Task<OrderDto> GetOrderById(dynamic id)
+    public async Task<OrderDto> GetOrderById(dynamic orderId)
     {
         return await Task.Run(() =>
         {
-            if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
-                throw new ArgumentException($"{nameof(id)} must be type Guid", nameof(id));
+            var oId = CheckDynamicGuid(orderId);
 
-            return OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
+            return OrderFactory.CreateDto(_orderCache.GetOrderById(oId));
         });
     }
 
@@ -45,28 +42,30 @@ internal class OrderController
     {
         return await Task.Run(() =>
         {
-            if (Guid.TryParse(waiterId.ToString(), out Guid wId) is false)
-                throw new ArgumentException($"{nameof(waiterId)} must be type Guid", nameof(waiterId));
+            var wId = CheckDynamicGuid(waiterId);
+            var tId = CheckDynamicGuid(tableId);
 
-            if (Guid.TryParse(tableId.ToString(), out Guid tId) is false)
-                throw new ArgumentException($"{nameof(tableId)} must be type Guid", nameof(tableId));
+            var waiter = CheckCredentials(wId, EmployeePermission.CanCreateOrder);
 
-            var waiter = WaiterFactory.Create(_waiterCache.GetWaiterById(wId));
             var table = TableFactory.Create(_tableCache.GetTableById(tId));
             var orderCount = _orderCache.Orders.OrderByDescending(x => x.Number).FirstOrDefault()?.Number ?? 0;
 
-            var order = new Order(orderCount + 1, Guid.NewGuid(), table, waiter);
+            var order = new Order(orderCount + 1, Guid.NewGuid(), table, WaiterFactory.Create(waiter));
             _orderCache.AddOrUpdate(order);
             return OrderFactory.CreateDto(order);
         });
     }
 
-    public async Task<OrderDto> SubmitChanges(SessionDto session)
+    public async Task<OrderDto> SubmitChanges(dynamic credentialsId, SessionDto session)
     {
         return await Task.Run(() =>
         {
+            var cId = CheckDynamicGuid(credentialsId);
+
             if (session.Orders.Count <= 0)
                 throw new InvalidSessionException(session.Version, session.OrderId);
+
+            CheckCredentials(cId, EmployeePermission.CanUpdateOrder);
 
             var lastOrder = session.Orders.OrderByDescending(x => x.Version).First();
             _orderCache.AddOrUpdate(OrderFactory.Create(lastOrder), session.Orders.Count);
@@ -74,14 +73,16 @@ internal class OrderController
         });
     }
 
-    public async Task<OrderDto> RemoveOrderById(dynamic id)
+    public async Task<OrderDto> RemoveOrderById(dynamic credentialsId, dynamic orderId)
     {
         return await Task.Run(() =>
         {
-            if (Guid.TryParse(id.ToString(), out Guid orderId) is false)
-                throw new ArgumentException($"{nameof(id)} must be type Guid", nameof(id));
+            var cId = CheckDynamicGuid(credentialsId);
+            var oId = CheckDynamicGuid(orderId);
 
-            return OrderFactory.CreateDto(_orderCache.RemoveOrder(orderId));
+            CheckCredentials(cId, EmployeePermission.CanRemoveOrder);
+
+            return OrderFactory.CreateDto(_orderCache.RemoveOrder(oId));
         });
     }
 }

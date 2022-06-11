@@ -8,38 +8,31 @@ using Shared.Factory.Dto;
 
 namespace HostData.Controllers;
 
-internal class ProductController
+internal class ProductController : BaseController
 {
     private readonly IOrderCache _orderCache;
     private readonly IProductCache _productCache;
-    private readonly IWaiterCache _waiterCache;
 
-    public ProductController(IOrderCache orderCache, IProductCache productCache, IWaiterCache waiterCache)
+    public ProductController(IOrderCache orderCache, IProductCache productCache, IWaiterCache waiterCache) : base(waiterCache)
     {
         _orderCache = orderCache;
         _productCache = productCache;
-        _waiterCache = waiterCache;
     }
 
-    public async Task<SessionDto> AddProduct(dynamic orderId, dynamic waiterId, dynamic productId, SessionDto session)
+    public async Task<SessionDto> AddProduct(dynamic orderId, dynamic credentialsId, dynamic productId, SessionDto session)
     {
         return await Task.Run(() =>
         {
-            if (Guid.TryParse(orderId.ToString(), out Guid oId) is false)
-                throw new ArgumentException($"{nameof(orderId)} must be type Guid", nameof(orderId));
-
-            if (Guid.TryParse(waiterId.ToString(), out Guid wId) is false)
-                throw new ArgumentException($"{nameof(waiterId)} must be type Guid", nameof(waiterId));
-
-            if (Guid.TryParse(productId.ToString(), out Guid pId) is false)
-                throw new ArgumentException($"{nameof(productId)} must be type Guid", nameof(productId));
+            var oId = CheckDynamicGuid(orderId);
+            var cId = CheckDynamicGuid(credentialsId);
+            var pId = CheckDynamicGuid(productId);
 
             if (session.OrderId.Equals(oId) is false)
                 throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
 
-            OrderDto order = OrderFactory.CreateDto(_orderCache.GetOrderById(oId));
+            var waiter = CheckCredentials(cId, EmployeePermission.CanAddDishesOnOrder);
 
-            WaiterDto waiter = WaiterFactory.CreateDto(_waiterCache.GetWaiterById(wId));
+            OrderDto order = OrderFactory.CreateDto(_orderCache.GetOrderById(oId));
 
             var product = _productCache.GetProductById(pId);
             if (product.Type.HasFlag(ProductType.Goods) is false)
@@ -59,18 +52,18 @@ internal class ProductController
         });
     }
 
-    public async Task<SessionDto> RemoveProduct(dynamic orderId, dynamic productId, SessionDto session)
+    public async Task<SessionDto> RemoveProduct(dynamic orderId, dynamic credentialsId, dynamic productId, SessionDto session)
     {
         return await Task.Run(() =>
         {
-            if (Guid.TryParse(orderId.ToString(), out Guid oId) is false)
-                throw new ArgumentException($"{nameof(orderId)} must be type Guid", nameof(orderId));
-
-            if (Guid.TryParse(productId.ToString(), out Guid pId) is false)
-                throw new ArgumentException($"{nameof(productId)} must be type Guid", nameof(productId));
+            var oId = CheckDynamicGuid(orderId);
+            var cId = CheckDynamicGuid(credentialsId);
+            var pId = CheckDynamicGuid(productId);
 
             if (session.OrderId.Equals(oId) is false)
                 throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
+
+            CheckCredentials( cId, EmployeePermission.CanRemoveDishesOnOrder);
 
             OrderDto order = OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
 

@@ -1,30 +1,35 @@
 ﻿using HostData.Cache.Orders;
+using HostData.Cache.Waiters;
+using Shared.Data.Enum;
 using Shared.Exceptions;
 using Shared.Factory;
 using Shared.Factory.Dto;
 
 namespace HostData.Controllers;
 
-internal class GuestController
+internal class GuestController : BaseController
 {
     private readonly IOrderCache _orderCache;
 
-    public GuestController(IOrderCache orderCache)
+    public GuestController(IOrderCache orderCache, IWaiterCache waiterCache) : base(waiterCache)
     {
         _orderCache = orderCache;
     }
 
-    public async Task<SessionDto> AddGuest(dynamic orderId, SessionDto session)
+    public async Task<SessionDto> AddGuest(dynamic orderId, dynamic credentialsId, SessionDto session)
     {
         return await Task.Run(() =>
         {
-            if (Guid.TryParse(orderId.ToString(), out Guid oId) is false)
-                throw new ArgumentException($"{nameof(orderId)} must be type Guid", nameof(orderId));
+            var oId = CheckDynamicGuid(orderId);
+            var cId = CheckDynamicGuid(credentialsId);
 
             if (session.OrderId.Equals(oId) is false)
                 throw new InvalidSessionException(session.Version, oId, "Нельзя добавлять в одну сессию разные id");
 
+            CheckCredentials(cId, EmployeePermission.CanAddGuestOnOrder);
+
             var order = OrderFactory.CreateDto(_orderCache.GetOrderById(oId));
+
             var guestsList = session.Orders.Count <= 0
                 ? order.GetGuests()
                 : session.Orders.OrderByDescending(x => x.Version).First().GetGuests();
@@ -38,20 +43,21 @@ internal class GuestController
         });
     }
 
-    internal async Task<SessionDto> RemoveGuest(dynamic orderId, dynamic guestId, SessionDto session)
+    internal async Task<SessionDto> RemoveGuest(dynamic orderId, dynamic credentialsId, dynamic guestId, SessionDto session)
     {
         return await Task.Run(() =>
         {
-            if (Guid.TryParse(orderId.ToString(), out Guid oId) is false)
-                throw new ArgumentException($"{nameof(orderId)} must be type Guid", nameof(orderId));
-
-            if (Guid.TryParse(guestId.ToString(), out Guid gId) is false)
-                throw new ArgumentException($"{nameof(guestId)} must be type Guid", nameof(guestId));
+            var oId = CheckDynamicGuid(orderId);
+            var cId = CheckDynamicGuid(credentialsId);
+            var gId = CheckDynamicGuid(guestId);
 
             if (session.OrderId.Equals(oId) is false)
                 throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
 
+            CheckCredentials(cId, EmployeePermission.CanRemoveGuestOnOrder);
+
             OrderDto order = OrderFactory.CreateDto(_orderCache.GetOrderById(orderId));
+
             var guestsList = session.Orders.Count <= 0
                 ? order.GetGuests()
                 : session.Orders.OrderByDescending(x => x.Version).First().GetGuests();

@@ -10,9 +10,11 @@ public interface IOrderOperation
 
     public IReadOnlyList<IOrder> GetOrders();
 
-    public bool DeleteOrder(IOrder order);
+    public bool DeleteOrder(IOrder order, ICredentials credentials);
+
+    public ICredentials CreateCredentials(IWaiter waiter);
 
     public ISession CreateSession(Guid orderId);
 
-    public IOrder SubmitChanges(ref ISession session);
+    public IOrder SubmitChanges(ICredentials credentials, ref ISession session);
 }
