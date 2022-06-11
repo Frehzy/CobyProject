@@ -4,7 +4,7 @@ namespace Shared.Factory.Dto;
 
 internal record OrderDto(Guid Id,
                          Guid TableId,
-                         Guid WaiterId,
+                         WaiterDto Waiter,
                          DateTime StartTime,
                          DateTime? EndTime,
                          OrderStatus Status,

@@ -8,7 +8,7 @@ public interface IOrder
 
     public Guid TableId { get; }
 
-    public Guid WaiterId { get; }
+    public IWaiter Waiter { get; }
 
     public DateTime StartTime { get; }
 

@@ -8,10 +8,10 @@ namespace Api.Operations.OrderOper;
 
 internal class OrderOperation : IOrderOperation
 {
-    public IOrder CreateOrder(Guid waiterId, Guid tableId)
+    public IOrder CreateOrder(IWaiter waiter, Guid tableId)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "order/create", waiterId, tableId);
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "order/create", waiter.Id, tableId);
         var result = HttpRequest.Get<OrderDto>(uri);
         return OrderFactory.Create(result.Content);
     }

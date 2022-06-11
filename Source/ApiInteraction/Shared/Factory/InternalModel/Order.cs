@@ -9,7 +9,7 @@ internal class Order : IOrder
 
     public Guid TableId { get; set; }
 
-    public Guid WaiterId { get; set; }
+    public IWaiter Waiter { get; set; }
 
     public DateTime StartTime { get; set; }
 
@@ -25,11 +25,11 @@ internal class Order : IOrder
 
     public Order() { }
 
-    public Order(Guid orderId, Guid tableId, Guid waiterId, DateTime startTime, DateTime? endTime, OrderStatus orderStatus, int version, List<Guest> guests = null, bool isDeleted = false)
+    public Order(Guid orderId, Guid tableId, Waiter waiter, DateTime startTime, DateTime? endTime, OrderStatus orderStatus, int version, List<Guest> guests = null, bool isDeleted = false)
     {
         Id = orderId;
         TableId = tableId;
-        WaiterId = waiterId;
+        Waiter = waiter;
         StartTime = startTime;
         EndTime = endTime;
         Status = orderStatus;

@@ -33,7 +33,7 @@ internal class GuestController
             guestsList.Add(guest);
             var newOrder = new OrderDto(order.Id,
                                      order.TableId,
-                                     order.WaiterId,
+                                     order.Waiter,
                                      order.StartTime,
                                      order.EndTime,
                                      order.Status,
