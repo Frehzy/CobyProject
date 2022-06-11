@@ -1,4 +1,5 @@
-﻿using Api.Operations.GuestOper;
+﻿using Api.Operations.DiscountOper;
+using Api.Operations.GuestOper;
 using Api.Operations.OrderOper;
 using Api.Operations.ProductOper;
 using Api.Operations.TableOper;
@@ -15,6 +16,7 @@ public sealed class ModuleOperation
     private static GuestOperation _guestOperation;
     private static ProductOperation _productOperation;
     private static TableOperation _tableOperation;
+    private static DiscountOperation _discountOperation;
 
     public static NetOperation NetOperation => _netOperation ??= new NetOperation();
 
@@ -27,4 +29,6 @@ public sealed class ModuleOperation
     public static IProductOperation ProductOperation => _productOperation ??= new ProductOperation();
 
     public static ITableOperation TableOperation => _tableOperation ??= new TableOperation();
+
+    public static IDiscountOperation DiscountOperation => _discountOperation ??= new DiscountOperation();
 }
