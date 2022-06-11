@@ -4,6 +4,8 @@ namespace Shared.Data;
 
 public interface IOrder
 {
+    public int Number { get; }
+
     public Guid Id { get; }
 
     public IReadOnlyList<ITable> Tables { get; }
@@ -16,6 +18,8 @@ public interface IOrder
 
     public IReadOnlyList<IGuest> Guests { get; }
 
+    public IReadOnlyList<IProduct> Products { get; }
+
     public OrderStatus Status { get; }
 
     public int Version { get; }
@@ -25,4 +29,6 @@ public interface IOrder
     public IReadOnlyList<ITable> GetTables();
 
     public IReadOnlyList<IGuest> GetGuests();
+
+    public IReadOnlyList<IProduct> GetProducts();
 }

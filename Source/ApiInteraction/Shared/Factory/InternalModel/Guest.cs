@@ -10,12 +10,15 @@ internal class Guest : IGuest
 
     public int Rank { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public Guest() { }
 
-    public Guest(Guid id, string name, int rank)
+    public Guest(Guid id, string name, int rank, bool isDeleted)
     {
         Id = id;
         Name = name;
         Rank = rank;
+        IsDeleted = isDeleted;
     }
 }

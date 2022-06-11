@@ -29,17 +29,9 @@ internal class GuestController
                 ? order.GetGuests()
                 : session.Orders.OrderByDescending(x => x.Version).First().GetGuests();
 
-            var guest = new GuestDto(Guid.NewGuid(), $"Guest {guestsList.Count + 1}", guestsList.Count + 1);
+            var guest = new GuestDto(Guid.NewGuid(), $"Guest {guestsList.Count + 1}", guestsList.Count + 1, false);
             guestsList.Add(guest);
-            var newOrder = new OrderDto(order.Id,
-                                     order.Tables,
-                                     order.Waiter,
-                                     order.StartTime,
-                                     order.EndTime,
-                                     order.Status,
-                                     session.Version + 1,
-                                     guestsList,
-                                     order.IsDeleted);
+            var newOrder = order with { Version = order.Version + 1 };
 
             session.Orders.Add(newOrder);
             return session with { Version = session.Version + 1 };

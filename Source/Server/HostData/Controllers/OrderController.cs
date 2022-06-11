@@ -53,8 +53,9 @@ internal class OrderController
 
             var waiter = _waiterCache.GetWaiterById(wId);
             var table = _tableCache.GetTableById(tId);
+            var orderCount = _orderCache.Orders.Count;
 
-            var order = new Order(Guid.NewGuid(), TableFactory.Create(table), WaiterFactory.Create(waiter), DateTime.Now, null, OrderStatus.Open, 1);
+            var order = new Order(orderCount + 1, Guid.NewGuid(), TableFactory.Create(table), WaiterFactory.Create(waiter));
             _orderCache.AddOrUpdate(order);
             return OrderFactory.CreateDto(order);
         });

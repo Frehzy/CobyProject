@@ -1,3 +1,3 @@
 ﻿namespace Shared.Factory.Dto;
 
-internal record GuestDto(Guid Id, string Name, int Rank);
+internal record GuestDto(Guid Id, string Name, int Rank, bool IsDeleted);
