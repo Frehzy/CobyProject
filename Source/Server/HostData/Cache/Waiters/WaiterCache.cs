@@ -20,10 +20,9 @@ internal class WaiterCache : IWaiterCache
 
     public IWaiter GetWaiterById(Guid waiterId)
     {
-        var result = _waitersCache.TryGetValue(waiterId, out var waiterOnCache);
-        return result is true
-            ? waiterOnCache
-            : throw new EntityNotFoundException(waiterId, nameof(IWaiter));
+        if (_waitersCache.TryGetValue(waiterId, out var returnWaiter) is false)
+            throw new EntityNotFoundException(waiterId, nameof(IWaiter));
+        return returnWaiter;
     }
 
     public IWaiter RemoveWaiter(Guid waiterId)

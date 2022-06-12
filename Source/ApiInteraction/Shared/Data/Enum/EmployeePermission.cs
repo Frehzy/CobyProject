@@ -9,6 +9,9 @@ public enum EmployeePermission : byte
     CanAddGuestOnOrder, //гость на заказе
     CanRemoveGuestOnOrder,
 
+    CanAddPaymentOnOrder, //оплата на заказ
+    CanRemovePaymentOnOrder,
+
     CanAddDishesOnOrder, //блюдо на заказе
     CanRemoveDishesOnOrder,
     CanRemovePrintedDishesOnOrder,

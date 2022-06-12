@@ -22,6 +22,8 @@ public interface IOrder
 
     public IReadOnlyList<IDiscount> Discounts { get; }
 
+    public IReadOnlyList<IPayment> Payments { get; }
+
     public OrderStatus Status { get; }
 
     public int Version { get; }
@@ -35,4 +37,6 @@ public interface IOrder
     public IReadOnlyList<IGuest> GetGuests();
 
     public IReadOnlyList<IProduct> GetProducts();
+
+    public IReadOnlyList<IPayment> GetPayments();
 }

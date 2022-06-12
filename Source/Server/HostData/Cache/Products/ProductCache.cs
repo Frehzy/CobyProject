@@ -27,10 +27,9 @@ internal class ProductCache : IProductCache
 
     public IProduct GetProductById(Guid productId)
     {
-        var result = _productsCache.TryGetValue(productId, out var productOnCache);
-        return result is true
-            ? productOnCache
-            : throw new EntityNotFoundException(productId, nameof(IProduct));
+        if (_productsCache.TryGetValue(productId, out var returnProduct) is false)
+            throw new EntityNotFoundException(productId, nameof(IProduct));
+        return returnProduct;
     }
 
     public IProduct RemoveProduct(Guid productId)

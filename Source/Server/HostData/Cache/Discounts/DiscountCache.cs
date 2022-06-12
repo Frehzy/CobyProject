@@ -20,10 +20,9 @@ internal class DiscountCache : IDiscountCache
 
     public IDiscount GetDiscountById(Guid discountId)
     {
-        var result = _discountsCache.TryGetValue(discountId, out var discountOnCache);
-        return result is true
-            ? discountOnCache
-            : throw new EntityNotFoundException(discountId, nameof(IDiscount));
+        if (_discountsCache.TryGetValue(discountId, out var returnDiscount) is false)
+            throw new EntityNotFoundException(discountId, nameof(IDiscount));
+        return returnDiscount;
     }
 
     public IDiscount RemoveDiscount(Guid discountId)

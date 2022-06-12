@@ -11,12 +11,16 @@ internal record OrderDto(int Number,
                          List<GuestDto> Guests,
                          List<ProductDto> Products,
                          List<DiscountDto> Discounts,
+                         List<PaymentDto> Payments,
                          OrderStatus Status,
                          int Version,
                          bool IsDeleted)
 {
     public List<ProductDto> GetProducts() =>
         (Products ?? Enumerable.Empty<ProductDto>()).ToList();
+
+    public List<PaymentDto> GetPayments() =>
+        (Payments ?? Enumerable.Empty<PaymentDto>()).ToList();
 
     public List<DiscountDto> GetDiscounts() =>
         (Discounts ?? Enumerable.Empty<DiscountDto>()).ToList();

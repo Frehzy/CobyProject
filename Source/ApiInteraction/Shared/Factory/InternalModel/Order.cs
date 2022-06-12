@@ -23,6 +23,8 @@ internal class Order : IOrder
 
     public IReadOnlyList<IDiscount> Discounts { get; set; }
 
+    public IReadOnlyList<IPayment> Payments { get; set; }
+
     public OrderStatus Status { get; set; }
 
     public int Version { get; set; }
@@ -41,12 +43,13 @@ internal class Order : IOrder
         Guests = new List<IGuest>();
         Products = new List<IProduct>();
         Discounts = new List<IDiscount>();
+        Payments = new List<IPayment>();
         Status = OrderStatus.Open;
         Version = 1;
         IsDeleted = false;
     }
 
-    public Order(int number, Guid id, IReadOnlyList<ITable> tables, IWaiter waiter, DateTime startTime, DateTime? endTime, IReadOnlyList<IGuest>? guests, IReadOnlyList<IProduct>? products, IReadOnlyList<IDiscount> discounts, OrderStatus status, int version, bool isDeleted)
+    public Order(int number, Guid id, IReadOnlyList<ITable> tables, IWaiter waiter, DateTime startTime, DateTime? endTime, IReadOnlyList<IGuest>? guests, IReadOnlyList<IProduct>? products, IReadOnlyList<IDiscount> discounts, IReadOnlyList<IPayment> payments, OrderStatus status, int version, bool isDeleted)
     {
         Number = number;
         Id = id;
@@ -57,6 +60,7 @@ internal class Order : IOrder
         Guests = guests;
         Products = products;
         Discounts = discounts;
+        Payments = payments;
         Status = status;
         Version = version;
         IsDeleted = isDeleted;
@@ -73,4 +77,7 @@ internal class Order : IOrder
 
     public IReadOnlyList<IGuest> GetGuests() =>
         (Guests ?? Enumerable.Empty<IGuest>()).ToList();
+
+    public IReadOnlyList<IPayment> GetPayments() =>
+        (Payments ?? Enumerable.Empty<IPayment>()).ToList();
 }

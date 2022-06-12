@@ -12,10 +12,9 @@ internal class TableCache : ITableCache
 
     public ITable GetTableById(Guid tableId)
     {
-        var result = _tablesCache.TryGetValue(tableId, out var tableOnCache);
-        return result is true
-            ? tableOnCache
-            : throw new EntityNotFoundException(tableId, nameof(ITable));
+        if (_tablesCache.TryGetValue(tableId, out var tableOnCache) is false)
+            throw new EntityNotFoundException(tableId, nameof(ITable));
+        return tableOnCache;
     }
 
     public void AddOrUpdate(ITable table)
