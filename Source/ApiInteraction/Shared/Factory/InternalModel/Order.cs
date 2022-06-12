@@ -15,7 +15,7 @@ internal class Order : IOrder
 
     public DateTime StartTime { get; set; }
 
-    public DateTime? EndTime { get; set; }
+    public DateTime? CloseTime { get; set; }
 
     public IReadOnlyList<IGuest>? Guests { get; set; }
 
@@ -26,6 +26,14 @@ internal class Order : IOrder
     public IReadOnlyList<IPayment> Payments { get; set; }
 
     public OrderStatus Status { get; set; }
+
+    public decimal TotalSum => GetTotalSum();
+
+    public decimal ResultSum => GetResultSum();
+
+    public decimal DiscountsSum => GetDiscountsSum();
+
+    public decimal PaymentsSum => GetPaymentsSum();
 
     public int Version { get; set; }
 
@@ -56,7 +64,7 @@ internal class Order : IOrder
         Tables = tables;
         Waiter = waiter;
         StartTime = startTime;
-        EndTime = endTime;
+        CloseTime = endTime;
         Guests = guests;
         Products = products;
         Discounts = discounts;
@@ -80,4 +88,20 @@ internal class Order : IOrder
 
     public IReadOnlyList<IPayment> GetPayments() =>
         (Payments ?? Enumerable.Empty<IPayment>()).ToList();
+
+    private decimal GetTotalSum() =>
+        GetProducts().Sum(x => x.Price);
+
+    private decimal GetResultSum()
+    {
+        var totalSum = GetProducts().Sum(x => x.Price);
+        var discountsSum = GetDiscounts().Sum(x => x.DiscountSum);
+        return totalSum - discountsSum;
+    }
+
+    private decimal GetDiscountsSum() =>
+        GetDiscounts().Sum(x => x.DiscountSum);
+
+    private decimal GetPaymentsSum() =>
+        GetPayments().Where(x => x.Status.HasFlag(PaymentStatus.Finished)).Sum(x => x.Sum);
 }

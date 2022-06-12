@@ -14,7 +14,7 @@ public interface IOrder
 
     public DateTime StartTime { get; }
 
-    public DateTime? EndTime { get; }
+    public DateTime? CloseTime { get; }
 
     public IReadOnlyList<IGuest> Guests { get; }
 
@@ -25,6 +25,14 @@ public interface IOrder
     public IReadOnlyList<IPayment> Payments { get; }
 
     public OrderStatus Status { get; }
+
+    public decimal TotalSum { get; } //сумма без скидки
+
+    public decimal ResultSum { get; } //сумма со скидкой
+
+    public decimal DiscountsSum { get; } //сумма скидок
+
+    public decimal PaymentsSum { get; } //сумма всех оплат
 
     public int Version { get; }
 

@@ -6,5 +6,5 @@ public interface ITableOperation
 {
     public IReadOnlyList<ITable> GetTables();
 
-    public IReadOnlyList<ITable> ChangeTable(IOrder order, ICredentials credentials, IReadOnlyList<ITable> tables, ref ISession session);
+    public IReadOnlyList<ITable> ChangeTable(ICredentials credentials, IReadOnlyList<ITable> tables, ref ISession session);
 }

@@ -5,7 +5,7 @@ using System.Text;
 namespace Shared.Exceptions;
 
 [Serializable]
-public abstract class ApiException : Exception
+public abstract class ApiException : Exception, ISerializable
 {
     public DateTime TimeStamp { get; set; }
 

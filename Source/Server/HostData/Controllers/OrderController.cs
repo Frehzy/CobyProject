@@ -86,6 +86,34 @@ internal class OrderController : BaseController
         }
     }
 
+    internal async Task<OrderDto> CloseOrder(dynamic credentialsId, SessionDto session)
+    {
+        return await Task.Run(() =>
+        {
+            var cId = CheckDynamicGuid(credentialsId);
+
+            if (session.Orders.Count <= 0)
+                throw new InvalidSessionException(session.Version, session.OrderId);
+
+            CheckCredentials(cId, EmployeePermission.CanCloseOrder);
+
+            var lastOrder = session.Orders.OrderByDescending(x => x.Version).First();
+            var newOorder = lastOrder with
+            {
+                CloseTime = DateTime.Now,
+                Status = OrderStatus.Closed,
+                Payments = lastOrder.GetPayments()
+                                    .Where(x => x.IsDeleted is false && x.Status.HasFlag(PaymentStatus.New))
+                                    .Select(x => x with { Status = PaymentStatus.Finished })
+                                    .ToList(),
+                Version = lastOrder.Version + 1,
+            };
+            session.Orders.Add(newOorder);
+
+            return SubmitChanges(credentialsId, session);
+        });
+    }
+
     public async Task<OrderDto> RemoveOrderById(dynamic credentialsId, dynamic orderId)
     {
         return await Task.Run(() =>

@@ -54,5 +54,13 @@ public class OrderModule : BaseModule
             var obj = JsonSerializer.Deserialize<SessionDto>(json);
             return Execute<OrderDto>(Context, () => _orderController.SubmitChanges(credentialsId, obj));
         });
+
+        Post("/order/closeOrder/{credentialsId}", parameters =>
+        {
+            var credentialsId = parameters.credentialsId;
+            var json = Request.Body.AsString();
+            var obj = JsonSerializer.Deserialize<SessionDto>(json);
+            return Execute<OrderDto>(Context, () => _orderController.CloseOrder(credentialsId, obj));
+        });
     }
 }

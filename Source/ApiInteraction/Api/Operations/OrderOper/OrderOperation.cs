@@ -8,10 +8,16 @@ namespace Api.Operations.OrderOper;
 
 internal class OrderOperation : IOrderOperation
 {
-    public ICredentials CreateCredentials(IWaiter waiter)
+    public IOrder CloseOrder(ICredentials credentials, ref ISession session)
     {
-        return new Credentials(waiter.Id);
+        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"order/closeOrder/{credentials.Id}");
+        var result = HttpRequest.Post<SessionDto, OrderDto>(uri, SessionFactory.CreateDto(session));
+        session = default;
+        return OrderFactory.Create(result.Content);
     }
+
+    public ICredentials CreateCredentials(IWaiter waiter) => new Credentials(waiter.Id);
 
     public IOrder CreateOrder(ICredentials credentials, IWaiter waiter, IReadOnlyList<ITable> tables)
     {

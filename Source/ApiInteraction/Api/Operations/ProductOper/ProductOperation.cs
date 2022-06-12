@@ -7,10 +7,10 @@ namespace Api.Operations.ProductOper;
 
 internal class ProductOperation : IProductOperation
 {
-    public IReadOnlyList<IProduct> AddProduct(IOrder order, ICredentials credentials, IProduct product, ref ISession session)
+    public IReadOnlyList<IProduct> AddProduct(ICredentials credentials, IProduct product, ref ISession session)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{order.Id}/product/add/{credentials.Id}/{product.Id}");
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{session.OrderId}/product/add/{credentials.Id}/{product.Id}");
         var result = HttpRequest.Post(uri, SessionFactory.CreateDto(session));
         session = SessionFactory.Create(result.Content);
         return session.Orders.OrderByDescending(x => x.Version).SelectMany(x => x.GetProducts()).ToList();
@@ -24,10 +24,10 @@ internal class ProductOperation : IProductOperation
         return result.Content.Select(x => ProductFactory.Create(x)).ToList();
     }
 
-    public IReadOnlyList<IProduct> RemoveProduct(IOrder order, ICredentials credentials, IProduct product, ref ISession session)
+    public IReadOnlyList<IProduct> RemoveProduct(ICredentials credentials, IProduct product, ref ISession session)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{order.Id}/product/remove/{credentials.Id}/{product.Id}");
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{session.OrderId}/product/remove/{credentials.Id}/{product.Id}");
         var result = HttpRequest.Post(uri, SessionFactory.CreateDto(session));
         session = SessionFactory.Create(result.Content);
         return session.Orders.OrderByDescending(x => x.Version).SelectMany(x => x.GetProducts()).ToList();

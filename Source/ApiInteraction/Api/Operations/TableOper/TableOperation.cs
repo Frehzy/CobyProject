@@ -7,10 +7,10 @@ namespace Api.Operations.TableOper;
 
 internal class TableOperation : ITableOperation
 {
-    public IReadOnlyList<ITable> ChangeTable(IOrder order, ICredentials credentials, IReadOnlyList<ITable> tables, ref ISession session)
+    public IReadOnlyList<ITable> ChangeTable(ICredentials credentials, IReadOnlyList<ITable> tables, ref ISession session)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{order.Id}/table/changeTable/{credentials.Id}/{string.Join("/", tables.Select(x => x.Id))}");
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{session.OrderId}/table/changeTable/{credentials.Id}/{string.Join("/", tables.Select(x => x.Id))}");
         var result = HttpRequest.Post(uri, SessionFactory.CreateDto(session));
         session = SessionFactory.Create(result.Content);
         return session.Orders.OrderByDescending(x => x.Version).SelectMany(x => x.GetTables()).ToList();

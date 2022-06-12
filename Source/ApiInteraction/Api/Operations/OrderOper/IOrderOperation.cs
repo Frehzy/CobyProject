@@ -16,5 +16,7 @@ public interface IOrderOperation
 
     public ISession CreateSession(Guid orderId);
 
+    public IOrder CloseOrder(ICredentials credentials, ref ISession session);
+
     public IOrder SubmitChanges(ICredentials credentials, ref ISession session);
 }

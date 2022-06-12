@@ -4,6 +4,7 @@ public enum EmployeePermission : byte
 {
     CanCreateOrder, //заказ
     CanUpdateOrder,
+    CanCloseOrder,
     CanRemoveOrder,
 
     CanAddGuestOnOrder, //гость на заказе

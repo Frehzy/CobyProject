@@ -1,7 +1,6 @@
 ﻿using HostData.Cache.Orders;
 using HostData.Cache.Payments;
 using HostData.Cache.Waiters;
-using Shared.Data;
 using Shared.Data.Enum;
 using Shared.Exceptions;
 using Shared.Factory;
