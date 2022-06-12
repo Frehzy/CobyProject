@@ -10,6 +10,8 @@ public interface IOrderOperation
 
     public IReadOnlyList<IOrder> GetOrders();
 
+    public IReadOnlyList<IOrder> GetOpenOrders();
+
     public bool DeleteOrder(IOrder order, ICredentials credentials);
 
     public ICredentials CreateCredentials(IWaiter waiter);

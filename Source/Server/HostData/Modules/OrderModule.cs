@@ -26,9 +26,14 @@ public class OrderModule : BaseModule
             return Execute<OrderDto>(Context, () => _orderController.GetOrderById(orderId));
         });
 
-        Get("/orders", parameters =>
+        Get("/allOrders", parameters =>
         {
             return Execute(Context, () => _orderController.GetOrders());
+        });
+
+        Get("/openOrders", parameters =>
+        {
+            return Execute(Context, () => _orderController.GetOpenOrders());
         });
 
         Get("/order/create/{credentialsId}/{waiterId}/{tablesId}", parameters =>

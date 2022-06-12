@@ -57,6 +57,14 @@ internal class OrderController : BaseController
         });
     }
 
+    public async Task<List<OrderDto>> GetOpenOrders()
+    {
+        return await Task.Run(() =>
+        {
+            return _orderCache.Orders.Where(x => x.Status.HasFlag(OrderStatus.Open)).Select(x => OrderFactory.CreateDto(x)).ToList();
+        });
+    }
+
     public async Task<OrderDto> SubmitChanges(dynamic credentialsId, SessionDto session)
     {
         return await Task.Run(() =>

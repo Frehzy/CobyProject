@@ -52,7 +52,15 @@ internal class OrderOperation : IOrderOperation
     public IReadOnlyList<IOrder> GetOrders()
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "orders");
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "allOrders");
+        var result = HttpRequest.Get<List<OrderDto>>(uri);
+        return result.Content.Select(x => OrderFactory.Create(x)).ToList();
+    }
+
+    public IReadOnlyList<IOrder> GetOpenOrders()
+    {
+        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "openOrders");
         var result = HttpRequest.Get<List<OrderDto>>(uri);
         return result.Content.Select(x => OrderFactory.Create(x)).ToList();
     }
