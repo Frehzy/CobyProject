@@ -63,6 +63,8 @@ internal class GuestController : BaseController
                 : session.Orders.OrderByDescending(x => x.Version).First().GetGuests();
 
             var guest = guestsList.First(x => x.Id.Equals(gId));
+            if (guest.IsDeleted is true)
+                throw new CantRemoveDeletedItemException(guest.Id);
             guest = guest with { IsDeleted = true };
 
             var newOrder = order with { Guests = guestsList, Version = order.Version + 1 };

@@ -47,6 +47,12 @@ public class InvalidSessionException : EntityException
         return dic;
     }
 
+    public override void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        base.GetObjectData(info, context);
+        info.AddValue(nameof(Version), Message, typeof(int));
+    }
+
     public override string ToString()
     {
         var strBuilder = new StringBuilder();

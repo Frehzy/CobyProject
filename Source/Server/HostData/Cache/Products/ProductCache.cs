@@ -1,6 +1,7 @@
 ﻿using Shared.Data;
 using Shared.Data.Enum;
 using Shared.Exceptions;
+using Shared.Factory;
 using System.Collections.Concurrent;
 
 namespace HostData.Cache.Products;
@@ -34,9 +35,15 @@ internal class ProductCache : IProductCache
 
     public IProduct RemoveProduct(Guid productId)
     {
-        if (_productsCache.TryRemove(productId, out var returnProduct) is false)
-            throw new EntityNotFoundException(productId, nameof(IProduct));
+        var product = GetProductById(productId);
 
-        return returnProduct;
+        if (product.IsDeleted is true)
+            throw new CantRemoveDeletedItemException(product.Id);
+
+        var productDto = ProductFactory.CreateDto(product);
+        productDto = productDto with { Status = ProductStatus.Deleted, IsDeleted = true };
+
+        AddOrUpdate(ProductFactory.Create(productDto));
+        return GetProductById(productId);
     }
 }

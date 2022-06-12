@@ -7,11 +7,11 @@ namespace Shared.Factory;
 internal class TableFactory
 {
     public static Table Create(ITable table) =>
-        new(table.Id, table.Name, table.Number);
+        new(table.Id, table.Name, table.Number, table.IsDeleted);
 
     public static TableDto CreateDto(ITable table) =>
-        new(table.Id, table.Name, table.Number);
+        new(table.Id, table.Name, table.Number, table.IsDeleted);
 
     public static Table Create(TableDto table) =>
-        new(table.Id, table.Name, table.Number);
+        new(table.Id, table.Name, table.Number, table.IsDeleted);
 }

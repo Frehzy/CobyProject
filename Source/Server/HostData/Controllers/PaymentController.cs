@@ -74,6 +74,8 @@ internal class PaymentController : BaseController
                 : session.Orders.OrderByDescending(x => x.Version).First().GetPayments();
 
             var payment = paymentsList.First(x => x.Id.Equals(pId));
+            if (payment.IsDeleted is true)
+                throw new CantRemoveDeletedItemException(payment.Id);
             payment = payment with { Status = PaymentStatus.Removed, IsDeleted = true };
 
             var newOrder = order with { Payments = paymentsList, Version = order.Version + 1 };

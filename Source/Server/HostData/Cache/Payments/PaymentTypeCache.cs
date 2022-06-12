@@ -1,5 +1,6 @@
 ﻿using Shared.Data;
 using Shared.Exceptions;
+using Shared.Factory;
 using System.Collections.Concurrent;
 
 namespace HostData.Cache.Payments;
@@ -27,9 +28,15 @@ internal class PaymentTypeCache : IPaymentTypeCache
 
     public IPaymentType RemovePaymentType(Guid paymentTypeId)
     {
-        if (_paymentTypesCache.TryRemove(paymentTypeId, out var returnPaymentType) is false)
-            throw new EntityNotFoundException(paymentTypeId, nameof(IPaymentType));
+        var paymentType = GetPaymentTypeById(paymentTypeId);
 
-        return returnPaymentType;
+        if (paymentType.IsDeleted is true)
+            throw new CantRemoveDeletedItemException(paymentType.Id);
+
+        var paymentTypeDto = PaymentTypeFactory.CreateDto(paymentType);
+        paymentTypeDto = paymentTypeDto with { IsDeleted = true };
+
+        AddOrUpdate(PaymentTypeFactory.Create(paymentTypeDto));
+        return GetPaymentTypeById(paymentTypeId);
     }
 }

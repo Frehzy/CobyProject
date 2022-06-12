@@ -48,6 +48,12 @@ public sealed class PermissionDeniedException : ApiException
         return dic;
     }
 
+    public override void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        base.GetObjectData(info, context);
+        info.AddValue(nameof(Permission), Message, typeof(EmployeePermission));
+    }
+
     public override string ToString()
     {
         var strBuilder = new StringBuilder();

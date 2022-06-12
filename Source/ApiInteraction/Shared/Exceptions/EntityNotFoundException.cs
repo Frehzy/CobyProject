@@ -42,6 +42,12 @@ public sealed class EntityNotFoundException : EntityException
         return dic;
     }
 
+    public override void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        base.GetObjectData(info, context);
+        info.AddValue(nameof(EntityType), Message, typeof(string));
+    }
+
     public override string ToString()
     {
         var strBuilder = new StringBuilder();

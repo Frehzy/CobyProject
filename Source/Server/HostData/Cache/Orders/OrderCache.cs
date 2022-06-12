@@ -1,6 +1,7 @@
 ﻿using Shared.Data;
 using Shared.Data.Enum;
 using Shared.Exceptions;
+using Shared.Factory;
 using System.Collections.Concurrent;
 
 namespace HostData.Cache.Orders;
@@ -40,7 +41,13 @@ internal class OrderCache : IOrderCache
         if (order.Status.HasFlag(OrderStatus.Open) is false)
             throw new CantChangeAndRemoveOrderException(order);
 
-        _ordersCache.Remove(orderId, out _);
-        return order;
+        if (order.IsDeleted is true)
+            throw new CantRemoveDeletedItemException(order.Id);
+
+        var orderDto = OrderFactory.CreateDto(order);
+        orderDto = orderDto with { IsDeleted = true, Status = OrderStatus.Deleted };
+
+        AddOrUpdate(OrderFactory.Create(orderDto));
+        return GetOrderById(orderId);
     }
 }

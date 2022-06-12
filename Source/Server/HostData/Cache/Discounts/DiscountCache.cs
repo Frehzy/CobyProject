@@ -1,5 +1,6 @@
 ﻿using Shared.Data;
 using Shared.Exceptions;
+using Shared.Factory;
 using System.Collections.Concurrent;
 
 namespace HostData.Cache.Discounts;
@@ -27,9 +28,15 @@ internal class DiscountCache : IDiscountCache
 
     public IDiscount RemoveDiscount(Guid discountId)
     {
-        if (_discountsCache.TryRemove(discountId, out var returnDiscount) is false)
-            throw new EntityNotFoundException(discountId, nameof(ITable));
+        var discount = GetDiscountById(discountId);
 
-        return returnDiscount;
+        if (discount.IsDeleted is true)
+            throw new CantRemoveDeletedItemException(discount.Id);
+
+        var discountDto = DiscountFactory.CreateDto(discount);
+        discountDto = discountDto with { IsDeleted = true };
+
+        AddOrUpdate(DiscountFactory.Create(discountDto));
+        return GetDiscountById(discountId);
     }
 }

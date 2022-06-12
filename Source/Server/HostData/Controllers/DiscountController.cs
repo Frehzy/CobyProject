@@ -68,6 +68,8 @@ internal class DiscountController : BaseController
                 : session.Orders.OrderByDescending(x => x.Version).First().GetDiscounts();
 
             var discount = discountsList.First(x => x.Id.Equals(dId));
+            if (discount.IsDeleted is true)
+                throw new CantRemoveDeletedItemException(discount.Id);
             discount = discount with { IsDeleted = true };
 
             var newOrder = order with { Discounts = discountsList, Version = order.Version + 1 };

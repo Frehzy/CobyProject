@@ -71,6 +71,8 @@ internal class ProductController : BaseController
                 : session.Orders.OrderByDescending(x => x.Version).First().GetProducts();
 
             var product = productsList.First(x => x.Id.Equals(pId));
+            if (product.IsDeleted is true)
+                throw new CantRemoveDeletedItemException(product.Id);
             if (product.PrintTime is not null)
                 CheckCredentials(cId, EmployeePermission.CanRemoveDishesOnOrder);
             else

@@ -1,5 +1,6 @@
 ﻿using Shared.Data;
 using Shared.Exceptions;
+using Shared.Factory;
 using System.Collections.Concurrent;
 
 namespace HostData.Cache.Tables;
@@ -27,9 +28,15 @@ internal class TableCache : ITableCache
 
     public ITable RemoveTable(Guid tableId)
     {
-        if (_tablesCache.TryRemove(tableId, out var returnTable) is false)
-            throw new EntityNotFoundException(tableId, nameof(ITable));
+        var table = GetTableById(tableId);
 
-        return returnTable;
+        if (table.IsDeleted is true)
+            throw new CantRemoveDeletedItemException(table.Id);
+
+        var tableDto = TableFactory.CreateDto(table);
+        tableDto = tableDto with { IsDeleted = true };
+
+        AddOrUpdate(TableFactory.Create(tableDto));
+        return GetTableById(tableId);
     }
 }

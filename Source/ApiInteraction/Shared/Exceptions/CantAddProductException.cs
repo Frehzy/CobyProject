@@ -38,6 +38,12 @@ public sealed class CantAddProductException : ViolationBusinessLogicException
         return dic;
     }
 
+    public override void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        base.GetObjectData(info, context);
+        info.AddValue(nameof(Product), Message, typeof(IProduct));
+    }
+
     public override string ToString()
     {
         var strBuilder = new StringBuilder();

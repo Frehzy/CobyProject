@@ -4,5 +4,6 @@ public enum ProductStatus : byte
 {
     Added,
     Printed,
-    Served
+    Served,
+    Deleted
 }

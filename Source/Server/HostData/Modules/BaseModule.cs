@@ -60,6 +60,12 @@ public abstract class BaseModule : NancyModule
                 Log.Error(ex, json);
                 return CreateExceptionResponse(json, nameof(CantChangeAndRemoveOrderException));
             }
+            catch (CantRemoveDeletedItemException ex)
+            {
+                var json = JsonSerializer.Serialize(ex.CreateDictionary(), CreateSerializerOptions());
+                Log.Error(ex, json);
+                return CreateExceptionResponse(json, nameof(CantRemoveDeletedItemException));
+            }
             catch (Exception ex)
             {
                 Log.Error(ex, ex.Message);
