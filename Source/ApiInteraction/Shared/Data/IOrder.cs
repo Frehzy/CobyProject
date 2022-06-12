@@ -32,7 +32,7 @@ public interface IOrder
 
     public decimal DiscountsSum { get; } //сумма скидок
 
-    public decimal PaymentsSum { get; } //сумма всех оплат
+    public decimal PaymentsSum { get; } //сумма всех New оплат
 
     public int Version { get; }
 

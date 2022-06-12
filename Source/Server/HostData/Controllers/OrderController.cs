@@ -98,6 +98,10 @@ internal class OrderController : BaseController
             CheckCredentials(cId, EmployeePermission.CanCloseOrder);
 
             var lastOrder = session.Orders.OrderByDescending(x => x.Version).First();
+
+            if (lastOrder.ResultSum < lastOrder.PaymentsSum)
+                throw new CantChangeAndRemoveOrderException(OrderFactory.Create(lastOrder));
+
             var newOorder = lastOrder with
             {
                 CloseTime = DateTime.Now,
