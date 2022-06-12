@@ -3,7 +3,7 @@
 namespace Shared.Exceptions;
 
 [Serializable]
-public class ViolationBusinessLogicException : ApiException
+public abstract class ViolationBusinessLogicException : ApiException
 {
     public override string Message => ToString();
 

@@ -1,4 +1,5 @@
 ﻿using Shared.Data;
+using Shared.Data.Enum;
 using Shared.Exceptions;
 using System.Collections.Concurrent;
 
@@ -12,10 +13,9 @@ internal class OrderCache : IOrderCache
 
     public IOrder GetOrderById(Guid orderId)
     {
-        var result = _ordersCache.TryGetValue(orderId, out var orderOnCache);
-        return result is true
-            ? orderOnCache
-            : throw new EntityNotFoundException(orderId, nameof(IOrder));
+        if (_ordersCache.TryGetValue(orderId, out var orderOnCache) is false)
+            throw new EntityNotFoundException(orderId, nameof(IOrder));
+        return orderOnCache;
     }
 
     public void AddOrUpdate(IOrder order, int version = 0)
@@ -27,15 +27,20 @@ internal class OrderCache : IOrderCache
             if (orderOnCache.Version + version != order.Version)
                 throw new ArgumentException($"Order version {order.Version}. Order on cache version: {orderOnCache.Version + 1}");
 
+            if (orderOnCache.Status.HasFlag(OrderStatus.Open) is false)
+                throw new CantChangeAndRemoveOrderException(orderOnCache);
+
             _ordersCache.TryUpdate(order.Id, order, orderOnCache);
         }
     }
 
     public IOrder RemoveOrder(Guid orderId)
     {
-        if (_ordersCache.TryRemove(orderId, out var returnOrder) is false)
-            throw new EntityNotFoundException(orderId, nameof(IOrder));
+        var order = GetOrderById(orderId);
+        if (order.Status.HasFlag(OrderStatus.Open) is false)
+            throw new CantChangeAndRemoveOrderException(order);
 
-        return returnOrder;
+        _ordersCache.Remove(orderId, out _);
+        return order;
     }
 }

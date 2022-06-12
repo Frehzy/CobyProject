@@ -54,11 +54,11 @@ public abstract class BaseModule : NancyModule
                 Log.Error(ex, json);
                 return CreateExceptionResponse(json, nameof(CantAddProductException));
             }
-            catch (ViolationBusinessLogicException ex)
+            catch (CantChangeAndRemoveOrderException ex)
             {
                 var json = JsonSerializer.Serialize(ex.CreateDictionary(), CreateSerializerOptions());
                 Log.Error(ex, json);
-                return CreateExceptionResponse(json, nameof(ViolationBusinessLogicException));
+                return CreateExceptionResponse(json, nameof(CantChangeAndRemoveOrderException));
             }
             catch (Exception ex)
             {
