@@ -13,14 +13,17 @@ internal class Waiter : IWaiter
 
     public IReadOnlyList<EmployeePermission> Permissions { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public Waiter() { }
 
-    public Waiter(Guid id, string name, bool isSessionOpen, List<EmployeePermission> permissions)
+    public Waiter(Guid id, string name, bool isSessionOpen, List<EmployeePermission> permissions, bool isDeleted)
     {
         Id = id;
         Name = name;
         IsSessionOpen = isSessionOpen;
         Permissions = permissions.ToList();
+        IsDeleted = isDeleted;
     }
 
     public IReadOnlyList<EmployeePermission> GetPermissions() =>

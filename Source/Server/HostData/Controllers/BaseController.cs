@@ -28,6 +28,9 @@ internal abstract class BaseController
         if (waiter.GetPermissions().Any(x => x.HasFlag(checkPermission)) is false)
             throw new PermissionDeniedException(checkPermission);
 
+        if (waiter.IsSessionOpen is false || waiter.IsDeleted is true)
+            throw new WaiterDeletedOrPersonalSessionNotOpen(waiter.Id);
+
         return WaiterFactory.CreateDto(waiter);
     }
 }

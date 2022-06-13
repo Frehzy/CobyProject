@@ -36,12 +36,6 @@ public abstract class BaseModule : NancyModule
                 Log.Error(ex, json);
                 return CreateExceptionResponse(json, nameof(InvalidSessionException));
             }
-            catch (EntityException ex)
-            {
-                var json = JsonSerializer.Serialize(ex.CreateDictionary(), CreateSerializerOptions());
-                Log.Error(ex, json);
-                return CreateExceptionResponse(json, nameof(EntityException));
-            }
             catch (PermissionDeniedException ex)
             {
                 var json = JsonSerializer.Serialize(ex.CreateDictionary(), CreateSerializerOptions());
@@ -65,6 +59,18 @@ public abstract class BaseModule : NancyModule
                 var json = JsonSerializer.Serialize(ex.CreateDictionary(), CreateSerializerOptions());
                 Log.Error(ex, json);
                 return CreateExceptionResponse(json, nameof(CantRemoveDeletedItemException));
+            }
+            catch (WaiterDeletedOrPersonalSessionNotOpen ex)
+            {
+                var json = JsonSerializer.Serialize(ex.CreateDictionary(), CreateSerializerOptions());
+                Log.Error(ex, json);
+                return CreateExceptionResponse(json, nameof(WaiterDeletedOrPersonalSessionNotOpen));
+            }
+            catch (EntityException ex)
+            {
+                var json = JsonSerializer.Serialize(ex.CreateDictionary(), CreateSerializerOptions());
+                Log.Error(ex, json);
+                return CreateExceptionResponse(json, nameof(EntityException));
             }
             catch (Exception ex)
             {

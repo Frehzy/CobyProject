@@ -12,5 +12,7 @@ public interface IWaiter
 
     public IReadOnlyList<EmployeePermission> Permissions { get; }
 
+    public bool IsDeleted { get; }
+
     public IReadOnlyList<EmployeePermission> GetPermissions();
 }

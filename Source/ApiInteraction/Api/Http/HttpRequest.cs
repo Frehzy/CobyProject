@@ -62,9 +62,14 @@ internal static class HttpRequest
         var json = response.Content.ReadAsStringAsync().Result;
         throw response.ReasonPhrase switch
         {
-            nameof(EntityException) => JsonSerializer.Deserialize<EntityException>(json),
             nameof(EntityNotFoundException) => JsonSerializer.Deserialize<EntityNotFoundException>(json),
             nameof(InvalidSessionException) => JsonSerializer.Deserialize<InvalidSessionException>(json),
+            nameof(PermissionDeniedException) => JsonSerializer.Deserialize<PermissionDeniedException>(json),
+            nameof(CantAddProductException) => JsonSerializer.Deserialize<CantAddProductException>(json),
+            nameof(CantChangeAndRemoveOrderException) => JsonSerializer.Deserialize<CantChangeAndRemoveOrderException>(json),
+            nameof(CantRemoveDeletedItemException) => JsonSerializer.Deserialize<CantRemoveDeletedItemException>(json),
+            nameof(WaiterDeletedOrPersonalSessionNotOpen) => JsonSerializer.Deserialize<WaiterDeletedOrPersonalSessionNotOpen>(json),
+            nameof(EntityException) => JsonSerializer.Deserialize<EntityException>(json),
             _ => new Exception(json),
         };
     }
