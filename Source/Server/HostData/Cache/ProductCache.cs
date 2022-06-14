@@ -4,9 +4,9 @@ using Shared.Exceptions;
 using Shared.Factory;
 using System.Collections.Concurrent;
 
-namespace HostData.Cache.Products;
+namespace HostData.Cache;
 
-internal class ProductCache : IProductCache
+internal class ProductCache : IBaseCache<IProduct>
 {
     private readonly ConcurrentDictionary<Guid, IProduct> _productsCache = new();
 
@@ -16,7 +16,7 @@ internal class ProductCache : IProductCache
 
     public IReadOnlyCollection<IProduct> Modifier => _productsCache.Values.Where(x => x.Type.HasFlag(ProductType.Modifier)).ToList();
 
-    public IReadOnlyCollection<IProduct> Products => _productsCache.Values.ToList();
+    public IReadOnlyCollection<IProduct> Values => _productsCache.Values.ToList();
 
     public void AddOrUpdate(IProduct product)
     {
@@ -26,16 +26,16 @@ internal class ProductCache : IProductCache
             _productsCache.TryUpdate(product.Id, product, productOnCache);
     }
 
-    public IProduct GetProductById(Guid productId)
+    public IProduct GetById(Guid productId)
     {
         if (_productsCache.TryGetValue(productId, out var returnProduct) is false)
             throw new EntityNotFoundException(productId, nameof(IProduct));
         return returnProduct;
     }
 
-    public IProduct RemoveProduct(Guid productId)
+    public IProduct RemoveById(Guid productId)
     {
-        var product = GetProductById(productId);
+        var product = GetById(productId);
 
         if (product.IsDeleted is true)
             throw new CantRemoveDeletedItemException(product.Id);
@@ -44,6 +44,6 @@ internal class ProductCache : IProductCache
         productDto = productDto with { Status = ProductStatus.Deleted, IsDeleted = true };
 
         AddOrUpdate(ProductFactory.Create(productDto));
-        return GetProductById(productId);
+        return GetById(productId);
     }
 }

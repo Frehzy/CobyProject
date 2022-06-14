@@ -11,7 +11,8 @@ internal class DiscountOperation : IDiscountOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{session.OrderId}/discount/add/{credentials.Id}/{discount.Id}");
-        var result = HttpRequest.Post(uri, SessionFactory.CreateDto(session));
+        var sessionDto = SessionFactory.CreateDto(session);
+        var result = Task.Run(async () => await HttpRequest.Post(uri, sessionDto)).Result;
         session = SessionFactory.Create(result.Content);
         return session.Orders.OrderByDescending(x => x.Version).SelectMany(x => x.GetDiscounts()).ToList();
     }
@@ -20,7 +21,7 @@ internal class DiscountOperation : IDiscountOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "discounts");
-        var result = HttpRequest.Get<List<DiscountDto>>(uri);
+        var result = Task.Run(async () => await HttpRequest.Get<List<DiscountDto>>(uri)).Result;
         return result.Content.Select(x => DiscountFactory.Create(x)).ToList();
     }
 
@@ -28,7 +29,8 @@ internal class DiscountOperation : IDiscountOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{session.OrderId}/discount/remove/{credentials.Id}/{discount.Id}");
-        var result = HttpRequest.Post(uri, SessionFactory.CreateDto(session));
+        var sessionDto = SessionFactory.CreateDto(session);
+        var result = Task.Run(async () => await HttpRequest.Post(uri, sessionDto)).Result;
         session = SessionFactory.Create(result.Content);
         return session.Orders.OrderByDescending(x => x.Version).SelectMany(x => x.GetDiscounts()).ToList();
     }

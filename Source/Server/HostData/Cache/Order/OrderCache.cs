@@ -4,15 +4,15 @@ using Shared.Exceptions;
 using Shared.Factory;
 using System.Collections.Concurrent;
 
-namespace HostData.Cache.Orders;
+namespace HostData.Cache.Order;
 
 internal class OrderCache : IOrderCache
 {
     private readonly ConcurrentDictionary<Guid, IOrder> _ordersCache = new();
 
-    public IReadOnlyCollection<IOrder> Orders => _ordersCache.Values.ToList();
+    public IReadOnlyCollection<IOrder> Values => _ordersCache.Values.ToList();
 
-    public IOrder GetOrderById(Guid orderId)
+    public IOrder GetById(Guid orderId)
     {
         if (_ordersCache.TryGetValue(orderId, out var orderOnCache) is false)
             throw new EntityNotFoundException(orderId, nameof(IOrder));
@@ -35,9 +35,9 @@ internal class OrderCache : IOrderCache
         }
     }
 
-    public IOrder RemoveOrder(Guid orderId)
+    public IOrder RemoveById(Guid orderId)
     {
-        var order = GetOrderById(orderId);
+        var order = GetById(orderId);
         if (order.Status.HasFlag(OrderStatus.Open) is false)
             throw new CantChangeAndRemoveOrderException(order);
 
@@ -48,6 +48,6 @@ internal class OrderCache : IOrderCache
         orderDto = orderDto with { IsDeleted = true, Status = OrderStatus.Deleted };
 
         AddOrUpdate(OrderFactory.Create(orderDto));
-        return GetOrderById(orderId);
+        return GetById(orderId);
     }
 }

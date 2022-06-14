@@ -1,10 +1,9 @@
-﻿using HostData.Cache.Config;
-using HostData.Cache.Orders;
-using HostData.Cache.Tables;
-using HostData.Cache.Waiters;
+﻿using HostData.Cache;
+using HostData.Cache.Order;
 using HostData.Controllers;
 using Nancy;
 using Nancy.Extensions;
+using Shared.Data;
 using Shared.Factory.Dto;
 using System.Text.Json;
 
@@ -12,10 +11,10 @@ namespace HostData.Modules;
 
 public class OrderModule : BaseModule
 {
-    private readonly IConfigCache _configCache;
+    private readonly IConfigSettings _configCache;
     private readonly OrderController _orderController;
 
-    public OrderModule(IOrderCache orderCache, ITableCache tableCache, IWaiterCache waiterCache, IConfigCache configCache) : base()
+    public OrderModule(IOrderCache orderCache, IBaseCache<ITable> tableCache, IBaseCache<IWaiter> waiterCache, IConfigSettings configCache) : base()
     {
         _configCache = configCache;
         _orderController = new(orderCache, tableCache, waiterCache);
@@ -34,6 +33,12 @@ public class OrderModule : BaseModule
         Get("/openOrders", parameters =>
         {
             return Execute(Context, () => _orderController.GetOpenOrders());
+        });
+
+        Get("/credentials/{waiterPassword}", parameters =>
+        {
+            var waiterPassword = parameters.waiterPassword;
+            return Execute<CredentialsDto>(Context, () => _orderController.CreateCredentials(waiterPassword));
         });
 
         Get("/order/create/{credentialsId}/{waiterId}/{tablesId}", parameters =>

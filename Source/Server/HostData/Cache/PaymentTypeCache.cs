@@ -3,13 +3,13 @@ using Shared.Exceptions;
 using Shared.Factory;
 using System.Collections.Concurrent;
 
-namespace HostData.Cache.Payments;
+namespace HostData.Cache;
 
-internal class PaymentTypeCache : IPaymentTypeCache
+internal class PaymentTypeCache : IBaseCache<IPaymentType>
 {
     private readonly ConcurrentDictionary<Guid, IPaymentType> _paymentTypesCache = new();
 
-    public IReadOnlyCollection<IPaymentType> PaymentTypes => _paymentTypesCache.Values.ToList();
+    public IReadOnlyCollection<IPaymentType> Values => _paymentTypesCache.Values.ToList();
 
     public void AddOrUpdate(IPaymentType paymentType)
     {
@@ -19,16 +19,16 @@ internal class PaymentTypeCache : IPaymentTypeCache
             _paymentTypesCache.TryUpdate(paymentType.Id, paymentType, paymentOnCache);
     }
 
-    public IPaymentType GetPaymentTypeById(Guid paymentTypeId)
+    public IPaymentType GetById(Guid paymentTypeId)
     {
         if (_paymentTypesCache.TryGetValue(paymentTypeId, out var returnPaymentType) is false)
             throw new EntityNotFoundException(paymentTypeId, nameof(IPaymentType));
         return returnPaymentType;
     }
 
-    public IPaymentType RemovePaymentType(Guid paymentTypeId)
+    public IPaymentType RemoveById(Guid paymentTypeId)
     {
-        var paymentType = GetPaymentTypeById(paymentTypeId);
+        var paymentType = GetById(paymentTypeId);
 
         if (paymentType.IsDeleted is true)
             throw new CantRemoveDeletedItemException(paymentType.Id);
@@ -37,6 +37,6 @@ internal class PaymentTypeCache : IPaymentTypeCache
         paymentTypeDto = paymentTypeDto with { IsDeleted = true };
 
         AddOrUpdate(PaymentTypeFactory.Create(paymentTypeDto));
-        return GetPaymentTypeById(paymentTypeId);
+        return GetById(paymentTypeId);
     }
 }

@@ -11,7 +11,8 @@ internal class TableOperation : ITableOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{session.OrderId}/table/changeTable/{credentials.Id}/{string.Join("/", tables.Select(x => x.Id))}");
-        var result = HttpRequest.Post(uri, SessionFactory.CreateDto(session));
+        var sessionDto = SessionFactory.CreateDto(session);
+        var result = Task.Run(async () => await HttpRequest.Post(uri, sessionDto)).Result;
         session = SessionFactory.Create(result.Content);
         return session.Orders.OrderByDescending(x => x.Version).SelectMany(x => x.GetTables()).ToList();
     }
@@ -20,7 +21,7 @@ internal class TableOperation : ITableOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "tables");
-        var result = HttpRequest.Get<List<TableDto>>(uri);
+        var result = Task.Run(async () => await HttpRequest.Get<List<TableDto>>(uri)).Result;
         return result.Content.Select(x => TableFactory.Create(x)).ToList();
     }
 }

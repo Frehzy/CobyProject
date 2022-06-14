@@ -9,12 +9,12 @@ public class WaiterDeletedOrPersonalSessionNotOpen : EntityException
 
     public WaiterDeletedOrPersonalSessionNotOpen() : base(default, nameof(WaiterDeletedOrPersonalSessionNotOpen)) { }
 
-    public WaiterDeletedOrPersonalSessionNotOpen(Guid id) 
+    public WaiterDeletedOrPersonalSessionNotOpen(Guid id)
         : base(id, nameof(WaiterDeletedOrPersonalSessionNotOpen))
     {
     }
 
-    protected WaiterDeletedOrPersonalSessionNotOpen(SerializationInfo info, StreamingContext context) 
+    protected WaiterDeletedOrPersonalSessionNotOpen(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
     }

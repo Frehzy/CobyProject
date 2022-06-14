@@ -1,15 +1,15 @@
-﻿using HostData.Cache.Config;
-using HostData.Cache.Waiters;
+﻿using HostData.Cache;
 using HostData.Controllers;
+using Shared.Data;
 
 namespace HostData.Modules;
 
 public class WaiterModule : BaseModule
 {
-    private readonly IConfigCache _configCache;
+    private readonly IConfigSettings _configCache;
     private readonly WaiterController _waiterController;
 
-    public WaiterModule(IWaiterCache waiterCache, IConfigCache configCache) : base()
+    public WaiterModule(IBaseCache<IWaiter> waiterCache, IConfigSettings configCache) : base()
     {
         _configCache = configCache;
         _waiterController = new(waiterCache);

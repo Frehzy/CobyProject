@@ -1,9 +1,9 @@
-﻿using HostData.Cache.Config;
-using HostData.Cache.Orders;
-using HostData.Cache.Waiters;
+﻿using HostData.Cache;
+using HostData.Cache.Order;
 using HostData.Controllers;
 using Nancy;
 using Nancy.Extensions;
+using Shared.Data;
 using Shared.Factory.Dto;
 using System.Text.Json;
 
@@ -11,10 +11,10 @@ namespace HostData.Modules;
 
 public class GuestModule : BaseModule
 {
-    private readonly IConfigCache _configCache;
+    private readonly IConfigSettings _configCache;
     private readonly GuestController _guestController;
 
-    public GuestModule(IOrderCache orderCache, IWaiterCache waiterCache, IConfigCache configCache) : base()
+    public GuestModule(IOrderCache orderCache, IBaseCache<IWaiter> waiterCache, IConfigSettings configCache) : base()
     {
         _configCache = configCache;
         _guestController = new(orderCache, waiterCache);

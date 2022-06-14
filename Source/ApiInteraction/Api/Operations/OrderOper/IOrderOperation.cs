@@ -14,7 +14,7 @@ public interface IOrderOperation
 
     public bool DeleteOrder(IOrder order, ICredentials credentials);
 
-    public ICredentials CreateCredentials(IWaiter waiter);
+    public ICredentials CreateCredentials(string waiterPassword);
 
     public ISession CreateSession(Guid orderId);
 

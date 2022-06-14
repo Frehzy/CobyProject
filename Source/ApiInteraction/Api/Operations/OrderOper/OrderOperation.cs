@@ -12,18 +12,25 @@ internal class OrderOperation : IOrderOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"order/closeOrder/{credentials.Id}");
-        var result = HttpRequest.Post<SessionDto, OrderDto>(uri, SessionFactory.CreateDto(session));
+        var sessionDto = SessionFactory.CreateDto(session);
+        var result = Task.Run(async () => await HttpRequest.Post<SessionDto, OrderDto>(uri, sessionDto)).Result;
         session = default;
         return OrderFactory.Create(result.Content);
     }
 
-    public ICredentials CreateCredentials(IWaiter waiter) => new Credentials(waiter.Id);
+    public ICredentials CreateCredentials(string waiterPassword)
+    {
+        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"credentials/{waiterPassword}");
+        var result = Task.Run(async () => await HttpRequest.Get<CredentialsDto>(uri)).Result;
+        return CredentialsFactory.Create(result.Content);
+    }
 
     public IOrder CreateOrder(ICredentials credentials, IWaiter waiter, IReadOnlyList<ITable> tables)
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"order/create/{credentials.Id}/{waiter.Id}/{string.Join("/", tables.Select(x => x.Id))}");
-        var result = HttpRequest.Get<OrderDto>(uri);
+        var result = Task.Run(async () => await HttpRequest.Get<OrderDto>(uri)).Result;
         return OrderFactory.Create(result.Content);
     }
 
@@ -37,7 +44,7 @@ internal class OrderOperation : IOrderOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"order/remove/{credentials.Id}");
-        var result = HttpRequest.Post<OrderDto, OrderDto>(uri, OrderFactory.CreateDto(order));
+        var result = Task.Run(async () => await HttpRequest.Post<OrderDto, OrderDto>(uri, OrderFactory.CreateDto(order))).Result;
         return result.Content != null;
     }
 
@@ -45,7 +52,7 @@ internal class OrderOperation : IOrderOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"orders/{orderId}");
-        var result = HttpRequest.Get<OrderDto>(uri);
+        var result = Task.Run(async () => await HttpRequest.Get<OrderDto>(uri)).Result;
         return OrderFactory.Create(result.Content);
     }
 
@@ -53,7 +60,7 @@ internal class OrderOperation : IOrderOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "allOrders");
-        var result = HttpRequest.Get<List<OrderDto>>(uri);
+        var result = Task.Run(async () => await HttpRequest.Get<List<OrderDto>>(uri)).Result;
         return result.Content.Select(x => OrderFactory.Create(x)).ToList();
     }
 
@@ -61,7 +68,7 @@ internal class OrderOperation : IOrderOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "openOrders");
-        var result = HttpRequest.Get<List<OrderDto>>(uri);
+        var result = Task.Run(async () => await HttpRequest.Get<List<OrderDto>>(uri)).Result;
         return result.Content.Select(x => OrderFactory.Create(x)).ToList();
     }
 
@@ -69,7 +76,8 @@ internal class OrderOperation : IOrderOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"order/submitChanges/{credentials.Id}");
-        var result = HttpRequest.Post<SessionDto, OrderDto>(uri, SessionFactory.CreateDto(session));
+        var sessionDto = SessionFactory.CreateDto(session);
+        var result = Task.Run(async () => await HttpRequest.Post<SessionDto, OrderDto>(uri, sessionDto)).Result;
         session = default;
         return OrderFactory.Create(result.Content);
     }

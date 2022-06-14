@@ -1,9 +1,8 @@
-﻿using HostData.Cache.Config;
-using HostData.Cache.Discounts;
-using HostData.Cache.Orders;
-using HostData.Cache.Waiters;
+﻿using HostData.Cache;
+using HostData.Cache.Order;
 using HostData.Controllers;
 using Nancy.Extensions;
+using Shared.Data;
 using Shared.Factory.Dto;
 using System.Text.Json;
 
@@ -11,10 +10,10 @@ namespace HostData.Modules;
 
 public class DiscountModule : BaseModule
 {
-    private readonly IConfigCache _configCache;
+    private readonly IConfigSettings _configCache;
     private readonly DiscountController _discountController;
 
-    public DiscountModule(IOrderCache orderCache, IDiscountCache discountCache, IWaiterCache waiterCache, IConfigCache configCache) : base()
+    public DiscountModule(IOrderCache orderCache, IBaseCache<IDiscount> discountCache, IBaseCache<IWaiter> waiterCache, IConfigSettings configCache) : base()
     {
         _configCache = configCache;
         _discountController = new(orderCache, discountCache, waiterCache);

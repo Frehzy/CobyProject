@@ -3,13 +3,13 @@ using Shared.Exceptions;
 using Shared.Factory;
 using System.Collections.Concurrent;
 
-namespace HostData.Cache.Discounts;
+namespace HostData.Cache;
 
-internal class DiscountCache : IDiscountCache
+internal class DiscountCache : IBaseCache<IDiscount>
 {
     private readonly ConcurrentDictionary<Guid, IDiscount> _discountsCache = new();
 
-    public IReadOnlyCollection<IDiscount> Discounts => _discountsCache.Values.ToList();
+    public IReadOnlyCollection<IDiscount> Values => _discountsCache.Values.ToList();
 
     public void AddOrUpdate(IDiscount discount)
     {
@@ -19,16 +19,16 @@ internal class DiscountCache : IDiscountCache
             _discountsCache.TryUpdate(discount.Id, discount, discountOnCache);
     }
 
-    public IDiscount GetDiscountById(Guid discountId)
+    public IDiscount GetById(Guid discountId)
     {
         if (_discountsCache.TryGetValue(discountId, out var returnDiscount) is false)
             throw new EntityNotFoundException(discountId, nameof(IDiscount));
         return returnDiscount;
     }
 
-    public IDiscount RemoveDiscount(Guid discountId)
+    public IDiscount RemoveById(Guid discountId)
     {
-        var discount = GetDiscountById(discountId);
+        var discount = GetById(discountId);
 
         if (discount.IsDeleted is true)
             throw new CantRemoveDeletedItemException(discount.Id);
@@ -37,6 +37,6 @@ internal class DiscountCache : IDiscountCache
         discountDto = discountDto with { IsDeleted = true };
 
         AddOrUpdate(DiscountFactory.Create(discountDto));
-        return GetDiscountById(discountId);
+        return GetById(discountId);
     }
 }

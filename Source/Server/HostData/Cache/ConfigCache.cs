@@ -1,8 +1,9 @@
 ﻿using Shared.Configuration;
+using Shared.Data;
 
-namespace HostData.Cache.Config;
+namespace HostData.Cache;
 
-internal class ConfigCache : IConfigCache
+internal class ConfigCache : IConfigSettings
 {
     private Guid _organizationId;
 

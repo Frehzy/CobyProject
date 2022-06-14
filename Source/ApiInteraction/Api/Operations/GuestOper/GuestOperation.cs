@@ -10,7 +10,8 @@ internal class GuestOperation : IGuestOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{session.OrderId}/guest/add/{credentials.Id}");
-        var result = HttpRequest.Post(uri, SessionFactory.CreateDto(session));
+        var sessionDto = SessionFactory.CreateDto(session);
+        var result = Task.Run(async () => await HttpRequest.Post(uri, sessionDto)).Result;
         session = SessionFactory.Create(result.Content);
         return session.Orders.OrderByDescending(x => x.Version).SelectMany(x => x.GetGuests()).ToList();
     }
@@ -19,7 +20,8 @@ internal class GuestOperation : IGuestOperation
     {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{session.OrderId}/guest/remove/{credentials.Id}/{guest.Id}");
-        var result = HttpRequest.Post(uri, SessionFactory.CreateDto(session));
+        var sessionDto = SessionFactory.CreateDto(session);
+        var result = Task.Run(async () => await HttpRequest.Post(uri, sessionDto)).Result;
         session = SessionFactory.Create(result.Content);
         return session.Orders.OrderByDescending(x => x.Version).SelectMany(x => x.GetGuests()).ToList();
     }
