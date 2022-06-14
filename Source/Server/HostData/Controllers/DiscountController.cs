@@ -19,18 +19,18 @@ internal class DiscountController : BaseController
         _discountCache = discountCache;
     }
 
-    public Task<SessionDto> AddDiscount(dynamic orderId, dynamic credentialsId, dynamic discountId, SessionDto session)
+    public async Task<SessionDto> AddDiscount(dynamic orderId, dynamic credentialsId, dynamic discountId, SessionDto session)
     {
-        var oId = CheckDynamicGuid(orderId);
-        var cId = CheckDynamicGuid(credentialsId);
-        var dId = CheckDynamicGuid(discountId);
+        var oId = (Guid)CheckDynamicGuid(orderId);
+        var cId = (Guid)CheckDynamicGuid(credentialsId);
+        var dId = (Guid)CheckDynamicGuid(discountId);
 
         if (session.OrderId.Equals(oId) is false)
             throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
 
-        CheckCredentials(cId, EmployeePermission.CanAddDiscountOnOrder);
+        CheckCredentials(cId, EmployeePermission.CanAddDiscountOnOrder).ConfigureAwait(false);
 
-        OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(orderId));
+        OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(oId));
 
         var discountDto = DiscountFactory.CreateDto(_discountCache.GetById(dId));
 
@@ -42,21 +42,21 @@ internal class DiscountController : BaseController
         var newOrder = order with { Discounts = discountsList, Version = order.Version + 1 };
 
         session.Orders.Add(newOrder);
-        return Task.FromResult(session with { Version = session.Version + 1 });
+        return session with { Version = session.Version + 1 };
     }
 
-    public Task<SessionDto> RemoveDiscount(dynamic orderId, dynamic credentialsId, dynamic discountId, SessionDto session)
+    public async Task<SessionDto> RemoveDiscount(dynamic orderId, dynamic credentialsId, dynamic discountId, SessionDto session)
     {
-        var oId = CheckDynamicGuid(orderId);
-        var cId = CheckDynamicGuid(credentialsId);
-        var dId = CheckDynamicGuid(discountId);
+        var oId = (Guid)CheckDynamicGuid(orderId);
+        var cId = (Guid)CheckDynamicGuid(credentialsId);
+        var dId = (Guid)CheckDynamicGuid(discountId);
 
         if (session.OrderId.Equals(oId) is false)
             throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
 
-        CheckCredentials(cId, EmployeePermission.CanRemoveDiscountOnOrder);
+        CheckCredentials(cId, EmployeePermission.CanRemoveDiscountOnOrder).ConfigureAwait(false);
 
-        OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(orderId));
+        OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(oId));
 
         var discountsList = session.Orders.Count <= 0
             ? order.GetDiscounts()
@@ -70,11 +70,11 @@ internal class DiscountController : BaseController
         var newOrder = order with { Discounts = discountsList, Version = order.Version + 1 };
 
         session.Orders.Add(newOrder);
-        return Task.FromResult(session with { Version = session.Version + 1 });
+        return session with { Version = session.Version + 1 };
     }
 
-    public Task<List<DiscountDto>> GetDiscounts()
+    public async Task<List<DiscountDto>> GetDiscounts()
     {
-        return Task.FromResult(_discountCache.Values.Select(x => DiscountFactory.CreateDto(x)).ToList());
+        return _discountCache.Values.Select(x => DiscountFactory.CreateDto(x)).ToList();
     }
 }

@@ -16,9 +16,6 @@ internal class WaiterController : BaseController
 
     public async Task<List<WaiterDto>> GetWaiters()
     {
-        return await Task.Run(() =>
-        {
-            return _waiterCache.Values.Select(x => WaiterFactory.CreateDto(x)).ToList();
-        });
+        return _waiterCache.Values.Select(x => WaiterFactory.CreateDto(x)).ToList();
     }
 }

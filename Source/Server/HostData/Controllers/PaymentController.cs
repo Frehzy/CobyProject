@@ -19,11 +19,11 @@ internal class PaymentController : BaseController
         _paymentTypeCache = paymentTypeCache;
     }
 
-    public Task<SessionDto> AddPayment(dynamic orderId, dynamic credentialsId, dynamic paymentTypeId, dynamic sum, SessionDto session)
+    public async Task<SessionDto> AddPayment(dynamic orderId, dynamic credentialsId, dynamic paymentTypeId, dynamic sum, SessionDto session)
     {
-        var oId = CheckDynamicGuid(orderId);
-        var cId = CheckDynamicGuid(credentialsId);
-        var ptId = CheckDynamicGuid(paymentTypeId);
+        var oId = (Guid)CheckDynamicGuid(orderId);
+        var cId = (Guid)CheckDynamicGuid(credentialsId);
+        var ptId = (Guid)CheckDynamicGuid(paymentTypeId);
 
         if (decimal.TryParse(sum.ToString(), out decimal returnSum) is false)
             throw new ArgumentException($"{nameof(sum)} must be type Decimal", nameof(sum));
@@ -31,7 +31,7 @@ internal class PaymentController : BaseController
         if (session.OrderId.Equals(oId) is false)
             throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
 
-        var waiter = CheckCredentials(cId, EmployeePermission.CanAddPaymentOnOrder);
+        var waiter = await CheckCredentials(cId, EmployeePermission.CanAddPaymentOnOrder);
 
         OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(oId));
 
@@ -47,19 +47,19 @@ internal class PaymentController : BaseController
         var newOrder = order with { Payments = paymentsList, Version = order.Version + 1 };
 
         session.Orders.Add(newOrder);
-        return Task.FromResult(session with { Version = session.Version + 1 });
+        return session with { Version = session.Version + 1 };
     }
 
-    public Task<SessionDto> RemovePayment(dynamic orderId, dynamic credentialsId, dynamic paymentId, SessionDto session)
+    public async Task<SessionDto> RemovePayment(dynamic orderId, dynamic credentialsId, dynamic paymentId, SessionDto session)
     {
-        var oId = CheckDynamicGuid(orderId);
-        var cId = CheckDynamicGuid(credentialsId);
-        var pId = CheckDynamicGuid(paymentId);
+        var oId = (Guid)CheckDynamicGuid(orderId);
+        var cId = (Guid)CheckDynamicGuid(credentialsId);
+        var pId = (Guid)CheckDynamicGuid(paymentId);
 
         if (session.OrderId.Equals(oId) is false)
             throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
 
-        var waiter = CheckCredentials(cId, EmployeePermission.CanRemovePaymentOnOrder);
+        var waiter = await CheckCredentials(cId, EmployeePermission.CanRemovePaymentOnOrder);
 
         OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(oId));
 
@@ -75,11 +75,11 @@ internal class PaymentController : BaseController
         var newOrder = order with { Payments = paymentsList, Version = order.Version + 1 };
 
         session.Orders.Add(newOrder);
-        return Task.FromResult(session with { Version = session.Version + 1 });
+        return session with { Version = session.Version + 1 };
     }
 
-    public Task<List<PaymentTypeDto>> GetPaymentTypes()
+    public async Task<List<PaymentTypeDto>> GetPaymentTypes()
     {
-        return Task.FromResult(_paymentTypeCache.Values.Select(x => PaymentTypeFactory.CreateDto(x)).ToList());
+        return _paymentTypeCache.Values.Select(x => PaymentTypeFactory.CreateDto(x)).ToList();
     }
 }

@@ -17,15 +17,15 @@ internal class GuestController : BaseController
         _orderCache = orderCache;
     }
 
-    public Task<SessionDto> AddGuest(dynamic orderId, dynamic credentialsId, SessionDto session)
+    public async Task<SessionDto> AddGuest(dynamic orderId, dynamic credentialsId, SessionDto session)
     {
-        var oId = CheckDynamicGuid(orderId);
-        var cId = CheckDynamicGuid(credentialsId);
+        var oId = (Guid)CheckDynamicGuid(orderId);
+        var cId = (Guid)CheckDynamicGuid(credentialsId);
 
         if (session.OrderId.Equals(oId) is false)
             throw new InvalidSessionException(session.Version, oId, "Нельзя добавлять в одну сессию разные id");
 
-        CheckCredentials(cId, EmployeePermission.CanAddGuestOnOrder);
+        CheckCredentials(cId, EmployeePermission.CanAddGuestOnOrder).ConfigureAwait(false);
 
         OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(oId));
 
@@ -38,21 +38,21 @@ internal class GuestController : BaseController
         var newOrder = order with { Guests = guestsList, Version = order.Version + 1 };
 
         session.Orders.Add(newOrder);
-        return Task.FromResult(session with { Version = session.Version + 1 });
+        return session with { Version = session.Version + 1 };
     }
 
-    public Task<SessionDto> RemoveGuest(dynamic orderId, dynamic credentialsId, dynamic guestId, SessionDto session)
+    public async Task<SessionDto> RemoveGuest(dynamic orderId, dynamic credentialsId, dynamic guestId, SessionDto session)
     {
-        var oId = CheckDynamicGuid(orderId);
-        var cId = CheckDynamicGuid(credentialsId);
-        var gId = CheckDynamicGuid(guestId);
+        var oId = (Guid)CheckDynamicGuid(orderId);
+        var cId = (Guid)CheckDynamicGuid(credentialsId);
+        var gId = (Guid)CheckDynamicGuid(guestId);
 
         if (session.OrderId.Equals(oId) is false)
             throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
 
-        CheckCredentials(cId, EmployeePermission.CanRemoveGuestOnOrder);
+        CheckCredentials(cId, EmployeePermission.CanRemoveGuestOnOrder).ConfigureAwait(false);
 
-        OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(orderId));
+        OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(oId));
 
         var guestsList = session.Orders.Count <= 0
             ? order.GetGuests()
@@ -66,6 +66,6 @@ internal class GuestController : BaseController
         var newOrder = order with { Guests = guestsList, Version = order.Version + 1 };
 
         session.Orders.Add(newOrder);
-        return Task.FromResult(session with { Version = session.Version + 1 });
+        return session with { Version = session.Version + 1 };
     }
 }

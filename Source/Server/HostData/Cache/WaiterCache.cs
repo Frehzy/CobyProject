@@ -1,5 +1,6 @@
 ﻿using Shared.Data;
 using Shared.Exceptions;
+using Shared.Factory;
 using System.Collections.Concurrent;
 
 namespace HostData.Cache;
@@ -27,9 +28,15 @@ internal class WaiterCache : IBaseCache<IWaiter>
 
     public IWaiter RemoveById(Guid waiterId)
     {
-        if (_waitersCache.TryRemove(waiterId, out var returnWaiter) is false)
-            throw new EntityNotFoundException(waiterId, nameof(IWaiter));
+        var waiter = GetById(waiterId);
 
-        return returnWaiter;
+        if (waiter.IsDeleted is true)
+            throw new CantRemoveDeletedItemException(waiter.Id);
+
+        var waiterDto = WaiterFactory.CreateDto(waiter);
+        waiterDto = waiterDto with { IsDeleted = true };
+
+        AddOrUpdate(WaiterFactory.Create(waiterDto));
+        return GetById(waiterId);
     }
 }

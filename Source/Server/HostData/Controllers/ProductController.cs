@@ -19,16 +19,16 @@ internal class ProductController : BaseController
         _productCache = productCache;
     }
 
-    public Task<SessionDto> AddProduct(dynamic orderId, dynamic credentialsId, dynamic productId, SessionDto session)
+    public async Task<SessionDto> AddProduct(dynamic orderId, dynamic credentialsId, dynamic productId, SessionDto session)
     {
-        var oId = CheckDynamicGuid(orderId);
-        var cId = CheckDynamicGuid(credentialsId);
-        var pId = CheckDynamicGuid(productId);
+        var oId = (Guid)CheckDynamicGuid(orderId);
+        var cId = (Guid)CheckDynamicGuid(credentialsId);
+        var pId = (Guid)CheckDynamicGuid(productId);
 
         if (session.OrderId.Equals(oId) is false)
             throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
 
-        var waiter = CheckCredentials(cId, EmployeePermission.CanAddDishesOnOrder);
+        var waiter = await CheckCredentials(cId, EmployeePermission.CanAddDishesOnOrder);
 
         OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(oId));
 
@@ -46,19 +46,19 @@ internal class ProductController : BaseController
         var newOrder = order with { Products = productsList, Version = order.Version + 1 };
 
         session.Orders.Add(newOrder);
-        return Task.FromResult(session with { Version = session.Version + 1 });
+        return session with { Version = session.Version + 1 };
     }
 
-    public Task<SessionDto> RemoveProduct(dynamic orderId, dynamic credentialsId, dynamic productId, SessionDto session)
+    public async Task<SessionDto> RemoveProduct(dynamic orderId, dynamic credentialsId, dynamic productId, SessionDto session)
     {
-        var oId = CheckDynamicGuid(orderId);
-        var cId = CheckDynamicGuid(credentialsId);
-        var pId = CheckDynamicGuid(productId);
+        var oId = (Guid)CheckDynamicGuid(orderId);
+        var cId = (Guid)CheckDynamicGuid(credentialsId);
+        var pId = (Guid)CheckDynamicGuid(productId);
 
         if (session.OrderId.Equals(oId) is false)
             throw new InvalidSessionException(session.Version, orderId, "Нельзя добавлять в одну сессию разные id");
 
-        OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(orderId));
+        OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(oId));
 
         var productsList = session.Orders.Count <= 0
             ? order.GetProducts()
@@ -68,20 +68,20 @@ internal class ProductController : BaseController
         if (product.IsDeleted is true)
             throw new CantRemoveDeletedItemException(product.Id);
         if (product.PrintTime is not null)
-            CheckCredentials(cId, EmployeePermission.CanRemoveDishesOnOrder);
+            CheckCredentials(cId, EmployeePermission.CanRemoveDishesOnOrder).ConfigureAwait(false);
         else
-            CheckCredentials(cId, EmployeePermission.CanRemovePrintedDishesOnOrder);
+            CheckCredentials(cId, EmployeePermission.CanRemovePrintedDishesOnOrder).ConfigureAwait(false);
 
         product = product with { IsDeleted = true };
 
         var newOrder = order with { Products = productsList, Version = order.Version + 1 };
 
         session.Orders.Add(newOrder);
-        return Task.FromResult(session with { Version = session.Version + 1 });
+        return session with { Version = session.Version + 1 };
     }
 
-    public Task<List<ProductDto>> GetProducts()
+    public async Task<List<ProductDto>> GetProducts()
     {
-        return Task.FromResult(_productCache.Values.Select(x => ProductFactory.CreateDto(x)).ToList());
+        return _productCache.Values.Select(x => ProductFactory.CreateDto(x)).ToList();
     }
 }

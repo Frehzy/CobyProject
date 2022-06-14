@@ -16,14 +16,14 @@ internal abstract class BaseController
         WaiterCache = waiterCache;
     }
 
-    protected Task<Guid> CheckDynamicGuid(dynamic guid)
+    protected Guid CheckDynamicGuid(dynamic guid)
     {
         if (Guid.TryParse(guid.ToString(), out Guid returnGuid) is false)
             throw new ArgumentException($"{nameof(guid)} must be type Guid", nameof(guid));
-        return Task.FromResult(returnGuid);
+        return returnGuid;
     }
 
-    protected Task<WaiterDto> CheckCredentials(Guid credentialsId, EmployeePermission checkPermission)
+    protected async Task<WaiterDto> CheckCredentials(Guid credentialsId, EmployeePermission checkPermission)
     {
         var waiter = WaiterCache.GetById(credentialsId);
         if (waiter.GetPermissions().Any(x => x.HasFlag(checkPermission)) is false)
@@ -32,6 +32,6 @@ internal abstract class BaseController
         if (waiter.IsSessionOpen is false || waiter.IsDeleted is true)
             throw new WaiterDeletedOrPersonalSessionNotOpen(waiter.Id);
 
-        return Task.FromResult(WaiterFactory.CreateDto(waiter));
+        return WaiterFactory.CreateDto(waiter);
     }
 }

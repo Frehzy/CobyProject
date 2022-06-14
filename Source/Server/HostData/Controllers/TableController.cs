@@ -18,18 +18,18 @@ internal class TableController : BaseController
         _tableCache = tableCache;
     }
 
-    public Task<List<TableDto>> GetTables()
+    public async Task<List<TableDto>> GetTables()
     {
-        return Task.FromResult(_tableCache.Values.Select(x => TableFactory.CreateDto(x)).ToList());
+        return _tableCache.Values.Select(x => TableFactory.CreateDto(x)).ToList();
     }
 
-    public Task<SessionDto> ChangeTable(dynamic orderId, dynamic credentialsId, IEnumerable<dynamic> tablesId, SessionDto session)
+    public async Task<SessionDto> ChangeTable(dynamic orderId, dynamic credentialsId, IEnumerable<dynamic> tablesId, SessionDto session)
     {
-        var oId = CheckDynamicGuid(orderId);
-        var cId = CheckDynamicGuid(credentialsId);
-        var tsId = tablesId.Select(x => (Guid)CheckDynamicGuid(x)).ToList();
+        var oId = (Guid)CheckDynamicGuid(orderId);
+        var cId = (Guid)CheckDynamicGuid(credentialsId);
+        var tsId = tablesId.Select(x => (Guid)CheckDynamicGuid(x));
 
-        CheckCredentials(cId, EmployeePermission.CanChangeTableOnOrder);
+        CheckCredentials(cId, EmployeePermission.CanChangeTableOnOrder).ConfigureAwait(false);
 
         OrderDto order = OrderFactory.CreateDto(_orderCache.GetById(oId));
 
@@ -38,6 +38,6 @@ internal class TableController : BaseController
         var newOrder = order with { Tables = tables.ToList(), Version = order.Version + 1 };
 
         session.Orders.Add(newOrder);
-        return Task.FromResult(session with { Version = session.Version + 1 });
+        return session with { Version = session.Version + 1 };
     }
 }
