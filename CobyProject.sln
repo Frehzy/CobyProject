@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coby", "Source\Front\Coby\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPHost", "Source\Server\ASPHost\ASPHost.csproj", "{23E5505D-516E-4F0D-B263-D1A90C7B7BB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Source\ApiInteraction\Shared\Shared.csproj", "{B9B657AA-6E31-4247-A501-05602CA6ABCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Source\ApiInteraction\Shared\Shared.csproj", "{B9B657AA-6E31-4247-A501-05602CA6ABCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

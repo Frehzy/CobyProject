@@ -1,8 +1,8 @@
 ﻿using Shared.Data.Enum;
 
-namespace HostData.EntityData;
+namespace HostData.Domain.Contracts.Models;
 
-public class EntityProduct
+public class ProductModel
 {
     public Guid Id { get; set; }
 
@@ -12,5 +12,5 @@ public class EntityProduct
 
     public ProductType Type { get; set; }
 
-    public bool IsDeleted { get; set; }
+    public DateTime CreatedTime { get; set; } = DateTime.Now;
 }

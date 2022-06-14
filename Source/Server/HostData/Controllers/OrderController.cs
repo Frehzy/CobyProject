@@ -50,8 +50,9 @@ internal class OrderController : BaseController
 
     public async Task<CredentialsDto> CreateCredentials(dynamic waiterPassword)
     {
-        var waiter = WaiterCache.Values.First(x => x.Password.Equals(waiterPassword));
-        return WaiterFactory.Create(waiter);
+        //var waiter = WaiterCache.Values.First(x => x.Password.Equals(waiterPassword));
+        //return WaiterFactory.Create(waiter);
+        return default;
     }
 
     public async Task<List<OrderDto>> GetOpenOrders()
