@@ -13,4 +13,8 @@ public class PaymentModel
     public PaymentStatus Status { get; set; }
 
     public DateTime CreatedTime { get; set; } = DateTime.Now;
+
+    public bool IsDeleted { get; set; } = false;
+
+    public PaymentModel() { }
 }

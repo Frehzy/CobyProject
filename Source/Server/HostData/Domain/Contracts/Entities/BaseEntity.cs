@@ -1,4 +1,6 @@
-﻿namespace HostData.Domain.Contracts.Entities;
+﻿using System.ComponentModel;
+
+namespace HostData.Domain.Contracts.Entities;
 
 public abstract class BaseEntity : IEntity
 {
@@ -12,5 +14,10 @@ public abstract class BaseEntity : IEntity
 
     public Guid WaiterUpdatedId { get; set; }
 
-    public bool IsActive { get; set; } = false;
+    public int Version { get; set; } = 1;
+
+    [DefaultValue("false")]
+    public bool IsDeleted { get; set; } = false;
+
+    public BaseEntity() { }
 }

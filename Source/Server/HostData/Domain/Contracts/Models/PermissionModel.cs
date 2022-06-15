@@ -9,4 +9,8 @@ public class PermissionModel
     public EmployeePermission EmployeePermission { get; set; }
 
     public DateTime CreatedTime { get; set; } = DateTime.Now;
+
+    public bool IsDeleted { get; set; } = false;
+
+    public PermissionModel() { }
 }

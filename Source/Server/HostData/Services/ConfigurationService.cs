@@ -1,15 +1,15 @@
 ﻿using Shared.Configuration;
 using Shared.Data;
 
-namespace HostData.Cache;
+namespace HostData.Services;
 
-internal class ConfigCache : IConfigSettings
+public class ConfigurationService : IConfigSettings
 {
     private Guid _organizationId;
 
     public Guid OrganizationId => _organizationId;
 
-    public ConfigCache()
+    public ConfigurationService()
     {
         Update();
     }

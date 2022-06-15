@@ -6,5 +6,5 @@ public class DiscountEntity : BaseEntity
 
     public decimal DiscountSum { get; set; }
 
-    public virtual OrderEntity Order { get; set; }
+    public DiscountEntity() { }
 }

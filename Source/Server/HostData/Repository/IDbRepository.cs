@@ -1,18 +1,22 @@
-﻿using HostData.Domain.Contracts.Entities;
+﻿using HostData.Domain.Context;
+using HostData.Domain.Contracts.Entities;
 using System.Linq.Expressions;
 
-namespace HostData.Domain.Repository;
+namespace HostData.Repository;
 
 public interface IDbRepository
 {
-    IReadOnlyList<T> Get<T>(Expression<Func<T, bool>> selector) where T : class, IEntity;
-    IReadOnlyList<T> Get<T>() where T : class, IEntity;
-    IReadOnlyList<T> GetAll<T>() where T : class, IEntity;
+    DataContext Context { get; }
+
+    Task<T> GetById<T>(Guid id) where T : class, IEntity;
+    Task<List<T>> Get<T>() where T : class, IEntity;
+    Task<List<T>> Get<T>(Expression<Func<T, bool>> selector) where T : class, IEntity;
+    Task<List<T>> GetAll<T>() where T : class, IEntity;
 
     Task<Guid> Add<T>(T entity) where T : class, IEntity;
     Task AddRange<T>(IEnumerable<T> entities) where T : class, IEntity;
 
-    Task Delete<T>(Guid entity) where T : class, IEntity;
+    Task Delete<T>(Guid id) where T : class, IEntity;
 
     Task Remove<T>(T entity) where T : class, IEntity;
     Task RemoveRange<T>(IEnumerable<T> entities) where T : class, IEntity;

@@ -11,4 +11,8 @@ public class WaiterModel
     public Guid PermissionId { get; set; }
 
     public DateTime CreatedTime { get; set; } = DateTime.Now;
+
+    public bool IsDeleted { get; set; } = false;
+
+    public WaiterModel() { }
 }

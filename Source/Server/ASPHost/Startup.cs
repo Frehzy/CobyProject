@@ -1,9 +1,13 @@
 using HostData.Domain.Context;
-using HostData.Domain.Contracts.Entities;
+using HostData.Domain.Contracts.Entities.Order;
+using HostData.Domain.Contracts.Services;
 using HostData.Domain.Repository;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using HostData.Mapper;
+using HostData.Repository;
+using HostData.Services;
 using Microsoft.EntityFrameworkCore;
 using Nancy.Owin;
+using Shared.Data;
 
 namespace ASPHost
 {
@@ -21,11 +25,15 @@ namespace ASPHost
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
             app.UseOwin(x => x.UseNancy());
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+
             services.AddDbContext<DataContext>(options =>
             {
                 options
@@ -34,10 +42,22 @@ namespace ASPHost
                             assembly.MigrationsAssembly("ASPHost"));
             });
 
-            services.AddAutoMapper(typeof(Startup));
-
             services.AddScoped<IDbRepository, DbRepository>();
-            services.AddSingleton(new WaiterEntity { Id = Guid.Empty });
+
+            services.AddTransient<IDiscountService, DiscountService>();
+            services.AddTransient<IGuestService, GuestService>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IPaymentService, PaymentService>();
+            services.AddTransient<IPaymentTypeService, PaymentTypeService>();
+            services.AddTransient<IPermissionService, PermissionService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ITableService, TableService>();
+            services.AddTransient<IWaiterService, WaiterService>();
+            services.AddTransient<IConfigSettings, ConfigurationService>();
+
+            services.AddTransient<IMapper, Mapper>();
+
+            services.AddSingleton(new OrderWaiterEntity { Id = Guid.Empty });
         }
     }
 }

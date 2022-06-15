@@ -13,4 +13,8 @@ public class PaymentTypeModel
     public bool NeedOpenCashBox { get; set; }
 
     public DateTime CreatedTime { get; set; } = DateTime.Now;
+
+    public bool IsDeleted { get; set; } = false;
+
+    public PaymentTypeModel() { }
 }

@@ -6,5 +6,5 @@ public class TableEntity : BaseEntity
 
     public string? Name { get; set; }
 
-    public virtual OrderEntity Order { get; set; }
+    public TableEntity() { }
 }

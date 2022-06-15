@@ -6,5 +6,5 @@ public class PermissionEntity : BaseEntity
 {
     public EmployeePermission EmployeePermission { get; set; }
 
-    public virtual WaiterEntity Waiter { get; set; }
+    public PermissionEntity() { }
 }

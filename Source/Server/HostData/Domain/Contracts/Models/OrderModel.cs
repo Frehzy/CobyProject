@@ -20,6 +20,8 @@ public class OrderModel
 
     public List<PaymentModel> Payments { get; set; } = new();
 
+    public int Version { get; set; }
+
     public OrderStatus Status { get; set; }
 
     public DateTime StartTime { get; set; }
@@ -27,4 +29,8 @@ public class OrderModel
     public DateTime? CloseTime { get; set; }
 
     public DateTime CreatedTime { get; set; } = DateTime.Now;
+
+    public bool IsDeleted { get; set; } = false;
+
+    public OrderModel() { }
 }

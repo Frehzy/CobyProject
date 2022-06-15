@@ -6,5 +6,5 @@ public class GuestEntity : BaseEntity
 
     public int Rank { get; set; }
 
-    public virtual OrderEntity Order { get; set; }
+    public GuestEntity() { }
 }

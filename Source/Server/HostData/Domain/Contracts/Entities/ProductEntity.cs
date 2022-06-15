@@ -9,6 +9,4 @@ public class ProductEntity : BaseEntity
     public decimal Price { get; set; }
 
     public ProductType Type { get; set; }
-
-    public virtual OrderEntity Order { get; set; }
 }

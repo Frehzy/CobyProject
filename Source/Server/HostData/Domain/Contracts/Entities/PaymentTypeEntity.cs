@@ -10,5 +10,5 @@ public class PaymentTypeEntity : BaseEntity
 
     public bool NeedOpenCashBox { get; set; }
 
-    public virtual PaymentEntity Payment { get; set; }
+    public PaymentTypeEntity() { }
 }

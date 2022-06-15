@@ -8,7 +8,9 @@ public class DiscountModel
 
     public decimal DiscountSum { get; set; }
 
-    public bool IsActive { get; set; }
-
     public DateTime CreatedTime { get; set; } = DateTime.Now;
+
+    public bool IsDeleted { get; set; } = false;
+
+    public DiscountModel() { }
 }
