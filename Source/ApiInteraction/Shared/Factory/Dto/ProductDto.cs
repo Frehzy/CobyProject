@@ -2,7 +2,7 @@
 
 namespace Shared.Factory.Dto;
 
-internal record ProductDto(Guid Id,
+public record ProductDto(Guid Id,
                            string Name,
                            decimal Price,
                            Guid GuestId,

@@ -1,3 +1,3 @@
 ﻿namespace Shared.Factory.Dto;
 
-internal record CredentialsDto(Guid Id);
+public record CredentialsDto(Guid Id);

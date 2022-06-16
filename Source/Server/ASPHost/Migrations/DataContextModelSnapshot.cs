@@ -35,6 +35,9 @@ namespace ASPHost.Migrations
                     b.Property<decimal>("DiscountSum")
                         .HasColumnType("numeric");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -273,14 +276,23 @@ namespace ASPHost.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("GuestId")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<Guid>("ProductsId")
                         .HasColumnType("uuid");
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime?>("UpdateTime")
                         .HasColumnType("timestamp with time zone");
@@ -289,6 +301,9 @@ namespace ASPHost.Migrations
                         .HasColumnType("integer");
 
                     b.Property<Guid>("WaiterCreatedId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("WaiterId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("WaiterUpdatedId")
@@ -487,6 +502,9 @@ namespace ASPHost.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid?>("PermissionsId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime?>("UpdateTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -500,6 +518,8 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PermissionsId");
 
                     b.ToTable("AllPermissions");
                 });
@@ -613,6 +633,39 @@ namespace ASPHost.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AllWaiters");
+                });
+
+            modelBuilder.Entity("HostData.Domain.Contracts.Entities.WaiterPermissionEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<List<Guid>>("PermissionsId")
+                        .IsRequired()
+                        .HasColumnType("uuid[]");
+
+                    b.Property<DateTime?>("UpdateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("WaiterCreatedId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("WaiterUpdatedId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AllWaiterPermissions");
                 });
 
             modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderDiscountEntity", b =>
@@ -762,6 +815,13 @@ namespace ASPHost.Migrations
                     b.Navigation("Waiter");
                 });
 
+            modelBuilder.Entity("HostData.Domain.Contracts.Entities.PermissionEntity", b =>
+                {
+                    b.HasOne("HostData.Domain.Contracts.Entities.WaiterPermissionEntity", null)
+                        .WithMany("Permissions")
+                        .HasForeignKey("PermissionsId");
+                });
+
             modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderPaymentTypeEntity", b =>
                 {
                     b.Navigation("Payment")
@@ -787,6 +847,11 @@ namespace ASPHost.Migrations
                     b.Navigation("Products");
 
                     b.Navigation("Tables");
+                });
+
+            modelBuilder.Entity("HostData.Domain.Contracts.Entities.WaiterPermissionEntity", b =>
+                {
+                    b.Navigation("Permissions");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,4 +2,4 @@
 
 namespace Shared.Factory.Dto;
 
-internal record PaymentTypeDto(Guid Id, string Name, PaymentTypeKind Kind, bool NeedOpenCashBox, bool IsDeleted);
+public record PaymentTypeDto(Guid Id, string Name, PaymentTypeKind Kind, bool NeedOpenCashBox, bool IsDeleted);

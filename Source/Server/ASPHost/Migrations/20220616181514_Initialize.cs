@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -15,6 +17,7 @@ namespace ASPHost.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     DiscountSum = table.Column<decimal>(type: "numeric", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -25,24 +28,6 @@ namespace ASPHost.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AllDiscounts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AllPermissions",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    EmployeePermission = table.Column<byte>(type: "smallint", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    WaiterUpdatedId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Version = table.Column<int>(type: "integer", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AllPermissions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,6 +67,24 @@ namespace ASPHost.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AllTables", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AllWaiterPermissions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PermissionsId = table.Column<List<Guid>>(type: "uuid[]", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    WaiterUpdatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Version = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AllWaiterPermissions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -140,6 +143,30 @@ namespace ASPHost.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentTypeEntity", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AllPermissions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    EmployeePermission = table.Column<byte>(type: "smallint", nullable: false),
+                    PermissionsId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    WaiterUpdatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Version = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AllPermissions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AllPermissions_AllWaiterPermissions_PermissionsId",
+                        column: x => x.PermissionsId,
+                        principalTable: "AllWaiterPermissions",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -351,6 +378,10 @@ namespace ASPHost.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ProductsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GuestId = table.Column<Guid>(type: "uuid", nullable: false),
+                    WaiterId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Comment = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<byte>(type: "smallint", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -410,6 +441,11 @@ namespace ASPHost.Migrations
                 table: "AllOrders",
                 column: "WaiterId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AllPermissions_PermissionsId",
+                table: "AllPermissions",
+                column: "PermissionsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDiscountEntity_DiscountsId",
@@ -491,6 +527,9 @@ namespace ASPHost.Migrations
 
             migrationBuilder.DropTable(
                 name: "PaymentTypeEntity");
+
+            migrationBuilder.DropTable(
+                name: "AllWaiterPermissions");
 
             migrationBuilder.DropTable(
                 name: "OrderWaiterEntity");

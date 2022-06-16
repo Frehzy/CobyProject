@@ -2,7 +2,7 @@
 
 namespace Shared.Factory.Dto;
 
-internal record OrderDto(int Number,
+public record OrderDto(int Number,
                          Guid Id,
                          List<TableDto> Tables,
                          WaiterDto Waiter,
