@@ -1,14 +1,6 @@
-﻿using HostData.Cache;
-using HostData.Cache.Order;
-using Shared.Data;
-using Shared.Data.Enum;
-using Shared.Exceptions;
-using Shared.Factory;
-using Shared.Factory.Dto;
+﻿namespace HostData.Controllers;
 
-namespace HostData.Controllers;
-
-internal class PaymentController : BaseController
+/*internal class PaymentController : BaseController
 {
     private readonly IOrderCache _orderCache;
     private readonly IBaseCache<IPaymentType> _paymentTypeCache;
@@ -82,4 +74,4 @@ internal class PaymentController : BaseController
     {
         return _paymentTypeCache.Values.Select(x => PaymentTypeFactory.CreateDto(x)).ToList();
     }
-}
+}*/

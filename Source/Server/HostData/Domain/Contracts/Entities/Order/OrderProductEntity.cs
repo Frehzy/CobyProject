@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Shared.Data.Enum;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace HostData.Domain.Contracts.Entities.Order;
@@ -10,6 +11,14 @@ public class OrderProductEntity : BaseEntity
     public virtual ProductEntity ProductEntity { get; set; }
 
     public virtual OrderEntity Order { get; set; }
+
+    public Guid GuestId { get; set; }
+
+    public Guid WaiterId { get; set; }
+
+    public string? Comment { get; set; }
+
+    public ProductStatus Status { get; set; }
 
     public OrderProductEntity() : base() { }
 }

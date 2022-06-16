@@ -1,14 +1,6 @@
-﻿using HostData.Cache;
-using HostData.Cache.Order;
-using HostData.Controllers;
-using Nancy.Extensions;
-using Shared.Data;
-using Shared.Factory.Dto;
-using System.Text.Json;
+﻿namespace HostData.Modules;
 
-namespace HostData.Modules;
-
-public class PaymentModule : BaseModule
+/*public class PaymentModule : BaseModule
 {
     private readonly IConfigSettings _configCache;
     private readonly PaymentController _paymentController;
@@ -44,4 +36,4 @@ public class PaymentModule : BaseModule
             return Execute(Context, () => _paymentController.GetPaymentTypes());
         });
     }
-}
+}*/

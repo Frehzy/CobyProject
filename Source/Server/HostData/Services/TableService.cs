@@ -9,7 +9,8 @@ namespace HostData.Services;
 
 public class TableService : BaseService, ITableService
 {
-    public TableService(IDbRepository dbRepository, IMapper mapper, OrderWaiterEntity connectEntity) : base(dbRepository, mapper, connectEntity)
+    public TableService(IDbRepository dbRepository, IMapper mapper, OrderWaiterEntity connectEntity) 
+        : base(dbRepository, mapper, connectEntity)
     {
     }
 
@@ -22,7 +23,7 @@ public class TableService : BaseService, ITableService
     public async Task Update(TableModel table) =>
         await base.Update<TableModel, TableEntity>(table);
 
-    public async Task<TableModel> Get(Guid id) =>
+    public async Task<TableModel> GetById(Guid id) =>
         await base.GetById<TableModel, TableEntity>(id);
 
     public async Task<List<TableModel>> GetAll() =>

@@ -1,14 +1,6 @@
-﻿using HostData.Cache;
-using HostData.Cache.Order;
-using HostData.Controllers;
-using Nancy.Extensions;
-using Shared.Data;
-using Shared.Factory.Dto;
-using System.Text.Json;
+﻿namespace HostData.Modules;
 
-namespace HostData.Modules;
-
-public class TableModule : BaseModule
+/*public class TableModule : BaseModule
 {
     private readonly IConfigSettings _configCache;
     private readonly TableController _tableController;
@@ -33,4 +25,4 @@ public class TableModule : BaseModule
             return Execute(Context, () => _tableController.GetTables());
         });
     }
-}
+}*/

@@ -23,7 +23,7 @@ public class DiscountService : BaseService, IDiscountService
     public async Task Update(DiscountModel discount) =>
         await base.Update<DiscountModel, DiscountEntity>(discount);
 
-    public async Task<DiscountModel> Get(Guid id) =>
+    public async Task<DiscountModel> GetById(Guid id) =>
         await base.GetById<DiscountModel, DiscountEntity>(id);
 
     public async Task<List<DiscountModel>> GetAll() =>

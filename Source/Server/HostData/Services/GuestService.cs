@@ -22,7 +22,7 @@ public class GuestService : BaseService, IGuestService
     public async Task Update(GuestModel guest) =>
         await base.Update<GuestModel, GuestEntity>(guest);
 
-    public async Task<GuestModel> Get(Guid id) =>
+    public async Task<GuestModel> GetById(Guid id) =>
         await base.GetById<GuestModel, GuestEntity>(id);
 
     public async Task<List<GuestModel>> GetAll() =>

@@ -20,7 +20,7 @@ public abstract class BaseService
         ConnectEntity = connectEntity;
     }
 
-    protected virtual async Task<Guid> Create<TModel, TEntity>(TModel model) where TEntity : class, IEntity
+    protected virtual async Task<Guid> Create<TModel, TEntity>(TModel model) where TEntity : class, IEntity, new() where TModel : class, new()
     {
         var entity = Mapper.Map<TModel, TEntity>(model);
         entity.CreatedTime = DateTime.Now;
@@ -35,13 +35,13 @@ public abstract class BaseService
         return result;
     }
 
-    protected virtual async Task Delete<TEntity>(Guid id) where TEntity : class, IEntity
+    protected virtual async Task Delete<TEntity>(Guid id) where TEntity : class, IEntity, new()
     {
         await DbRepository.Delete<TEntity>(id);
         await DbRepository.SaveChangesAsync();
     }
 
-    protected virtual async Task Update<TModel, TEntity>(TModel model) where TEntity : class, IEntity
+    protected virtual async Task Update<TModel, TEntity>(TModel model) where TEntity : class, IEntity, new() where TModel : class, new()
     {
         var entity = Mapper.Map<TModel, TEntity>(model);
         entity.WaiterUpdatedId = ConnectEntity.Id;
@@ -51,20 +51,20 @@ public abstract class BaseService
         await DbRepository.SaveChangesAsync();
     }
 
-    protected virtual async Task<TModel> GetById<TModel, TEntity>(Guid id) where TEntity : class, IEntity
+    protected virtual async Task<TModel> GetById<TModel, TEntity>(Guid id) where TEntity : class, IEntity, new() where TModel : class, new()
     {
         var entity = await DbRepository.GetById<TEntity>(id);
         var model = Mapper.Map<TEntity, TModel>(entity);
         return model;
     }
 
-    protected virtual TModel Map<TModel, TEntity>(TEntity entity) where TEntity : class, IEntity
+    protected virtual TModel Map<TModel, TEntity>(TEntity entity) where TEntity : class, IEntity, new() where TModel : class, new()
     {
         var model = Mapper.Map<TEntity, TModel>(entity);
         return model;
     }
 
-    protected virtual async Task<List<TModel>> GetAll<TModel, TEntity>() where TEntity : class, IEntity
+    protected virtual async Task<List<TModel>> GetAll<TModel, TEntity>() where TEntity : class, IEntity, new() where TModel : class, new()
     {
         var collection = await DbRepository.GetAll<TEntity>();
         var models = Mapper.Map<TEntity, TModel>(collection);

@@ -1,14 +1,6 @@
-﻿using HostData.Cache;
-using HostData.Cache.Order;
-using HostData.Controllers;
-using Nancy.Extensions;
-using Shared.Data;
-using Shared.Factory.Dto;
-using System.Text.Json;
+﻿namespace HostData.Modules;
 
-namespace HostData.Modules;
-
-public class DiscountModule : BaseModule
+/*public class DiscountModule : BaseModule
 {
     private readonly IConfigSettings _configCache;
     private readonly DiscountController _discountController;
@@ -43,4 +35,4 @@ public class DiscountModule : BaseModule
             return Execute(Context, () => _discountController.GetDiscounts());
         });
     }
-}
+}*/

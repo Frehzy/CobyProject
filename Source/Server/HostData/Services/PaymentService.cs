@@ -21,7 +21,7 @@ public class PaymentService : BaseService, IPaymentService
     public async Task Update(PaymentModel payment) =>
         await base.Update<PaymentModel, OrderPaymentEntity>(payment);
 
-    public async Task<PaymentModel> Get(Guid id) =>
+    public async Task<PaymentModel> GetById(Guid id) =>
         await base.GetById<PaymentModel, OrderPaymentEntity>(id);
 
     public async Task<List<PaymentModel>> GetAll() =>

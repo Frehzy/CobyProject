@@ -23,7 +23,7 @@ public class OrderService : BaseService, IOrderService
     public async Task Update(OrderModel order) =>
         await base.Update<OrderModel, OrderEntity>(order);
 
-    public async Task<OrderModel> Get(Guid id) =>
+    public async Task<OrderModel> GetById(Guid id) =>
         await base.GetById<OrderModel, OrderEntity>(id);
 
     public async Task<List<OrderModel>> GetAll() =>

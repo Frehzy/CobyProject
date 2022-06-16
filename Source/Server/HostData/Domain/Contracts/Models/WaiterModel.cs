@@ -2,13 +2,13 @@
 
 public class WaiterModel
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public string Name { get; set; }
 
     public string Password { get; set; }
 
-    public Guid PermissionId { get; set; }
+    public bool IsSessionOpen { get; set; }
 
     public DateTime CreatedTime { get; set; } = DateTime.Now;
 

@@ -22,7 +22,7 @@ public class PermissionService : BaseService, IPermissionService
     public async Task Update(PermissionModel permission) =>
         await base.Update<PermissionModel, PermissionEntity>(permission);
 
-    public async Task<PermissionModel> Get(Guid id) =>
+    public async Task<PermissionModel> GetById(Guid id) =>
         await base.GetById<PermissionModel, PermissionEntity>(id);
 
     public async Task<List<PermissionModel>> GetAll() =>

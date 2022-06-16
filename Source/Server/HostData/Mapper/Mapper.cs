@@ -4,7 +4,7 @@ namespace HostData.Mapper;
 
 public sealed class Mapper : IMapper
 {
-    public TOut Map<TIn, TOut>(TIn source)
+    public TOut Map<TIn, TOut>(TIn source) where TIn : class, new() where TOut : class, new()
     {
         var typeIn = typeof(TIn);
         var typeOut = typeof(TOut);
@@ -31,7 +31,7 @@ public sealed class Mapper : IMapper
         return instanceOut;
     }
 
-    public IEnumerable<TOut> Map<TIn, TOut>(IEnumerable<TIn> source)
+    public IEnumerable<TOut> Map<TIn, TOut>(IEnumerable<TIn> source) where TIn : class, new() where TOut : class, new()
     {
         List<TOut> resultList = new();
         resultList.AddRange(from item in source

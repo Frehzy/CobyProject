@@ -1,14 +1,6 @@
-﻿using HostData.Cache;
-using HostData.Cache.Order;
-using Shared.Data;
-using Shared.Data.Enum;
-using Shared.Exceptions;
-using Shared.Factory;
-using Shared.Factory.Dto;
+﻿namespace HostData.Controllers;
 
-namespace HostData.Controllers;
-
-internal class DiscountController : BaseController
+/*internal class DiscountController : BaseController
 {
     private readonly IOrderCache _orderCache;
     private readonly IBaseCache<IDiscount> _discountCache;
@@ -77,4 +69,4 @@ internal class DiscountController : BaseController
     {
         return _discountCache.Values.Select(x => DiscountFactory.CreateDto(x)).ToList();
     }
-}
+}*/

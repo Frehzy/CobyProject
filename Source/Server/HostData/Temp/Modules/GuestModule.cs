@@ -1,15 +1,6 @@
-﻿using HostData.Cache;
-using HostData.Cache.Order;
-using HostData.Controllers;
-using Nancy;
-using Nancy.Extensions;
-using Shared.Data;
-using Shared.Factory.Dto;
-using System.Text.Json;
+﻿namespace HostData.Modules;
 
-namespace HostData.Modules;
-
-public class GuestModule : BaseModule
+/*public class GuestModule : BaseModule
 {
     private readonly IConfigSettings _configCache;
     private readonly GuestController _guestController;
@@ -38,4 +29,4 @@ public class GuestModule : BaseModule
             return Execute<SessionDto>(Context, () => _guestController.RemoveGuest(orderId, credentialsId, guestId, obj));
         });
     }
-}
+}*/

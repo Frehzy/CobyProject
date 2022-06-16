@@ -1,15 +1,6 @@
-﻿using HostData.Cache;
-using HostData.Cache.Order;
-using Shared.Data;
-using Shared.Data.Enum;
-using Shared.Exceptions;
-using Shared.Factory;
-using Shared.Factory.Dto;
-using Shared.Factory.InternalModel;
+﻿namespace HostData.Controllers;
 
-namespace HostData.Controllers;
-
-internal class OrderController : BaseController
+/*internal class OrderController : BaseController
 {
     private readonly IOrderCache _orderCache;
     private readonly IBaseCache<ITable> _tableCache;
@@ -126,4 +117,4 @@ internal class OrderController : BaseController
 
         return OrderFactory.CreateDto(_orderCache.RemoveById(oId));
     }
-}
+}*/

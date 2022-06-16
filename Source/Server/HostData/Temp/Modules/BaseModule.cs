@@ -6,9 +6,9 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace HostData.Modules;
+namespace HostData.Temp.Modules;
 
-public abstract class BaseModule : NancyModule
+/*public abstract class BaseModule : NancyModule
 {
     public BaseModule() : base("/") { }
 
@@ -119,9 +119,9 @@ public abstract class BaseModule : NancyModule
     private string CreateLogByContext(NancyContext context)
     {
         Dictionary<string, string> dic = new()
-    {
-        { nameof(Context.Request.Body), context.Request.Body.AsString() }
-    };
+        {
+            { nameof(Context.Request.Body), context.Request.Body.AsString() }
+        };
         return $"The server received a request. Request body:\n" +
             $"{JsonSerializer.Serialize(dic, CreateSerializerOptions()).Replace(@"\", string.Empty)}";
     }
@@ -142,4 +142,4 @@ public abstract class BaseModule : NancyModule
         };
         return options;
     }
-}
+}*/

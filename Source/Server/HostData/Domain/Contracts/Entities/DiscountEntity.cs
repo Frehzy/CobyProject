@@ -6,5 +6,7 @@ public class DiscountEntity : BaseEntity
 
     public decimal DiscountSum { get; set; }
 
+    public bool IsActive { get; set; }
+
     public DiscountEntity() { }
 }

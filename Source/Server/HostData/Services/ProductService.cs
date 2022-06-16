@@ -22,7 +22,7 @@ public class ProductService : BaseService, IProductService
     public async Task Update(ProductModel product) =>
         await base.Update<ProductModel, ProductEntity>(product);
 
-    public async Task<ProductModel> Get(Guid id) =>
+    public async Task<ProductModel> GetById(Guid id) =>
         await base.GetById<ProductModel, ProductEntity>(id);
 
     public async Task<List<ProductModel>> GetAll() =>

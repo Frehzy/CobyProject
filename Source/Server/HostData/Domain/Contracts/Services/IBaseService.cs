@@ -4,7 +4,7 @@ public interface IBaseService<T> where T : class
 {
     Task<Guid> Create(T model);
 
-    Task<T> Get(Guid id);
+    Task<T> GetById(Guid id);
 
     Task<List<T>> GetAll();
 

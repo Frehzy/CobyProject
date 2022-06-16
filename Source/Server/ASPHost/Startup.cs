@@ -1,3 +1,5 @@
+using HostData.Controller.Contract;
+using HostData.Controller.Implementation;
 using HostData.Domain.Context;
 using HostData.Domain.Contracts.Entities.Order;
 using HostData.Domain.Contracts.Services;
@@ -53,9 +55,11 @@ namespace ASPHost
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ITableService, TableService>();
             services.AddTransient<IWaiterService, WaiterService>();
-            services.AddTransient<IConfigSettings, ConfigurationService>();
+            services.AddTransient<IWaiterPermissionService, WaiterPermissionService>();
 
             services.AddTransient<IMapper, Mapper>();
+
+            services.AddTransient<IWaiterController, WaiterController>();
 
             services.AddSingleton(new OrderWaiterEntity { Id = Guid.Empty });
         }

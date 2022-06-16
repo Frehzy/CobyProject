@@ -1,15 +1,6 @@
-﻿using HostData.Cache;
-using HostData.Cache.Order;
-using HostData.Controllers;
-using Nancy;
-using Nancy.Extensions;
-using Shared.Data;
-using Shared.Factory.Dto;
-using System.Text.Json;
+﻿namespace HostData.Modules;
 
-namespace HostData.Modules;
-
-public class OrderModule : BaseModule
+/*public class OrderModule : BaseModule
 {
     private readonly IConfigSettings _configCache;
     private readonly OrderController _orderController;
@@ -73,4 +64,4 @@ public class OrderModule : BaseModule
             return Execute<OrderDto>(Context, () => _orderController.CloseOrder(credentialsId, obj));
         });
     }
-}
+}*/

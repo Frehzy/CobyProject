@@ -1,13 +1,6 @@
-﻿using HostData.Cache;
-using HostData.Cache.Order;
-using Shared.Data;
-using Shared.Data.Enum;
-using Shared.Factory;
-using Shared.Factory.Dto;
+﻿namespace HostData.Controllers;
 
-namespace HostData.Controllers;
-
-internal class TableController : BaseController
+/*internal class TableController : BaseController
 {
     private readonly IOrderCache _orderCache;
     private readonly IBaseCache<ITable> _tableCache;
@@ -40,4 +33,4 @@ internal class TableController : BaseController
         session.Orders.Add(newOrder);
         return session with { Version = session.Version + 1 };
     }
-}
+}*/

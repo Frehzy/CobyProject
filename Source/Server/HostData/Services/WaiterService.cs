@@ -9,7 +9,8 @@ namespace HostData.Services;
 
 public class WaiterService : BaseService, IWaiterService
 {
-    public WaiterService(IDbRepository dbRepository, IMapper mapper, OrderWaiterEntity connectEntity) : base(dbRepository, mapper, connectEntity)
+    public WaiterService(IDbRepository dbRepository, IMapper mapper, OrderWaiterEntity connectEntity) 
+        : base(dbRepository, mapper, connectEntity)
     {
     }
 
@@ -22,7 +23,7 @@ public class WaiterService : BaseService, IWaiterService
     public async Task Update(WaiterModel waiter) =>
         await base.Update<WaiterModel, WaiterEntity>(waiter);
 
-    public async Task<WaiterModel> Get(Guid id) =>
+    public async Task<WaiterModel> GetById(Guid id) =>
         await base.GetById<WaiterModel, WaiterEntity>(id);
 
     public async Task<List<WaiterModel>> GetAll() =>

@@ -1,18 +1,16 @@
-﻿using HostData.Cache;
-using HostData.Controllers;
-using Shared.Data;
+﻿using HostData.Controller.Contract;
 
 namespace HostData.Modules;
 
 public class WaiterModule : BaseModule
 {
-    private readonly IConfigSettings _configCache;
-    private readonly WaiterController _waiterController;
+    private readonly IWaiterController _waiterController;
 
-    public WaiterModule(IBaseCache<IWaiter> waiterCache, IConfigSettings configCache) : base()
+    public WaiterModule(IWaiterController waiterController) : base()
     {
-        _configCache = configCache;
-        _waiterController = new(waiterCache);
+        _waiterController = waiterController;
+
+        //_waiterController.CreateWaiter("TestWaiter", "0001");
 
         Get("/waiters", parameters =>
         {

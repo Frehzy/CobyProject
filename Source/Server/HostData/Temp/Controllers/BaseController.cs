@@ -1,13 +1,6 @@
-﻿using HostData.Cache;
-using Shared.Data;
-using Shared.Data.Enum;
-using Shared.Exceptions;
-using Shared.Factory;
-using Shared.Factory.Dto;
+﻿namespace HostData.Controllers;
 
-namespace HostData.Controllers;
-
-internal abstract class BaseController
+/*internal abstract class BaseController
 {
     public IBaseCache<IWaiter> WaiterCache { get; }
 
@@ -34,4 +27,4 @@ internal abstract class BaseController
 
         return WaiterFactory.CreateDto(waiter);
     }
-}
+}*/

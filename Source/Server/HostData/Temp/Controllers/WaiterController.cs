@@ -1,11 +1,6 @@
-﻿using HostData.Cache;
-using Shared.Data;
-using Shared.Factory;
-using Shared.Factory.Dto;
+﻿namespace HostData.Controllers;
 
-namespace HostData.Controllers;
-
-internal class WaiterController : BaseController
+/*internal class WaiterController : BaseController
 {
     private readonly IBaseCache<IWaiter> _waiterCache;
 
@@ -18,4 +13,4 @@ internal class WaiterController : BaseController
     {
         return _waiterCache.Values.Select(x => WaiterFactory.CreateDto(x)).ToList();
     }
-}
+}*/
