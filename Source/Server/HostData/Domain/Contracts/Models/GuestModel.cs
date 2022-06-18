@@ -1,9 +1,7 @@
 ﻿namespace HostData.Domain.Contracts.Models;
 
-public class GuestModel
+public class GuestModel : BaseModel
 {
-    public Guid Id { get; set; }
-
     public string Name { get; set; }
 
     public int Rank { get; set; }

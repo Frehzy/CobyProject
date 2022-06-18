@@ -1,6 +1,9 @@
 ﻿using HostData.Domain.Contracts.Entities;
+using HostData.Domain.Contracts.Models;
 using HostData.Mapper;
 using HostData.Repository;
+using Serilog;
+using System.Text.Json;
 
 namespace HostData.Services;
 
@@ -29,6 +32,7 @@ public abstract class BaseService
 
         await DbRepository.SaveChangesAsync();
 
+        Logging(OperationType.Added, result).ConfigureAwait(false);
         return result;
     }
 
@@ -36,16 +40,20 @@ public abstract class BaseService
     {
         await DbRepository.Delete<TEntity>(id);
         await DbRepository.SaveChangesAsync();
+        Logging(OperationType.Delete, id).ConfigureAwait(false);
     }
 
-    protected virtual async Task Update<TModel, TEntity>(Guid entityThatChangesId, TModel model) where TEntity : class, IEntity, new() where TModel : class, new()
+    protected virtual async Task Update<TModel, TEntity>(Guid entityThatChangesId, TModel newModel) where TEntity : class, IEntity, new() where TModel : class, IModel, new()
     {
-        var entity = Mapper.Map<TModel, TEntity>(model);
+        var oldModel = await GetById<TModel, TEntity>(newModel.Id);
+
+        var entity = Mapper.Map<TModel, TEntity>(newModel);
         entity.WaiterUpdatedId = entityThatChangesId;
         entity.UpdateTime = DateTime.Now;
 
         await DbRepository.Update(entity);
         await DbRepository.SaveChangesAsync();
+        Logging(oldModel, newModel).ConfigureAwait(false);
     }
 
     protected virtual async Task<TModel> GetById<TModel, TEntity>(Guid id) where TEntity : class, IEntity, new() where TModel : class, new()
@@ -77,6 +85,7 @@ public abstract class BaseService
 
         await DbRepository.Update(entity);
         await DbRepository.SaveChangesAsync();
+        Logging(OperationType.Remove, entity).ConfigureAwait(false);
     }
 
     protected virtual async Task Remove<TEntity>(Guid entityThatChangesId, TEntity entity) where TEntity : class, IEntity
@@ -87,5 +96,25 @@ public abstract class BaseService
 
         await DbRepository.Update(entity);
         await DbRepository.SaveChangesAsync();
+        Logging(OperationType.Remove, entity).ConfigureAwait(false);
+    }
+
+    private async Task Logging(OperationType operationType, Guid id) =>
+        Log.Information($"{operationType} with Id [{id}]");
+
+    private async Task Logging<TEntity>(OperationType operationType, TEntity entity) =>
+        Log.Information($"{operationType}. {JsonSerializer.Serialize(entity, Json.Options.JsonSerializerOptions)}");
+
+    private async Task Logging<TEntity>(TEntity oldItem, TEntity newItem) =>
+        Log.Information($"{OperationType.Update}. " +
+            $"OldItem: {JsonSerializer.Serialize(oldItem, Json.Options.JsonSerializerOptions)}\n" +
+            $"NewItem: {JsonSerializer.Serialize(newItem, Json.Options.JsonSerializerOptions)}");
+
+    private enum OperationType
+    {
+        Added,
+        Update,
+        Remove,
+        Delete
     }
 }

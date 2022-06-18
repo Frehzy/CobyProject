@@ -2,11 +2,9 @@
 
 namespace HostData.Domain.Contracts.Models;
 
-public class OrderModel
+public class OrderModel : BaseModel
 {
     public int Number { get; set; }
-
-    public Guid Id { get; set; }
 
     public WaiterModel Waiter { get; set; }
 

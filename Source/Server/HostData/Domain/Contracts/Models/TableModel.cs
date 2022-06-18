@@ -1,9 +1,7 @@
 ﻿namespace HostData.Domain.Contracts.Models;
 
-public class TableModel
+public class TableModel : BaseModel
 {
-    public Guid Id { get; set; }
-
     public int Number { get; set; }
 
     public string? Name { get; set; }

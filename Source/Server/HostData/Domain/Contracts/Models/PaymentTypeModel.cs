@@ -2,10 +2,8 @@
 
 namespace HostData.Domain.Contracts.Models;
 
-public class PaymentTypeModel
+public class PaymentTypeModel : BaseModel
 {
-    public Guid Id { get; set; }
-
     public string Name { get; set; }
 
     public PaymentTypeKind Kind { get; set; }

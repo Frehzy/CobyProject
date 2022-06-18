@@ -2,10 +2,8 @@
 
 namespace HostData.Domain.Contracts.Models;
 
-public class PaymentModel
+public class PaymentModel : BaseModel
 {
-    public Guid Id { get; set; }
-
     public decimal Sum { get; set; }
 
     public PaymentTypeModel Type { get; set; }

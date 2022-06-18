@@ -1,9 +1,7 @@
 ﻿namespace HostData.Domain.Contracts.Models;
 
-public class DiscountModel
+public class DiscountModel : BaseModel
 {
-    public Guid Id { get; set; }
-
     public string Name { get; set; }
 
     public decimal DiscountSum { get; set; }

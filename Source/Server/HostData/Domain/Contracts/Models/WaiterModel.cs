@@ -2,10 +2,8 @@
 
 namespace HostData.Domain.Contracts.Models;
 
-public class WaiterModel
+public class WaiterModel : BaseModel
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
-
     public string Name { get; set; }
 
     public string Password { get; set; }
