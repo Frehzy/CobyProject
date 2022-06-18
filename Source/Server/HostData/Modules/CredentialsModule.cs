@@ -15,10 +15,10 @@ public class CredentialsModule : BaseModule
         _credentialsController.CreateCredentials("ADMINPASSWORD");
 #endif
 
-        Get("/credentials/{password}", parameters =>
+        Get("/credentials/{password}", async parameters =>
         {
             var password = parameters.password;
-            return Execute<CredentialsDto>(Context, () => _credentialsController.CreateCredentials(password));
+            return await Execute<CredentialsDto>(Context, () => _credentialsController.CreateCredentials(password));
         });
     }
 }
