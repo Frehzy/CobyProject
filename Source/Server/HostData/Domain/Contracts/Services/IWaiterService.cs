@@ -4,4 +4,7 @@ namespace HostData.Domain.Contracts.Services;
 
 public interface IWaiterService : IBaseService<WaiterModel>
 {
+    public IWaiterPermissionService WaiterPermissionService { get; }
+
+    public IPermissionService PermissionService { get; }
 }

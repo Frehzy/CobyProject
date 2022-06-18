@@ -10,31 +10,34 @@ namespace HostData.Services;
 
 public class WaiterPermissionService : BaseService, IWaiterPermissionService
 {
-    private readonly IWaiterService _waiterService;
-    private readonly IPermissionService _permissionService;
-
-    public WaiterPermissionService(IDbRepository dbRepository, IMapper mapper, OrderWaiterEntity connectEntity, IWaiterService waiterService, IPermissionService permissionService)
-        : base(dbRepository, mapper, connectEntity)
+    public WaiterPermissionService(IDbRepository dbRepository, IMapper mapper) : base(dbRepository, mapper)
     {
-        _waiterService = waiterService;
-        _permissionService = permissionService;
     }
 
-    public async Task<Guid> Create(WaiterPermissionModel waiter) =>
-        await base.Create<WaiterPermissionModel, WaiterPermissionEntity>(waiter);
+    public async Task<Guid> Create(Guid entityThatChangesId, WaiterPermissionModel waiter) =>
+        await base.Create<WaiterPermissionModel, WaiterPermissionEntity>(entityThatChangesId, waiter);
 
     public async Task Delete(Guid id) =>
         await base.Delete<WaiterPermissionEntity>(id);
 
-    public async Task Update(WaiterPermissionModel waiter) =>
-        await base.Update<WaiterPermissionModel, WaiterPermissionEntity>(waiter);
+    public async Task Update(Guid entityThatChangesId, WaiterPermissionModel waiter) =>
+        await base.Update<WaiterPermissionModel, WaiterPermissionEntity>(entityThatChangesId, waiter);
 
-    public async Task<WaiterPermissionModel> GetById(Guid id) =>
-        await base.GetById<WaiterPermissionModel, WaiterPermissionEntity>(id);
+    public async Task<WaiterPermissionModel> GetById(Guid id)
+    {
+        var waiter = await base.GetById<WaiterModel, WaiterEntity>(id);
+        var waitersPermission = await base.GetById<WaiterPermissionModel, WaiterPermissionEntity>(id);
+        return new WaiterPermissionModel()
+        {
+            Id = waiter.Id,
+            Waiter = waiter,
+            Permissions = waitersPermission.Permissions
+        };
+    }
 
     public async Task<List<WaiterPermissionModel>> GetAll()
     {
-        var waiters = await _waiterService.GetAll();
+        var waiters = await base.GetAll<WaiterModel, WaiterEntity>();
         var waitersPermissions = await base.GetAll<WaiterPermissionModel, WaiterPermissionEntity>();
         return waiters.Select(waiter => new WaiterPermissionModel()
         {
@@ -44,6 +47,6 @@ public class WaiterPermissionService : BaseService, IWaiterPermissionService
         }).ToList();
     }
 
-    public async Task Remove(Guid id) =>
-        await base.Remove<WaiterPermissionEntity>(id);
+    public async Task Remove(Guid entityThatChangesId, Guid id) =>
+        await base.Remove<WaiterPermissionEntity>(entityThatChangesId, id);
 }

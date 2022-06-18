@@ -1,5 +1,4 @@
 ﻿using HostData.Domain.Contracts.Entities;
-using HostData.Domain.Contracts.Entities.Order;
 using HostData.Mapper;
 using HostData.Repository;
 
@@ -11,20 +10,18 @@ public abstract class BaseService
 
     protected IMapper Mapper { get; }
 
-    protected OrderWaiterEntity ConnectEntity { get; } //объект, который пытается изменить БД
-
-    public BaseService(IDbRepository dbRepository, IMapper mapper, OrderWaiterEntity connectEntity)
+    public BaseService(IDbRepository dbRepository,
+                       IMapper mapper)
     {
         DbRepository = dbRepository;
         Mapper = mapper;
-        ConnectEntity = connectEntity;
     }
 
-    protected virtual async Task<Guid> Create<TModel, TEntity>(TModel model) where TEntity : class, IEntity, new() where TModel : class, new()
+    protected virtual async Task<Guid> Create<TModel, TEntity>(Guid entityThatChangesId, TModel model) where TEntity : class, IEntity, new() where TModel : class, new()
     {
         var entity = Mapper.Map<TModel, TEntity>(model);
         entity.CreatedTime = DateTime.Now;
-        entity.WaiterCreatedId = ConnectEntity.Id;
+        entity.WaiterCreatedId = entityThatChangesId;
         entity.Version = 1;
         entity.IsDeleted = false;
 
@@ -41,10 +38,10 @@ public abstract class BaseService
         await DbRepository.SaveChangesAsync();
     }
 
-    protected virtual async Task Update<TModel, TEntity>(TModel model) where TEntity : class, IEntity, new() where TModel : class, new()
+    protected virtual async Task Update<TModel, TEntity>(Guid entityThatChangesId, TModel model) where TEntity : class, IEntity, new() where TModel : class, new()
     {
         var entity = Mapper.Map<TModel, TEntity>(model);
-        entity.WaiterUpdatedId = ConnectEntity.Id;
+        entity.WaiterUpdatedId = entityThatChangesId;
         entity.UpdateTime = DateTime.Now;
 
         await DbRepository.Update(entity);
@@ -71,10 +68,10 @@ public abstract class BaseService
         return models.ToList();
     }
 
-    protected virtual async Task Remove<TEntity>(Guid id) where TEntity : class, IEntity
+    protected virtual async Task Remove<TEntity>(Guid entityThatChangesId, Guid id) where TEntity : class, IEntity
     {
         var entity = await DbRepository.GetById<TEntity>(id);
-        entity.WaiterUpdatedId = ConnectEntity.Id;
+        entity.WaiterUpdatedId = entityThatChangesId;
         entity.UpdateTime = DateTime.Now;
         entity.IsDeleted = true;
 
@@ -82,9 +79,9 @@ public abstract class BaseService
         await DbRepository.SaveChangesAsync();
     }
 
-    protected virtual async Task Remove<TEntity>(TEntity entity) where TEntity : class, IEntity
+    protected virtual async Task Remove<TEntity>(Guid entityThatChangesId, TEntity entity) where TEntity : class, IEntity
     {
-        entity.WaiterUpdatedId = ConnectEntity.Id;
+        entity.WaiterUpdatedId = entityThatChangesId;
         entity.UpdateTime = DateTime.Now;
         entity.IsDeleted = true;
 

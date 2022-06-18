@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace HostData.Domain.Contracts.Entities;
 
 public abstract class BaseEntity : IEntity
 {
+    [Key]
     public Guid Id { get; set; }
 
     public DateTime CreatedTime { get; set; } = DateTime.Now;

@@ -2,15 +2,15 @@
 
 public interface IBaseService<T> where T : class
 {
-    Task<Guid> Create(T model);
+    Task<Guid> Create(Guid entityThatChangesId, T model);
 
     Task<T> GetById(Guid id);
 
     Task<List<T>> GetAll();
 
-    Task Update(T model);
+    Task Update(Guid entityThatChangesId, T model);
 
     Task Delete(Guid id);
 
-    Task Remove(Guid id);
+    Task Remove(Guid entityThatChangesId, Guid id);
 }

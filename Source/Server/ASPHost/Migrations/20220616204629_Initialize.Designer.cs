@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ASPHost.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220616181514_Initialize")]
+    [Migration("20220616204629_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal>("DiscountSum")
                         .HasColumnType("numeric");
@@ -48,7 +48,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -71,7 +71,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -84,7 +84,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -106,7 +106,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("DiscountsId")
                         .HasColumnType("uuid");
@@ -115,7 +115,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -139,7 +139,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("GuestsId")
                         .HasColumnType("uuid");
@@ -148,7 +148,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -173,7 +173,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -191,7 +191,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -218,13 +218,13 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -246,7 +246,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -255,7 +255,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -282,7 +282,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("GuestId")
                         .HasColumnType("uuid");
@@ -297,7 +297,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("smallint");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -324,7 +324,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -333,7 +333,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -357,7 +357,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -367,7 +367,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid[]");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -390,10 +390,10 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("CloseTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<List<Guid>>("DiscountsId")
                         .IsRequired()
@@ -418,7 +418,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid[]");
 
                     b.Property<DateTime>("StartTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<byte>("Status")
                         .HasColumnType("smallint");
@@ -428,7 +428,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid[]");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -457,7 +457,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -473,7 +473,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -496,7 +496,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<byte>("EmployeePermission")
                         .HasColumnType("smallint");
@@ -508,7 +508,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -524,6 +524,228 @@ namespace ASPHost.Migrations
                     b.HasIndex("PermissionsId");
 
                     b.ToTable("AllPermissions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e256dce3-19e8-43f8-995f-5a7aa821c946"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3862),
+                            EmployeePermission = (byte)0,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("8a8ce162-257e-4f69-8aa9-b517404726e4"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3894),
+                            EmployeePermission = (byte)1,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("7c2ea4b6-8cd0-4ee2-8d22-ac3932ea905b"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3897),
+                            EmployeePermission = (byte)2,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("f578dc7d-4344-4d90-985a-d4b9eaca3661"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3900),
+                            EmployeePermission = (byte)3,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("666c73da-ba0e-4a74-88ad-7fb3154d6acc"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3902),
+                            EmployeePermission = (byte)4,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("55684f46-0dbb-48c9-b4b3-d927d53c7b3b"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3908),
+                            EmployeePermission = (byte)5,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("27aa8fa8-db9a-456c-9517-63966b832d78"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3910),
+                            EmployeePermission = (byte)6,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("368558a3-e579-457c-b9fa-35618cfd34ea"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3912),
+                            EmployeePermission = (byte)7,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("058db51d-b54a-4b18-8c25-8ff7f12e0aa0"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3914),
+                            EmployeePermission = (byte)8,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("e5fdef70-3f4c-48ed-b042-953727a84caf"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3918),
+                            EmployeePermission = (byte)9,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("5b537529-6e0c-4127-8e15-6172745d94be"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3920),
+                            EmployeePermission = (byte)10,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("a1460813-bfe1-4c7f-b658-62b5083f9e06"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3931),
+                            EmployeePermission = (byte)11,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("495f09fd-dfe2-45a0-b042-5731aede5c68"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3942),
+                            EmployeePermission = (byte)12,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("4921886e-0711-4179-bb86-dee55b8a6817"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3945),
+                            EmployeePermission = (byte)13,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("c689b455-0f8a-414b-8a69-64b165826792"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3963),
+                            EmployeePermission = (byte)14,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("a704fcde-ba5d-42be-89c8-f1e64ec8a522"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3966),
+                            EmployeePermission = (byte)15,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("0188f550-96ed-418c-b330-1e7af3e550b6"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(3968),
+                            EmployeePermission = (byte)16,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("d90fb9f8-6e90-4de5-b239-23f45468931c"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(4032),
+                            EmployeePermission = (byte)17,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("a93b13ab-a858-4d96-889d-4bfffe2fbfbc"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(4035),
+                            EmployeePermission = (byte)18,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("31579291-81b3-4fa6-8e5b-e804695c00d6"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(4037),
+                            EmployeePermission = (byte)19,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("9a7c7a24-5660-4237-bb95-a34687c33c1b"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(4039),
+                            EmployeePermission = (byte)20,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            Id = new Guid("17402627-055f-4a02-ac5b-b8f34e8898bb"),
+                            CreatedTime = new DateTime(2022, 6, 17, 1, 46, 19, 530, DateTimeKind.Local).AddTicks(4041),
+                            EmployeePermission = (byte)21,
+                            IsDeleted = false,
+                            Version = 1,
+                            WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
+                        });
                 });
 
             modelBuilder.Entity("HostData.Domain.Contracts.Entities.ProductEntity", b =>
@@ -533,7 +755,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -549,7 +771,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("smallint");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -572,7 +794,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -584,7 +806,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -607,7 +829,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -621,7 +843,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
@@ -644,7 +866,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -654,7 +876,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("uuid[]");
 
                     b.Property<DateTime?>("UpdateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");

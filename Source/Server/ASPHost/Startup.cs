@@ -1,6 +1,7 @@
 using HostData.Controller.Contract;
 using HostData.Controller.Implementation;
 using HostData.Domain.Context;
+using HostData.Domain.Contracts.Entities;
 using HostData.Domain.Contracts.Entities.Order;
 using HostData.Domain.Contracts.Services;
 using HostData.Domain.Repository;
@@ -28,6 +29,7 @@ namespace ASPHost
                 app.UseDeveloperExceptionPage();
 
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 
             app.UseOwin(x => x.UseNancy());
         }
@@ -60,8 +62,6 @@ namespace ASPHost
             services.AddTransient<IMapper, Mapper>();
 
             services.AddTransient<IWaiterController, WaiterController>();
-
-            services.AddSingleton(new OrderWaiterEntity { Id = Guid.Empty });
         }
     }
 }
