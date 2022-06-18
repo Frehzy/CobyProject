@@ -13,8 +13,8 @@ public class WaiterController : BaseController, IWaiterController
 {
     private readonly IWaiterService _waiterService;
 
-    public WaiterController(IWaiterService waiterService, IMapper mapper, IWaiterPermissionService waiterPermissionService, ICacheCredentials cacheCredentials) 
-        : base(mapper, waiterPermissionService, cacheCredentials)
+    public WaiterController(IWaiterService waiterService, IMapper mapper, ICredentialsCache cacheCredentials) 
+        : base(waiterService, mapper, cacheCredentials)
     {
         _waiterService = waiterService;
     }
@@ -23,28 +23,27 @@ public class WaiterController : BaseController, IWaiterController
     {
         var cId = (Guid)CheckDynamicGuid(credentials);
         var wId = (Guid)CheckDynamicGuid(waiterId);
-        var pEnum = Enum.Parse<EmployeePermission>(permission);
+        var pEnum = (EmployeePermission)Enum.Parse<EmployeePermission>(permission);
         var entityThatChanges = await CheckCredentials(cId);
 
-        var waiterModel = await _waiterService.WaiterPermissionService.GetById(wId);
-        var permissions = await _waiterService.PermissionService.GetAll();
-        var permissionModel = permissions.First(x => x.EmployeePermission.HasFlag(pEnum));
-
-        waiterModel.Permissions.Add(permissionModel);
-        await _waiterService.WaiterPermissionService.Update(entityThatChanges.Id, waiterModel);
+        var waiterModel = await _waiterService.GetById(wId);
+        waiterModel.Permissions.Add(pEnum);
+        await _waiterService.Update(entityThatChanges.Id, waiterModel);
 
         return WaiterFactory.CreateDto(waiterModel);
     }
 
-    public async Task<WaiterDto> CreateWaiter(dynamic credentials, string name, string password)
+    public async Task<WaiterDto> CreateWaiter(dynamic credentials, dynamic name, dynamic password)
     {
         var cId = (Guid)CheckDynamicGuid(credentials);
+        var n = (string)Convert.ToString(name);
+        var p = (string)Convert.ToString(password);
         var entityThatChanges = await CheckCredentials(cId);
 
         var waiterModel = new WaiterModel()
         {
-            Name = name,
-            Password = password,
+            Name = n,
+            Password = p,
             IsSessionOpen = false
         };
         await _waiterService.Create(entityThatChanges.Id, waiterModel);
@@ -54,19 +53,20 @@ public class WaiterController : BaseController, IWaiterController
     public async Task<WaiterDto> GetWaiterById(dynamic waiterId)
     {
         var wId = (Guid)CheckDynamicGuid(waiterId);
-        var waiterModel = await WaiterPermissionService.GetById(wId);
+        var waiterModel = await _waiterService.GetById(wId);
         return WaiterFactory.CreateDto(waiterModel);
     }
 
-    public async Task<WaiterPermissionModel> GetWaiterByPassword(string password)
+    public async Task<WaiterModel> GetWaiterByPassword(dynamic password)
     {
-        var waitersPermissionModel = await WaiterPermissionService.GetAll();
-        return waitersPermissionModel.First(x => x.Waiter.Password.Equals(password));
+        var p = (string)Convert.ToString(password);
+        var waitersPermissionModel = await _waiterService.GetAll();
+        return waitersPermissionModel.First(x => x.Password.Equals(p));
     }
 
     public async Task<List<WaiterDto>> GetWaiters()
     {
-        var waitersPermissionModel = await WaiterPermissionService.GetAll();
+        var waitersPermissionModel = await _waiterService.GetAll();
         return waitersPermissionModel.Select(x => WaiterFactory.CreateDto(x)).ToList();
     }
 
@@ -74,15 +74,12 @@ public class WaiterController : BaseController, IWaiterController
     {
         var cId = (Guid)CheckDynamicGuid(credentials);
         var wId = (Guid)CheckDynamicGuid(waiterId);
-        var pEnum = Enum.Parse<EmployeePermission>(permission);
+        var pEnum = (EmployeePermission)Enum.Parse<EmployeePermission>(permission);
         var entityThatChanges = await CheckCredentials(cId);
 
-        var waiterModel = await _waiterService.WaiterPermissionService.GetById(wId);
-        var permissions = await _waiterService.PermissionService.GetAll();
-        var permissionModel = permissions.First(x => x.EmployeePermission.HasFlag(pEnum));
-
-        waiterModel.Permissions.Remove(permissionModel);
-        await _waiterService.WaiterPermissionService.Update(entityThatChanges.Id, waiterModel);
+        var waiterModel = await _waiterService.GetById(wId);
+        waiterModel.Permissions.Remove(pEnum);
+        await _waiterService.Update(entityThatChanges.Id, waiterModel);
 
         return WaiterFactory.CreateDto(waiterModel);
     }

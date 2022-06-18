@@ -1,8 +1,7 @@
+using HostData.Cache.Credentials;
 using HostData.Controller.Contract;
 using HostData.Controller.Implementation;
 using HostData.Domain.Context;
-using HostData.Domain.Contracts.Entities;
-using HostData.Domain.Contracts.Entities.Order;
 using HostData.Domain.Contracts.Services;
 using HostData.Domain.Repository;
 using HostData.Mapper;
@@ -10,7 +9,6 @@ using HostData.Repository;
 using HostData.Services;
 using Microsoft.EntityFrameworkCore;
 using Nancy.Owin;
-using Shared.Data;
 
 namespace ASPHost
 {
@@ -53,15 +51,16 @@ namespace ASPHost
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IPaymentService, PaymentService>();
             services.AddTransient<IPaymentTypeService, PaymentTypeService>();
-            services.AddTransient<IPermissionService, PermissionService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ITableService, TableService>();
             services.AddTransient<IWaiterService, WaiterService>();
-            services.AddTransient<IWaiterPermissionService, WaiterPermissionService>();
 
             services.AddTransient<IMapper, Mapper>();
 
             services.AddTransient<IWaiterController, WaiterController>();
+            services.AddTransient<ICredentialsController, CredentialsController>();
+
+            services.AddTransient<ICredentialsCache, CredentialsCache>();
         }
     }
 }

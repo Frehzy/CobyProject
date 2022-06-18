@@ -9,12 +9,6 @@ public class OrderWaiterEntity : BaseEntity
     [ForeignKey(nameof(Id))]
     public virtual WaiterEntity WaiterEntity { get; set; }
 
-    public List<Guid> PermissionId { get; set; }
-
-    [JsonIgnore]
-    [ForeignKey(nameof(PermissionId))]
-    public virtual ICollection<OrderPermissionEntity> Permissions { get; set; }
-
     public virtual OrderEntity Order { get; set; }
 
     public OrderWaiterEntity() : base() { }

@@ -10,9 +10,9 @@ public interface IWaiterController
     public Task<WaiterDto> GetWaiterById(dynamic waiterId);
 
     [Obsolete("ТОЛЬКО ДЛЯ СЕРВЕРА")]
-    public Task<WaiterPermissionModel> GetWaiterByPassword(string password);
+    public Task<WaiterModel> GetWaiterByPassword(dynamic password);
 
-    public Task<WaiterDto> CreateWaiter(dynamic credentials, string name, string password);
+    public Task<WaiterDto> CreateWaiter(dynamic credentials, dynamic name, dynamic password);
 
     public Task<WaiterDto> RemoveWaiter(dynamic credentials, dynamic waiterId);
 

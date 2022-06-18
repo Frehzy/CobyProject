@@ -1,4 +1,6 @@
-﻿namespace HostData.Domain.Contracts.Models;
+﻿using Shared.Data.Enum;
+
+namespace HostData.Domain.Contracts.Models;
 
 public class WaiterModel
 {
@@ -11,6 +13,8 @@ public class WaiterModel
     public bool IsSessionOpen { get; set; }
 
     public DateTime CreatedTime { get; set; } = DateTime.Now;
+
+    public List<EmployeePermission> Permissions { get; set; }
 
     public bool IsDeleted { get; set; } = false;
 

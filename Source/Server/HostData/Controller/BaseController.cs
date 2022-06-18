@@ -10,17 +10,17 @@ namespace HostData.Controller;
 
 public class BaseController
 {
+    protected IWaiterService WaiterService { get; }
+
     protected IMapper Mapper { get; }
 
-    protected IWaiterPermissionService WaiterPermissionService { get; }
+    protected ICredentialsCache CredentialsCache { get; }
 
-    protected ICacheCredentials CacheCredentials;
-
-    public BaseController(IMapper mapper, IWaiterPermissionService waiterPermissionService, ICacheCredentials cacheCredentials)
+    public BaseController(IWaiterService waiterService, IMapper mapper, ICredentialsCache credentialsCache)
     {
+        WaiterService = waiterService;
         Mapper = mapper;
-        WaiterPermissionService = waiterPermissionService;
-        CacheCredentials = cacheCredentials;
+        CredentialsCache = credentialsCache;
     }
 
     protected Guid CheckDynamicGuid(dynamic guid) =>
@@ -30,11 +30,11 @@ public class BaseController
 
     protected async Task<WaiterDto> CheckCredentials(Guid credentialsId)
     {
-        if (CacheCredentials.CheckCredentials(credentialsId, out Guid waiterId) is false)
+        if (CredentialsCache.CheckCredentials(credentialsId, out Guid waiterId) is false)
             throw new InvalidSessionException();
 
-        var waiter = await WaiterPermissionService.GetById(waiterId);
-        if (waiter.Waiter.IsSessionOpen is false || waiter.Waiter.IsDeleted is true)
+        var waiter = await WaiterService.GetById(waiterId);
+        if (waiter.IsSessionOpen is false || waiter.IsDeleted is true)
             throw new WaiterDeletedOrPersonalSessionNotOpen(waiter.Id);
 
         return WaiterFactory.CreateDto(waiter);
@@ -42,8 +42,8 @@ public class BaseController
 
     protected async Task<WaiterDto> CheckPermission(Guid waiterId, EmployeePermission checkPermission)
     {
-        var waiter = await WaiterPermissionService.GetById(waiterId);
-        if (waiter.Permissions.Any(x => x.EmployeePermission.HasFlag(checkPermission)) is false)
+        var waiter = await WaiterService.GetById(waiterId);
+        if (waiter.Permissions.Any(x => x.HasFlag(checkPermission)) is false)
             throw new PermissionDeniedException(checkPermission);
 
         return WaiterFactory.CreateDto(waiter);

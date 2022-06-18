@@ -1,5 +1,4 @@
 ﻿using HostData.Controller.Contract;
-using HostData.Domain.Contracts.Services;
 using Shared.Factory.Dto;
 
 namespace HostData.Modules;
@@ -8,7 +7,7 @@ public class WaiterModule : BaseModule
 {
     private readonly IWaiterController _waiterController;
 
-    public WaiterModule(IWaiterController waiterController, IPermissionService permissionService) : base()
+    public WaiterModule(IWaiterController waiterController) : base()
     {
         _waiterController = waiterController;
 
