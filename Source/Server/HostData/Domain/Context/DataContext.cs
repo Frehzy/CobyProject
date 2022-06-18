@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Shared.Data.Enum;
-using System.Linq;
 
 namespace HostData.Domain.Context;
 
@@ -23,7 +22,7 @@ public class DataContext : DbContext
 
     public DbSet<WaiterEntity> AllWaiters { get; set; }
 
-    public DataContext(DbContextOptions<DataContext> options) : base(options) 
+    public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);

@@ -19,6 +19,6 @@ public class CredentialsController : BaseController, ICredentialsController
 
         var waiters = await WaiterService.GetAll();
         var waiterModule = waiters.First(x => x.Password.Equals(p));
-        return await CredentialsCache.Add(waiterModule);
+        return await CredentialsCache.TryAdd(waiterModule);
     }
 }

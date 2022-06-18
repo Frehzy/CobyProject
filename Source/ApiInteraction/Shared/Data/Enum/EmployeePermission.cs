@@ -1,5 +1,8 @@
-﻿namespace Shared.Data.Enum;
+﻿using System.Text.Json.Serialization;
 
+namespace Shared.Data.Enum;
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum EmployeePermission : byte
 {
     CanCreateOrder, //заказ

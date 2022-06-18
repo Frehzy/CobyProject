@@ -13,7 +13,7 @@ public class WaiterController : BaseController, IWaiterController
 {
     private readonly IWaiterService _waiterService;
 
-    public WaiterController(IWaiterService waiterService, IMapper mapper, ICredentialsCache cacheCredentials) 
+    public WaiterController(IWaiterService waiterService, IMapper mapper, ICredentialsCache cacheCredentials)
         : base(waiterService, mapper, cacheCredentials)
     {
         _waiterService = waiterService;
@@ -94,6 +94,6 @@ public class WaiterController : BaseController, IWaiterController
         var waiterModel = await _waiterService.GetById(wId);
 
         await _waiterService.Remove(entityThatChanges.Id, wId);
-        return WaiterFactory.CreateDto(waiterModel); 
+        return WaiterFactory.CreateDto(waiterModel);
     }
 }

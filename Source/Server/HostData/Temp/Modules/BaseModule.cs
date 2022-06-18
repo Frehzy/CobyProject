@@ -1,12 +1,4 @@
-﻿using Nancy;
-using Nancy.Extensions;
-using Serilog;
-using Shared.Exceptions;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace HostData.Temp.Modules;
+﻿namespace HostData.Temp.Modules;
 
 /*public abstract class BaseModule : NancyModule
 {

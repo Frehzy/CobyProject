@@ -1,8 +1,4 @@
-﻿using HostData.Domain.Contracts.Services;
-using HostData.Mapper;
-using HostData.Repository;
-
-namespace HostData.Modules;
+﻿namespace HostData.Modules;
 
 /*public class TestModule : BaseModule
 {

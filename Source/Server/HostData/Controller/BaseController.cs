@@ -24,7 +24,7 @@ public class BaseController
     }
 
     protected Guid CheckDynamicGuid(dynamic guid) =>
-        Guid.TryParse(guid.ToString(), out Guid returnGuid) is true 
+        Guid.TryParse(guid.ToString(), out Guid returnGuid) is true
             ? returnGuid
             : throw new ArgumentException($"{nameof(guid)} must be type Guid", nameof(guid));
 

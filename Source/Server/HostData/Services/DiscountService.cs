@@ -1,5 +1,4 @@
 ﻿using HostData.Domain.Contracts.Entities;
-using HostData.Domain.Contracts.Entities.Order;
 using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
 using HostData.Mapper;
@@ -29,5 +28,5 @@ public class DiscountService : BaseService, IDiscountService
         await base.GetAll<DiscountModel, DiscountEntity>();
 
     public async Task Remove(Guid entityThatChangesId, Guid id) =>
-        await base.Remove<DiscountEntity>(entityThatChangesId,id);
+        await base.Remove<DiscountEntity>(entityThatChangesId, id);
 }

@@ -1,5 +1,4 @@
 ﻿using HostData.Domain.Contracts.Entities;
-using HostData.Domain.Contracts.Entities.Order;
 using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
 using HostData.Mapper;
