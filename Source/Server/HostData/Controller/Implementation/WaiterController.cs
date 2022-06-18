@@ -3,7 +3,6 @@ using HostData.Controller.Contract;
 using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
 using HostData.Mapper;
-using HostData.Mapper.Factory;
 using Shared.Data.Enum;
 using Shared.Factory.Dto;
 
@@ -30,7 +29,7 @@ public class WaiterController : BaseController, IWaiterController
         waiterModel.Permissions.Add(pEnum);
         await _waiterService.Update(entityThatChanges.Id, waiterModel);
 
-        return WaiterFactory.CreateDto(waiterModel);
+        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
     }
 
     public async Task<WaiterDto> CreateWaiter(dynamic credentials, dynamic name, dynamic password)
@@ -47,14 +46,14 @@ public class WaiterController : BaseController, IWaiterController
             IsSessionOpen = false
         };
         await _waiterService.Create(entityThatChanges.Id, waiterModel);
-        return WaiterFactory.CreateDto(waiterModel);
+        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
     }
 
     public async Task<WaiterDto> GetWaiterById(dynamic waiterId)
     {
         var wId = (Guid)CheckDynamicGuid(waiterId);
         var waiterModel = await _waiterService.GetById(wId);
-        return WaiterFactory.CreateDto(waiterModel);
+        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
     }
 
     public async Task<WaiterModel> GetWaiterByPassword(dynamic password)
@@ -67,7 +66,7 @@ public class WaiterController : BaseController, IWaiterController
     public async Task<List<WaiterDto>> GetWaiters()
     {
         var waitersPermissionModel = await _waiterService.GetAll();
-        return waitersPermissionModel.Select(x => WaiterFactory.CreateDto(x)).ToList();
+        return waitersPermissionModel.Select(x => Mapper.Map<WaiterModel, WaiterDto>(x)).ToList();
     }
 
     public async Task<WaiterDto> RemovePermissionOnWaiterById(dynamic credentials, dynamic waiterId, dynamic permission)
@@ -81,7 +80,7 @@ public class WaiterController : BaseController, IWaiterController
         waiterModel.Permissions.Remove(pEnum);
         await _waiterService.Update(entityThatChanges.Id, waiterModel);
 
-        return WaiterFactory.CreateDto(waiterModel);
+        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
     }
 
     public async Task<WaiterDto> RemoveWaiter(dynamic credentials, dynamic waiterId)
@@ -94,6 +93,6 @@ public class WaiterController : BaseController, IWaiterController
         var waiterModel = await _waiterService.GetById(wId);
 
         await _waiterService.Remove(entityThatChanges.Id, wId);
-        return WaiterFactory.CreateDto(waiterModel);
+        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
     }
 }

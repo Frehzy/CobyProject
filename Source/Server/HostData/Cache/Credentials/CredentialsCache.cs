@@ -21,11 +21,20 @@ public class CredentialsCache : ICredentialsCache
 
     public async Task<CredentialsDto> TryAdd(WaiterModel waiterModel)
     {
+        if (CheckIfExistsCredentials(waiterModel.Id, out var existsCredentials) is not null)
+        {
+            existsCredentials.ResetTimer();
+            return new CredentialsDto(existsCredentials.CredentialsId);
+        }
+
         var credentials = new CredentialsAction(waiterModel);
         credentials.TimerCallBackAction += RemoveCredentials;
         _credentials.TryAdd(credentials.CredentialsId, credentials);
 
         return new CredentialsDto(credentials.CredentialsId);
+
+        CredentialsAction? CheckIfExistsCredentials(Guid waiterId, out CredentialsAction credentialsAction) =>
+            credentialsAction = _credentials.FirstOrDefault(x => x.Value.Waiter.Id.Equals(waiterId)).Value;
     }
 
     public bool CheckCredentials(Guid credentialsId, out Guid waiterId)

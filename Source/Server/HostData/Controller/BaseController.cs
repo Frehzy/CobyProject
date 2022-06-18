@@ -1,7 +1,7 @@
 ﻿using HostData.Cache.Credentials;
+using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
 using HostData.Mapper;
-using HostData.Mapper.Factory;
 using Shared.Data.Enum;
 using Shared.Exceptions;
 using Shared.Factory.Dto;
@@ -33,19 +33,19 @@ public class BaseController
         if (CredentialsCache.CheckCredentials(credentialsId, out Guid waiterId) is false)
             throw new InvalidSessionException();
 
-        var waiter = await WaiterService.GetById(waiterId);
-        if (waiter.IsSessionOpen is false || waiter.IsDeleted is true)
-            throw new WaiterDeletedOrPersonalSessionNotOpen(waiter.Id);
+        var waiterModel = await WaiterService.GetById(waiterId);
+        if (waiterModel.IsSessionOpen is false || waiterModel.IsDeleted is true)
+            throw new WaiterDeletedOrPersonalSessionNotOpen(waiterModel.Id);
 
-        return WaiterFactory.CreateDto(waiter);
+        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
     }
 
     protected async Task<WaiterDto> CheckPermission(Guid waiterId, EmployeePermission checkPermission)
     {
-        var waiter = await WaiterService.GetById(waiterId);
-        if (waiter.Permissions.Any(x => x.HasFlag(checkPermission)) is false)
+        var waiterModel = await WaiterService.GetById(waiterId);
+        if (waiterModel.Permissions.Any(x => x.HasFlag(checkPermission)) is false)
             throw new PermissionDeniedException(checkPermission);
 
-        return WaiterFactory.CreateDto(waiter);
+        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
     }
 }
