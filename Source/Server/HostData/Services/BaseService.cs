@@ -3,6 +3,7 @@ using HostData.Domain.Contracts.Models;
 using HostData.Mapper;
 using HostData.Repository;
 using Serilog;
+using System.Linq.Expressions;
 using System.Text.Json;
 
 namespace HostData.Services;
@@ -63,12 +64,6 @@ public abstract class BaseService
         return model;
     }
 
-    protected virtual TModel Map<TModel, TEntity>(TEntity entity) where TEntity : class, IEntity, new() where TModel : class, new()
-    {
-        var model = Mapper.Map<TEntity, TModel>(entity);
-        return model;
-    }
-
     protected virtual async Task<List<TModel>> GetAll<TModel, TEntity>() where TEntity : class, IEntity, new() where TModel : class, new()
     {
         var collection = await DbRepository.GetAll<TEntity>();
@@ -98,6 +93,9 @@ public abstract class BaseService
         await DbRepository.SaveChangesAsync();
         Logging(OperationType.Remove, entity).ConfigureAwait(false);
     }
+
+    protected virtual async Task<bool> CheckIfExists<T>(T entity, Expression<Func<T, bool>> anyPredicate) where T : class, IEntity =>
+        await DbRepository.CheckIfExists(entity, anyPredicate);
 
     private async Task Logging(OperationType operationType, Guid id) =>
         Log.Information($"{operationType} with Id [{id}]");

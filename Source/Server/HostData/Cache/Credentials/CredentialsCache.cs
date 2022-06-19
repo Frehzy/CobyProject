@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace HostData.Cache.Credentials;
 
-public class CredentialsCache : ICredentialsCache
+public class CredentialsCache : ICredentialsCache, IDisposable
 {
     private readonly ObservableConcurrentDictionary<Guid, CredentialsAction> _credentials = new();
 
@@ -42,6 +42,13 @@ public class CredentialsCache : ICredentialsCache
         var returnValue = _credentials.TryGetValue(credentialsId, out var credentials);
         waiterId = credentials.Waiter.Id;
         return returnValue;
+    }
+
+    public void Dispose()
+    {
+        foreach(var credentials in _credentials.Values)
+            credentials.TimerCallBackAction -= RemoveCredentials;
+        GC.SuppressFinalize(this);
     }
 
     private void Credentials_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

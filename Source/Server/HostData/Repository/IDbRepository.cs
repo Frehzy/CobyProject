@@ -24,5 +24,7 @@ public interface IDbRepository
     Task Update<T>(T entity) where T : class, IEntity;
     Task UpdateRange<T>(IEnumerable<T> entities) where T : class, IEntity;
 
+    Task<bool> CheckIfExists<T>(T entity, Expression<Func<T, bool>> anyPredicate) where T : class, IEntity;
+
     Task<int> SaveChangesAsync();
 }

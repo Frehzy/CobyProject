@@ -62,6 +62,12 @@ public abstract class BaseModule : NancyModule
             Log.Error(ex, json);
             return CreateExceptionResponse(json, nameof(WaiterDeletedOrPersonalSessionNotOpen));
         }
+        catch (EntityAlreadyExistsException ex)
+        {
+            var json = JsonSerializer.Serialize(ex.CreateDictionary(), Json.Options.JsonSerializerOptions);
+            Log.Error(ex, json);
+            return CreateExceptionResponse(json, nameof(EntityAlreadyExistsException));
+        }
         catch (EntityException ex)
         {
             var json = JsonSerializer.Serialize(ex.CreateDictionary(), Json.Options.JsonSerializerOptions);
