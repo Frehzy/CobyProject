@@ -2,7 +2,7 @@
 
 namespace HostData.Domain.Contracts.Entities;
 
-public class ProductEntity : BaseEntity
+public class ProductItemEntity : BaseEntity
 {
     public string Name { get; set; }
 

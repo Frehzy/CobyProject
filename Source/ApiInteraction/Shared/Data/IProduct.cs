@@ -6,10 +6,6 @@ public interface IProduct
 {
     public Guid Id { get; }
 
-    public string Name { get; }
-
-    public decimal Price { get; }
-
     public Guid GuestId { get; }
 
     public Guid WaiterId { get; }
@@ -18,7 +14,7 @@ public interface IProduct
 
     public ProductStatus Status { get; }
 
-    public ProductType Type { get; }
+    public IProductItem ProductItem { get; }
 
     public bool IsDeleted { get; }
 

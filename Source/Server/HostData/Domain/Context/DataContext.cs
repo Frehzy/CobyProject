@@ -14,9 +14,7 @@ public class DataContext : DbContext
 
     public DbSet<PaymentTypeEntity> AllPaymentTypes { get; set; }
 
-    public DbSet<PaymentTypeEntity> AllPaymentType { get; set; }
-
-    public DbSet<ProductEntity> AllProducts { get; set; }
+    public DbSet<ProductItemEntity> AllProducts { get; set; }
 
     public DbSet<TableEntity> AllTables { get; set; }
 

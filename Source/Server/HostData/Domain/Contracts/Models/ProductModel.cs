@@ -4,11 +4,15 @@ namespace HostData.Domain.Contracts.Models;
 
 public class ProductModel : BaseModel
 {
-    public string Name { get; set; }
+    public ProductItemModel ProductItem { get; set; }
 
-    public decimal Price { get; set; }
+    public Guid GuestId { get; set; }
 
-    public ProductType Type { get; set; }
+    public Guid WaiterId { get; set; }
+
+    public string? Comment { get; set; }
+
+    public ProductStatus Status { get; set; }
 
     public ProductModel() { }
 }

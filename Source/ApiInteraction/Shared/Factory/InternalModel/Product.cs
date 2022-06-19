@@ -7,10 +7,6 @@ internal class Product : IProduct
 {
     public Guid Id { get; set; }
 
-    public string Name { get; set; }
-
-    public decimal Price { get; set; }
-
     public Guid GuestId { get; set; }
 
     public Guid WaiterId { get; set; }
@@ -19,7 +15,7 @@ internal class Product : IProduct
 
     public ProductStatus Status { get; set; }
 
-    public ProductType Type { get; set; }
+    public IProductItem ProductItem { get; set; }
 
     public bool IsDeleted { get; set; }
 
@@ -27,16 +23,14 @@ internal class Product : IProduct
 
     public Product() { }
 
-    public Product(Guid id, string name, decimal price, Guid guestId, Guid waiterId, DateTime? printTime, ProductStatus status, ProductType type, bool isDeleted, string? comment)
+    public Product(Guid id, Guid guestId, Guid waiterId, DateTime? printTime, ProductStatus status, IProductItem productItem, bool isDeleted, string? comment)
     {
         Id = id;
-        Name = name;
-        Price = price;
         GuestId = guestId;
         WaiterId = waiterId;
         PrintTime = printTime;
         Status = status;
-        Type = type;
+        ProductItem = productItem;
         IsDeleted = isDeleted;
         Comment = comment;
     }

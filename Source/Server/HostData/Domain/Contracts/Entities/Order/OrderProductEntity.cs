@@ -8,7 +8,7 @@ public class OrderProductEntity : BaseEntity
 {
     [JsonIgnore]
     [ForeignKey(nameof(Id))]
-    public virtual ProductEntity ProductEntity { get; set; }
+    public virtual ProductItemEntity ProductItem { get; set; }
 
     public virtual OrderEntity Order { get; set; }
 
