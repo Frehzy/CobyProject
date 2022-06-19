@@ -2,7 +2,7 @@
 
 namespace HostData.Controller.Contract;
 
-public interface IPaymentController
+public interface IPaymentTypeController
 {
     public Task<PaymentTypeDto> CreatePaymentType(dynamic credentials, dynamic name, dynamic paymentTypeKind, dynamic needOpenCashBox);
 

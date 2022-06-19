@@ -47,10 +47,10 @@ public sealed class DbRepository : IDbRepository
     public async Task RemoveRange<T>(IEnumerable<T> entities) where T : class, IEntity =>
         await Task.Run(() => Context.Set<T>().RemoveRange(entities));
 
-    public async Task Update<T>(T entity) where T : class, IEntity => 
+    public async Task Update<T>(T entity) where T : class, IEntity =>
         await Task.Run(() => Context.Set<T>().Update(entity));
 
-    public async Task UpdateRange<T>(IEnumerable<T> entities) where T : class, IEntity => 
+    public async Task UpdateRange<T>(IEnumerable<T> entities) where T : class, IEntity =>
         await Task.Run(() => Context.Set<T>().UpdateRange(entities));
 
     public async Task<bool> CheckIfExists<T>(T entity, Expression<Func<T, bool>> anyPredicate) where T : class, IEntity =>

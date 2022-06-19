@@ -11,7 +11,7 @@ public class TableController : BaseController, ITableController
 {
     private readonly ITableService _tableService;
 
-    public TableController(ITableService tableService, IWaiterService waiterService, IMapper mapper, ICredentialsCache credentialsCache) 
+    public TableController(ITableService tableService, IWaiterService waiterService, IMapper mapper, ICredentialsCache credentialsCache)
         : base(waiterService, mapper, credentialsCache)
     {
         _tableService = tableService;

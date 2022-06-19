@@ -61,7 +61,8 @@ namespace ASPHost
             services.AddTransient<IWaiterController, WaiterController>();
             services.AddTransient<ICredentialsController, CredentialsController>();
             services.AddTransient<ITableController, TableController>();
-            services.AddTransient<IPaymentController, PaymentController>();
+            services.AddTransient<IPaymentTypeController, PaymentTypeController>();
+            services.AddTransient<IDiscountTypeController, DiscountTypeController>();
 
             services.AddTransient<ICredentialsCache, CredentialsCache>();
         }

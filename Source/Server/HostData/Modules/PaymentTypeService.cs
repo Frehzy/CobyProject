@@ -1,18 +1,13 @@
 ﻿using HostData.Controller.Contract;
 using Shared.Factory.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HostData.Modules;
 
-public class PaymentService : BaseModule
+public class PaymentTypeService : BaseModule
 {
-    private readonly IPaymentController _paymentController;
+    private readonly IPaymentTypeController _paymentController;
 
-    public PaymentService(IPaymentController paymentController) : base()
+    public PaymentTypeService(IPaymentTypeController paymentController) : base()
     {
         _paymentController = paymentController;
 

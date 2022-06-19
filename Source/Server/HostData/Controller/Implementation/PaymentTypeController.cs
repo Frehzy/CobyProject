@@ -8,15 +8,13 @@ using Shared.Factory.Dto;
 
 namespace HostData.Controller.Implementation;
 
-public class PaymentController : BaseController, IPaymentController
+public class PaymentTypeController : BaseController, IPaymentTypeController
 {
-    private readonly IPaymentService _paymentService;
     private readonly IPaymentTypeService _paymentTypeService;
 
-    public PaymentController(IPaymentService paymentService, IPaymentTypeService paymentTypeService, IWaiterService waiterService, IMapper mapper, ICredentialsCache credentialsCache)
+    public PaymentTypeController(IPaymentTypeService paymentTypeService, IWaiterService waiterService, IMapper mapper, ICredentialsCache credentialsCache)
         : base(waiterService, mapper, credentialsCache)
     {
-        _paymentService = paymentService;
         _paymentTypeService = paymentTypeService;
     }
 
@@ -28,14 +26,14 @@ public class PaymentController : BaseController, IPaymentController
         var needOpen = (bool)Convert.ToBoolean(needOpenCashBox);
         var entityThatChanges = await CheckCredentials(cId);
 
-        var paymentType = new PaymentTypeModel()
+        var paymentTypeModel = new PaymentTypeModel()
         {
             Name = n,
             Kind = pTKindEnum,
             NeedOpenCashBox = needOpen
         };
-        await _paymentTypeService.Create(entityThatChanges.Id, paymentType);
-        return Mapper.Map<PaymentTypeModel, PaymentTypeDto>(paymentType);
+        await _paymentTypeService.Create(entityThatChanges.Id, paymentTypeModel);
+        return Mapper.Map<PaymentTypeModel, PaymentTypeDto>(paymentTypeModel);
     }
 
     public async Task<List<PaymentTypeDto>> GetPaymentTypes()

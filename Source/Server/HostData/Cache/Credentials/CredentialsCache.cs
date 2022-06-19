@@ -47,7 +47,7 @@ public class CredentialsCache : ICredentialsCache, IDisposable
 
     public void Dispose()
     {
-        foreach(var credentials in _credentials.Values)
+        foreach (var credentials in _credentials.Values)
             credentials.TimerCallBackAction -= RemoveCredentials;
         GC.SuppressFinalize(this);
     }
