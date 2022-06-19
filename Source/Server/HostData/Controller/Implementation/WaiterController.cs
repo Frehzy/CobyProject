@@ -4,6 +4,7 @@ using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
 using HostData.Mapper;
 using Shared.Data.Enum;
+using Shared.Exceptions;
 using Shared.Factory.Dto;
 
 namespace HostData.Controller.Implementation;
@@ -26,10 +27,16 @@ public class WaiterController : BaseController, IWaiterController
         var entityThatChanges = await CheckCredentials(cId);
 
         var waiterModel = await _waiterService.GetById(wId);
+        if (CheckIfExistsPermission(waiterModel, pEnum) is true)
+            throw new EntityAlreadyExistsException(waiterModel.Id, typeof(EmployeePermission).ToString());
+
         waiterModel.Permissions.Add(pEnum);
         await _waiterService.Update(entityThatChanges.Id, waiterModel);
 
         return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+
+        static bool CheckIfExistsPermission(WaiterModel model, EmployeePermission permission) =>
+            model.Permissions.Any(x => x.HasFlag(permission));
     }
 
     public async Task<WaiterDto> CreateWaiter(dynamic credentials, dynamic name, dynamic password)
@@ -65,8 +72,8 @@ public class WaiterController : BaseController, IWaiterController
 
     public async Task<List<WaiterDto>> GetWaiters()
     {
-        var waitersPermissionModel = await _waiterService.GetAll();
-        return waitersPermissionModel.Select(x => Mapper.Map<WaiterModel, WaiterDto>(x)).ToList();
+        var waiterModels = await _waiterService.GetAll();
+        return waiterModels.Select(x => Mapper.Map<WaiterModel, WaiterDto>(x)).ToList();
     }
 
     public async Task<WaiterDto> RemovePermissionOnWaiterById(dynamic credentials, dynamic waiterId, dynamic permission)
@@ -77,13 +84,15 @@ public class WaiterController : BaseController, IWaiterController
         var entityThatChanges = await CheckCredentials(cId);
 
         var waiterModel = await _waiterService.GetById(wId);
-        waiterModel.Permissions.Remove(pEnum);
+        if (waiterModel.Permissions.Remove(pEnum) is false)
+            throw new EntityNotFoundException(waiterModel.Id, nameof(EmployeePermission).ToString());
+
         await _waiterService.Update(entityThatChanges.Id, waiterModel);
 
         return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
     }
 
-    public async Task<WaiterDto> RemoveWaiter(dynamic credentials, dynamic waiterId)
+    public async Task<WaiterDto> RemoveWaiterById(dynamic credentials, dynamic waiterId)
     {
         var cId = (Guid)CheckDynamicGuid(credentials);
         var wId = (Guid)CheckDynamicGuid(waiterId);
@@ -93,6 +102,36 @@ public class WaiterController : BaseController, IWaiterController
         var waiterModel = await _waiterService.GetById(wId);
 
         await _waiterService.Remove(entityThatChanges.Id, wId);
+        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+    }
+
+    public async Task<WaiterDto> OpenPersonalSession(dynamic credentials, dynamic waiterId)
+    {
+        var cId = (Guid)CheckDynamicGuid(credentials);
+        var wId = (Guid)CheckDynamicGuid(waiterId);
+
+        var entityThatChanges = await CheckCredentials(cId);
+
+        var waiterModel = await _waiterService.GetById(wId);
+        waiterModel.IsSessionOpen = true;
+
+        await _waiterService.Update(entityThatChanges.Id, waiterModel);
+
+        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+    }
+
+    public async Task<WaiterDto> ClosePersonalSession(dynamic credentials, dynamic waiterId)
+    {
+        var cId = (Guid)CheckDynamicGuid(credentials);
+        var wId = (Guid)CheckDynamicGuid(waiterId);
+
+        var entityThatChanges = await CheckCredentials(cId);
+
+        var waiterModel = await _waiterService.GetById(wId);
+        waiterModel.IsSessionOpen = false;
+
+        await _waiterService.Update(entityThatChanges.Id, waiterModel);
+
         return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
     }
 }

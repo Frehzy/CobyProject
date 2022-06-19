@@ -34,7 +34,7 @@ public class WaiterModule : BaseModule
         {
             var credentialsId = parameters.credentialsId;
             var waiterId = parameters.waiterId;
-            return await Execute<WaiterDto>(Context, () => _waiterController.RemoveWaiter(credentialsId, waiterId));
+            return await Execute<WaiterDto>(Context, () => _waiterController.RemoveWaiterById(credentialsId, waiterId));
         });
 
         Get("{credentialsId}/waiter/update/addPermission/{waiterId}/{permission}", async parameters =>
@@ -51,6 +51,20 @@ public class WaiterModule : BaseModule
             var waiterId = parameters.waiterId;
             var permission = parameters.permission;
             return await Execute<WaiterDto>(Context, () => _waiterController.RemovePermissionOnWaiterById(credentialsId, waiterId, permission));
+        });
+
+        Get("{credentialsId}/waiter/personalSession/open/{waiterId}", async parameters =>
+        {
+            var credentialsId = parameters.credentialsId;
+            var waiterId = parameters.waiterId;
+            return await Execute<WaiterDto>(Context, () => _waiterController.OpenPersonalSession(credentialsId, waiterId));
+        });
+
+        Get("{credentialsId}/waiter/personalSession/close/{waiterId}", async parameters =>
+        {
+            var credentialsId = parameters.credentialsId;
+            var waiterId = parameters.waiterId;
+            return await Execute<WaiterDto>(Context, () => _waiterController.ClosePersonalSession(credentialsId, waiterId));
         });
     }
 }

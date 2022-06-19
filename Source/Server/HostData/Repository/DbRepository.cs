@@ -54,7 +54,7 @@ public sealed class DbRepository : IDbRepository
         await Task.Run(() => Context.Set<T>().UpdateRange(entities));
 
     public async Task<bool> CheckIfExists<T>(T entity, Expression<Func<T, bool>> anyPredicate) where T : class, IEntity =>
-        await Context.Set<T>().Where(x => x.IsDeleted == false).AnyAsync(anyPredicate);
+        await Context.Set<T>().Where(x => x.Id.Equals(entity.Id) == false && x.IsDeleted == false).AnyAsync(anyPredicate);
 
     public async Task<int> SaveChangesAsync() =>
         await Context.SaveChangesAsync();

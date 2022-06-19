@@ -14,9 +14,13 @@ public interface IWaiterController
 
     public Task<WaiterDto> CreateWaiter(dynamic credentials, dynamic name, dynamic password);
 
-    public Task<WaiterDto> RemoveWaiter(dynamic credentials, dynamic waiterId);
+    public Task<WaiterDto> RemoveWaiterById(dynamic credentials, dynamic waiterId);
 
     public Task<WaiterDto> AddPermissionOnWaiterById(dynamic credentials, dynamic waiterId, dynamic permissionId);
 
     public Task<WaiterDto> RemovePermissionOnWaiterById(dynamic credentials, dynamic waiterId, dynamic permissionId);
+
+    public Task<WaiterDto> OpenPersonalSession(dynamic credentials, dynamic waiterId);
+
+    public Task<WaiterDto> ClosePersonalSession(dynamic credentials, dynamic waiterId);
 }
