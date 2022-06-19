@@ -47,6 +47,7 @@ namespace ASPHost
             services.AddScoped<IDbRepository, DbRepository>();
 
             services.AddTransient<IDiscountService, DiscountService>();
+            services.AddTransient<IDiscountTypeService, DiscountTypeService>();
             services.AddTransient<IGuestService, GuestService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IPaymentService, PaymentService>();

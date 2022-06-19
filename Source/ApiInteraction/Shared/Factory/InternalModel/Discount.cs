@@ -6,7 +6,7 @@ internal class Discount : IDiscount
 {
     public Guid Id { get; set; }
 
-    public string Name { get; set; }
+    public IDiscountType Type { get; set; }
 
     public decimal DiscountSum { get; set; }
 
@@ -16,10 +16,10 @@ internal class Discount : IDiscount
 
     public Discount() { }
 
-    public Discount(Guid id, string name, decimal discountSum, bool isActive = true, bool isDeleted = false)
+    public Discount(Guid id, IDiscountType type, decimal discountSum, bool isActive, bool isDeleted)
     {
         Id = id;
-        Name = name;
+        Type = type;
         DiscountSum = discountSum;
         IsActive = isActive;
         IsDeleted = isDeleted;

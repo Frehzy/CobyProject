@@ -6,9 +6,5 @@ public class GuestModel : BaseModel
 
     public int Rank { get; set; }
 
-    public DateTime CreatedDate { get; set; } = DateTime.Now;
-
-    public bool IsDeleted { get; set; } = false;
-
     public GuestModel() { }
 }

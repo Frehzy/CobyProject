@@ -44,7 +44,7 @@ public class PaymentController : BaseController, IPaymentController
         return paymentTypesModel.Select(x => Mapper.Map<PaymentTypeModel, PaymentTypeDto>(x)).ToList();
     }
 
-    public async Task<PaymentTypeDto> GetPaymentTypeyId(dynamic paymentTypeId)
+    public async Task<PaymentTypeDto> GetPaymentTypeId(dynamic paymentTypeId)
     {
         var pTId = (Guid)CheckDynamicGuid(paymentTypeId);
         var paymentTypeModel = await _paymentTypeService.GetById(pTId);

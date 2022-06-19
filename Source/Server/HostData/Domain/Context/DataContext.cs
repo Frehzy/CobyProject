@@ -8,7 +8,7 @@ namespace HostData.Domain.Context;
 
 public class DataContext : DbContext
 {
-    public DbSet<DiscountEntity> AllDiscounts { get; set; }
+    public DbSet<DiscountTypeEntity> AllDiscountTypes { get; set; }
 
     public DbSet<OrderEntity> AllOrders { get; set; }
 

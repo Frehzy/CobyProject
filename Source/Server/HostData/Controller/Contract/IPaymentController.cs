@@ -8,7 +8,7 @@ public interface IPaymentController
 
     public Task<PaymentTypeDto> RemovePaymentTypeById(dynamic credentials, dynamic paymentTypeId);
 
-    public Task<PaymentTypeDto> GetPaymentTypeyId(dynamic paymentTypeId);
+    public Task<PaymentTypeDto> GetPaymentTypeId(dynamic paymentTypeId);
 
     public Task<List<PaymentTypeDto>> GetPaymentTypes();
 }

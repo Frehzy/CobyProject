@@ -24,7 +24,7 @@ public class PaymentService : BaseModule
         Get("/paymentType/{paymentTypeId}", async parameters =>
         {
             var paymentTypeId = parameters.paymentTypeId;
-            return await Execute<PaymentTypeDto>(Context, () => _paymentController.GetPaymentTypeyId(paymentTypeId));
+            return await Execute<PaymentTypeDto>(Context, () => _paymentController.GetPaymentTypeId(paymentTypeId));
         });
 
         Get("{credentialsId}/paymentType/create/{paymentTypeName}/{paymentTypeKind}/{needOpenCashBox}", async parameters =>

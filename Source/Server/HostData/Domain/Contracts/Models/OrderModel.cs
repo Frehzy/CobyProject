@@ -26,9 +26,5 @@ public class OrderModel : BaseModel
 
     public DateTime? CloseTime { get; set; }
 
-    public DateTime CreatedTime { get; set; } = DateTime.Now;
-
-    public bool IsDeleted { get; set; } = false;
-
     public OrderModel() { }
 }
