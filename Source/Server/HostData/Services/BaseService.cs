@@ -2,6 +2,7 @@
 using HostData.Domain.Contracts.Models;
 using HostData.Mapper;
 using HostData.Repository;
+using HostData.System.Text.Json;
 using Serilog;
 using System.Linq.Expressions;
 using System.Text.Json;
@@ -101,12 +102,12 @@ public abstract class BaseService
         Log.Information($"{operationType} with Id [{id}]");
 
     private async Task Logging<TEntity>(OperationType operationType, TEntity entity) =>
-        Log.Information($"{operationType}. {JsonSerializer.Serialize(entity, Json.Options.JsonSerializerOptions)}");
+        Log.Information($"{operationType}. {JsonSerializer.Serialize(entity, Options.JsonSerializerOptions)}");
 
     private async Task Logging<TEntity>(TEntity oldItem, TEntity newItem) =>
         Log.Information($"{OperationType.Update}. " +
-            $"OldItem: {JsonSerializer.Serialize(oldItem, Json.Options.JsonSerializerOptions)}\n" +
-            $"NewItem: {JsonSerializer.Serialize(newItem, Json.Options.JsonSerializerOptions)}");
+            $"OldItem: {JsonSerializer.Serialize(oldItem, Options.JsonSerializerOptions)}\n" +
+            $"NewItem: {JsonSerializer.Serialize(newItem, Options.JsonSerializerOptions)}");
 
     private enum OperationType
     {

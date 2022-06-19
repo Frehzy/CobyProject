@@ -16,61 +16,61 @@ public abstract class BaseModule : NancyModule
         {
             Log.Information(CreateLogByContext(context));
             var result = await func();
-            var returnJson = JsonSerializer.Serialize(result, Json.Options.JsonSerializerOptions);
+            var returnJson = JsonSerializer.Serialize(result, System.Text.Json.Options.JsonSerializerOptions);
             Log.Information(CreateReturnLog(returnJson));
             return CreateGoodResponse(returnJson);
         }
         catch (EntityNotFoundException ex)
         {
-            var json = JsonSerializer.Serialize(ex.CreateDictionary(), Json.Options.JsonSerializerOptions);
+            var json = JsonSerializer.Serialize(ex.CreateDictionary(), System.Text.Json.Options.JsonSerializerOptions);
             Log.Error(ex, json);
             return CreateExceptionResponse(json, nameof(EntityNotFoundException));
         }
         catch (InvalidSessionException ex)
         {
-            var json = JsonSerializer.Serialize(ex.CreateDictionary(), Json.Options.JsonSerializerOptions);
+            var json = JsonSerializer.Serialize(ex.CreateDictionary(), System.Text.Json.Options.JsonSerializerOptions);
             Log.Error(ex, json);
             return CreateExceptionResponse(json, nameof(InvalidSessionException));
         }
         catch (PermissionDeniedException ex)
         {
-            var json = JsonSerializer.Serialize(ex.CreateDictionary(), Json.Options.JsonSerializerOptions);
+            var json = JsonSerializer.Serialize(ex.CreateDictionary(), System.Text.Json.Options.JsonSerializerOptions);
             Log.Error(ex, json);
             return CreateExceptionResponse(json, nameof(PermissionDeniedException));
         }
         catch (CantAddProductException ex)
         {
-            var json = JsonSerializer.Serialize(ex.CreateDictionary(), Json.Options.JsonSerializerOptions);
+            var json = JsonSerializer.Serialize(ex.CreateDictionary(), System.Text.Json.Options.JsonSerializerOptions);
             Log.Error(ex, json);
             return CreateExceptionResponse(json, nameof(CantAddProductException));
         }
         catch (CantChangeAndRemoveOrderException ex)
         {
-            var json = JsonSerializer.Serialize(ex.CreateDictionary(), Json.Options.JsonSerializerOptions);
+            var json = JsonSerializer.Serialize(ex.CreateDictionary(), System.Text.Json.Options.JsonSerializerOptions);
             Log.Error(ex, json);
             return CreateExceptionResponse(json, nameof(CantChangeAndRemoveOrderException));
         }
         catch (CantRemoveDeletedItemException ex)
         {
-            var json = JsonSerializer.Serialize(ex.CreateDictionary(), Json.Options.JsonSerializerOptions);
+            var json = JsonSerializer.Serialize(ex.CreateDictionary(), System.Text.Json.Options.JsonSerializerOptions);
             Log.Error(ex, json);
             return CreateExceptionResponse(json, nameof(CantRemoveDeletedItemException));
         }
         catch (WaiterDeletedOrPersonalSessionNotOpen ex)
         {
-            var json = JsonSerializer.Serialize(ex.CreateDictionary(), Json.Options.JsonSerializerOptions);
+            var json = JsonSerializer.Serialize(ex.CreateDictionary(), System.Text.Json.Options.JsonSerializerOptions);
             Log.Error(ex, json);
             return CreateExceptionResponse(json, nameof(WaiterDeletedOrPersonalSessionNotOpen));
         }
         catch (EntityAlreadyExistsException ex)
         {
-            var json = JsonSerializer.Serialize(ex.CreateDictionary(), Json.Options.JsonSerializerOptions);
+            var json = JsonSerializer.Serialize(ex.CreateDictionary(), System.Text.Json.Options.JsonSerializerOptions);
             Log.Error(ex, json);
             return CreateExceptionResponse(json, nameof(EntityAlreadyExistsException));
         }
         catch (EntityException ex)
         {
-            var json = JsonSerializer.Serialize(ex.CreateDictionary(), Json.Options.JsonSerializerOptions);
+            var json = JsonSerializer.Serialize(ex.CreateDictionary(), System.Text.Json.Options.JsonSerializerOptions);
             Log.Error(ex, json);
             return CreateExceptionResponse(json, nameof(EntityException));
         }
@@ -124,7 +124,7 @@ public abstract class BaseModule : NancyModule
             { nameof(Context.Request.Body), context.Request.Body.AsString() }
         };
         return $"The server received a request. Request body:\n" +
-            $"{JsonSerializer.Serialize(dic, Json.Options.JsonSerializerOptions).Replace(@"\", string.Empty)}";
+            $"{JsonSerializer.Serialize(dic, System.Text.Json.Options.JsonSerializerOptions).Replace(@"\", string.Empty)}";
     }
 
     private string CreateReturnLog(string json) =>

@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace HostData.Json;
+namespace HostData.System.Text.Json;
 
 public static class Options
 {

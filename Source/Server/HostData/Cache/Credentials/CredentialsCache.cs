@@ -1,6 +1,7 @@
 ﻿using HostData.Cache.Entities;
 using HostData.Domain.Contracts.Models;
 using HostData.System.Collections.Concurrent;
+using HostData.System.Text.Json;
 using Serilog;
 using Shared.Factory.Dto;
 using System.Collections.Specialized;
@@ -55,11 +56,11 @@ public class CredentialsCache : ICredentialsCache, IDisposable
     {
         if (e.NewItems != null)
             foreach (CredentialsAction newItem in e.NewItems)
-                Log.Information($"{nameof(CredentialsCache)}. Added item: {JsonSerializer.Serialize(newItem, Json.Options.JsonSerializerOptions)}");
+                Log.Information($"{nameof(CredentialsCache)}. Added item: {JsonSerializer.Serialize(newItem, Options.JsonSerializerOptions)}");
 
         if (e.OldItems != null)
             foreach (CredentialsAction oldItem in e.OldItems)
-                Log.Information($"{nameof(CredentialsCache)}. Remove item: {JsonSerializer.Serialize(oldItem, Json.Options.JsonSerializerOptions)}");
+                Log.Information($"{nameof(CredentialsCache)}. Remove item: {JsonSerializer.Serialize(oldItem, Options.JsonSerializerOptions)}");
     }
 
     private void RemoveCredentials(CredentialsAction credentials) =>
