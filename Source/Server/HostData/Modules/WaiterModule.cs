@@ -53,18 +53,18 @@ public class WaiterModule : BaseModule
             return await Execute<WaiterDto>(Context, () => _waiterController.RemovePermissionOnWaiterById(credentialsId, waiterId, permission));
         });
 
-        Get("{credentialsId}/waiter/personalSession/open/{waiterId}", async parameters =>
+        Get("{credentialsId}/waiter/personalShift/open/{waiterId}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
             var waiterId = parameters.waiterId;
-            return await Execute<WaiterDto>(Context, () => _waiterController.OpenPersonalSession(credentialsId, waiterId));
+            return await Execute<WaiterDto>(Context, () => _waiterController.OpenPersonalShift(credentialsId, waiterId));
         });
 
-        Get("{credentialsId}/waiter/personalSession/close/{waiterId}", async parameters =>
+        Get("{credentialsId}/waiter/personalShift/close/{waiterId}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
             var waiterId = parameters.waiterId;
-            return await Execute<WaiterDto>(Context, () => _waiterController.ClosePersonalSession(credentialsId, waiterId));
+            return await Execute<WaiterDto>(Context, () => _waiterController.ClosePersonalShift(credentialsId, waiterId));
         });
     }
 }

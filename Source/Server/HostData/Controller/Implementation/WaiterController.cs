@@ -105,7 +105,7 @@ public class WaiterController : BaseController, IWaiterController
         return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
     }
 
-    public async Task<WaiterDto> OpenPersonalSession(dynamic credentials, dynamic waiterId)
+    public async Task<WaiterDto> OpenPersonalShift(dynamic credentials, dynamic waiterId)
     {
         var cId = (Guid)CheckDynamicGuid(credentials);
         var wId = (Guid)CheckDynamicGuid(waiterId);
@@ -120,7 +120,7 @@ public class WaiterController : BaseController, IWaiterController
         return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
     }
 
-    public async Task<WaiterDto> ClosePersonalSession(dynamic credentials, dynamic waiterId)
+    public async Task<WaiterDto> ClosePersonalShift(dynamic credentials, dynamic waiterId)
     {
         var cId = (Guid)CheckDynamicGuid(credentials);
         var wId = (Guid)CheckDynamicGuid(waiterId);

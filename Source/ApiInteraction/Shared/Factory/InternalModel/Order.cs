@@ -90,11 +90,11 @@ internal class Order : IOrder
         (Payments ?? Enumerable.Empty<IPayment>()).ToList();
 
     private decimal GetTotalSum() =>
-        GetProducts().Sum(x => x.Price);
+        GetProducts().Sum(x => x.ProductItem.Price);
 
     private decimal GetResultSum()
     {
-        var totalSum = GetProducts().Sum(x => x.Price);
+        var totalSum = GetProducts().Sum(x => x.ProductItem.Price);
         var discountsSum = GetDiscounts().Sum(x => x.DiscountSum);
         return totalSum - discountsSum;
     }

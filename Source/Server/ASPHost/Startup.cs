@@ -46,13 +46,9 @@ namespace ASPHost
 
             services.AddScoped<IDbRepository, DbRepository>();
 
-            services.AddTransient<IDiscountService, DiscountService>();
             services.AddTransient<IDiscountTypeService, DiscountTypeService>();
-            services.AddTransient<IGuestService, GuestService>();
             services.AddTransient<IOrderService, OrderService>();
-            services.AddTransient<IPaymentService, PaymentService>();
             services.AddTransient<IPaymentTypeService, PaymentTypeService>();
-            services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IProductItemService, ProductItemService>();
             services.AddTransient<ITableService, TableService>();
             services.AddTransient<IWaiterService, WaiterService>();
@@ -65,6 +61,7 @@ namespace ASPHost
             services.AddTransient<IPaymentTypeController, PaymentTypeController>();
             services.AddTransient<IDiscountTypeController, DiscountTypeController>();
             services.AddTransient<IProductItemController, ProductItemController>();
+            services.AddTransient<IOrderController, OrderController>(); 
 
             services.AddTransient<ICredentialsCache, CredentialsCache>();
         }

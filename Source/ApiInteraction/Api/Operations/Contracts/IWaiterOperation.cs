@@ -1,7 +1,7 @@
 ﻿using Shared.Data;
 using Shared.Data.Enum;
 
-namespace Api.Operations.WaiterOper;
+namespace Api.Operations.Contracts;
 
 public interface IWaiterOperation
 {
@@ -11,9 +11,13 @@ public interface IWaiterOperation
 
     public IWaiter CreateWaiter(ICredentials credentials, string name, string password);
 
-    public IWaiter RemoveWaiter(ICredentials credentials, IWaiter waiter);
+    public bool RemoveWaiter(ICredentials credentials, IWaiter waiter);
 
     public IWaiter AddPermissionOnWaiter(ICredentials credentials, IWaiter waiter, EmployeePermission permission);
 
     public IWaiter RemovePermissionOnWaiter(ICredentials credentials, IWaiter waiter, EmployeePermission permission);
+
+    public IWaiter OpenPersonalShift(ICredentials credentials, IWaiter waiter);
+
+    public IWaiter ClosePersonalShift(ICredentials credentials, IWaiter waiter);
 }
