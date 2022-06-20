@@ -3,11 +3,11 @@ using Shared.Factory.Dto;
 
 namespace HostData.Modules;
 
-public class OrderService : BaseModule
+public class OrderModule : BaseModule
 {
     private readonly IOrderController _orderController;
 
-    public OrderService(IOrderController orderController) : base()
+    public OrderModule(IOrderController orderController) : base()
     {
         _orderController = orderController;
 

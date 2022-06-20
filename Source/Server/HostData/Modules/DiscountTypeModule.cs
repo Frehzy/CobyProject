@@ -3,11 +3,11 @@ using Shared.Factory.Dto;
 
 namespace HostData.Modules;
 
-public class DiscountTypeService : BaseModule
+public class DiscountTypeModule : BaseModule
 {
     private readonly IDiscountTypeController _discountTypeController;
 
-    public DiscountTypeService(IDiscountTypeController discountTypeController) : base()
+    public DiscountTypeModule(IDiscountTypeController discountTypeController) : base()
     {
         _discountTypeController = discountTypeController;
 

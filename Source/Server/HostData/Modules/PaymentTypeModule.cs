@@ -3,11 +3,11 @@ using Shared.Factory.Dto;
 
 namespace HostData.Modules;
 
-public class PaymentTypeService : BaseModule
+public class PaymentTypeModule : BaseModule
 {
     private readonly IPaymentTypeController _paymentController;
 
-    public PaymentTypeService(IPaymentTypeController paymentController) : base()
+    public PaymentTypeModule(IPaymentTypeController paymentController) : base()
     {
         _paymentController = paymentController;
 

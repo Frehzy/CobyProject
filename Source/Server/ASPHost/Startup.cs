@@ -52,6 +52,7 @@ namespace ASPHost
             services.AddTransient<IProductItemService, ProductItemService>();
             services.AddTransient<ITableService, TableService>();
             services.AddTransient<IWaiterService, WaiterService>();
+            services.AddTransient<ISessionService, SessionService>();
 
             services.AddTransient<IMapper, Mapper>();
 
@@ -61,7 +62,8 @@ namespace ASPHost
             services.AddTransient<IPaymentTypeController, PaymentTypeController>();
             services.AddTransient<IDiscountTypeController, DiscountTypeController>();
             services.AddTransient<IProductItemController, ProductItemController>();
-            services.AddTransient<IOrderController, OrderController>(); 
+            services.AddTransient<IOrderController, OrderController>();
+            services.AddTransient<ISessionController, SessionController>();
 
             services.AddTransient<ICredentialsCache, CredentialsCache>();
         }
