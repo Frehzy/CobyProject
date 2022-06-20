@@ -52,7 +52,6 @@ namespace ASPHost
             services.AddTransient<IProductItemService, ProductItemService>();
             services.AddTransient<ITableService, TableService>();
             services.AddTransient<IWaiterService, WaiterService>();
-            services.AddTransient<ISessionService, SessionService>();
 
             services.AddTransient<IMapper, Mapper>();
 

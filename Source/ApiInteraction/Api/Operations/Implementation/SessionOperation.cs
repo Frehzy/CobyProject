@@ -44,6 +44,12 @@ internal class SessionOperation : ISessionOperation
         return Request(path);
     }
 
+    public IOrder RemoveCommentOnProduct(ICredentials credentials, IProduct product)
+    {
+        var path = $"{credentials.Id}/session/product/removeComment/{product.Id}";
+        return Request(path);
+    }
+
     public IOrder ChangeWaiter(ICredentials credentials, IWaiter waiter)
     {
         var path = $"{credentials.Id}/session/waiter/change/{waiter.Id}";
@@ -77,12 +83,6 @@ internal class SessionOperation : ISessionOperation
     public IOrder SubmitChanges(ICredentials credentials)
     {
         var path = $"{credentials.Id}/session/submitChanges";
-        return Request(path);
-    }
-
-    public IOrder RemoveCommentOnProduct(ICredentials credentials, IProduct product)
-    {
-        var path = $"{credentials.Id}/session/product/removeComment/{product.Id}";
         return Request(path);
     }
 
