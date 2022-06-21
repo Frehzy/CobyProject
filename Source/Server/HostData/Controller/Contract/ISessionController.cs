@@ -22,5 +22,7 @@ public interface ISessionController
 
     public Task<OrderDto> CloseOrder(dynamic credentialsId, dynamic sessionId);
 
+    public Task<OrderDto> DeleteOrder(dynamic credentialsId, dynamic sessionId);
+
     public Task<OrderDto> SubmitChanges(dynamic credentialsId, dynamic sessionId, dynamic version);
 }

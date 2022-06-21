@@ -109,5 +109,12 @@ public class SessionModule : BaseModule
             var version = parameters.version;
             return await Execute<OrderDto>(Context, () => _sessionController.SubmitChanges(credentialsId, sessionId, version));
         });
+
+        Get("/{credentialsId}/{sessionId}/deleteOrder", async parameters =>
+        {
+            var credentialsId = parameters.credentialsId;
+            var sessionId = parameters.sessionId;
+            return await Execute<OrderDto>(Context, () => _sessionController.DeleteOrder(credentialsId, sessionId));
+        });
     }
 }

@@ -74,8 +74,11 @@ public sealed class DbRepository : IDbRepository
         await Context.Set<T>().Where(x => x.Id.Equals(entity.Id) == false && x.IsDeleted == false)
                               .AnyAsync(anyPredicate);
 
-    public async Task<int> SaveChangesAsync() =>
+    public async Task<int> SaveChangesAsync()
+    {
         await Context.SaveChangesAsync();
+        ClearTracker();
+    }
 
     private void ClearTracker()
     {

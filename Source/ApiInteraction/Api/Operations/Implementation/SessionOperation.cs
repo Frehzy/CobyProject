@@ -97,6 +97,12 @@ internal class SessionOperation : ISessionOperation, IDisposable
         return OrderFactory.Create(orderDto);
     }
 
+    public void DeleteOrder(ICredentials credentials)
+    {
+        var path = $"{credentials.Id}/{_session.Id}/deleteOrder";
+        HttpRequest.Request<OrderDto>(path);
+    }
+
     public void Dispose()
     {
         _session = default;

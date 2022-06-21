@@ -41,6 +41,12 @@ public class BaseController
         return WaiterFactory.CreateDto(waiterModel);
     }
 
+    protected async Task CheckIfOrderIsClosed(OrderModel order)
+    {
+        if (order.Status is not OrderStatus.Open)
+            throw new CantChangeAndRemoveOrderException(Shared.Factory.OrderFactory.Create(OrderFactory.CreateDto(order)));
+    }
+
     protected async Task<WaiterDto> CheckPermission(Guid waiterId, EmployeePermission checkPermission)
     {
         var waiterModel = await WaiterService.GetById(waiterId);

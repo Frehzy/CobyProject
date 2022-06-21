@@ -25,4 +25,6 @@ public interface ISessionOperation
     public void CloseOrder(ICredentials credentials);
 
     public IOrder SubmitChanges(ICredentials credentials);
+
+    public void DeleteOrder(ICredentials credentials);
 }
