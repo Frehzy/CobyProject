@@ -4,23 +4,13 @@ namespace Shared.Factory.InternalModel;
 
 internal class Session : ISession
 {
-    public Guid OrderId { get; set; }
-
-    public IReadOnlyList<IOrder> Orders { get; set; }
+    public Guid Id { get; set; }
 
     public int Version { get; set; }
 
-    public Session(Guid orderId, int version)
+    public Session(Guid id, int version)
     {
-        OrderId = orderId;
-        Orders = new List<Order>();
-        Version = version;
-    }
-
-    public Session(Guid orderId, List<Order> newOrders, int version)
-    {
-        OrderId = orderId;
-        Orders = newOrders;
+        Id = id;
         Version = version;
     }
 }

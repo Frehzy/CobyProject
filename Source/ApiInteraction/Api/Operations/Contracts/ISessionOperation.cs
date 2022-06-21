@@ -4,27 +4,25 @@ namespace Api.Operations.Contracts;
 
 public interface ISessionOperation
 {
-    public IOrder AddDiscount(ICredentials credentials, IDiscountType discountType, decimal sum);
+    public ISession Session { get; }
 
-    public IOrder RemoveDiscount(ICredentials credentials, IDiscount discount);
+    public IDiscount AddDiscount(ICredentials credentials, IDiscountType discountType, decimal sum);
+    public void RemoveDiscount(ICredentials credentials, IDiscount discount);
 
-    public IOrder AddProduct(ICredentials credentials, IGuest guest, IProductItem productItem);
+    public IProduct AddProduct(ICredentials credentials, IGuest guest, IProductItem productItem);
+    public void RemoveProduct(ICredentials credentials, IProduct product);
 
-    public IOrder RemoveProduct(ICredentials credentials, IProduct product);
+    public IProduct AddCommentOnProduct(ICredentials credentials, IProduct product, string comment);
+    public IProduct RemoveCommentOnProduct(ICredentials credentials, IProduct product);
 
-    public IOrder AddCommentOnProduct(ICredentials credentials, IProduct product, string comment);
+    public void ChangeWaiter(ICredentials credentials, IWaiter waiter);
 
-    public IOrder RemoveCommentOnProduct(ICredentials credentials, IProduct product);
+    public void ChangeTable(ICredentials credentials, ITable table);
 
-    public IOrder ChangeWaiter(ICredentials credentials, IWaiter waiter);
+    public IPayment AddPayment(ICredentials credentials, IPaymentType paymentType, decimal sum);
+    public void RemovePayment(ICredentials credentials, IPayment payment);
 
-    public IOrder ChangeTable(ICredentials credentials, ITable table);
-
-    public IOrder AddPayment(ICredentials credentials, IPaymentType paymentType, decimal sum);
-
-    public IOrder RemovePayment(ICredentials credentials, IPayment payment);
-
-    public IOrder CloseOrder(ICredentials credentials);
+    public void CloseOrder(ICredentials credentials);
 
     public IOrder SubmitChanges(ICredentials credentials);
 }

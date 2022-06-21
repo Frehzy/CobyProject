@@ -4,27 +4,23 @@ namespace HostData.Controller.Contract;
 
 public interface ISessionController
 {
-    public Task<SessionDto> AddDiscount(object session, dynamic credentialsId, dynamic discountTypeId, dynamic sum);
+    public Task<DiscountDto> AddDiscount(dynamic credentialsId, dynamic sessionId, dynamic discountTypeId, dynamic sum);
+    public Task<DiscountDto> RemoveDiscount(dynamic credentialsId, dynamic sessionId, dynamic discountId);
 
-    public Task<SessionDto> RemoveDiscount(object session, dynamic credentialsId, dynamic discountId);
+    public Task<ProductDto> AddProduct(dynamic credentialsId, dynamic sessionId, dynamic guestId, dynamic productItemId);
+    public Task<ProductDto> RemoveProduct(dynamic credentialsId, dynamic sessionId, dynamic productId);
 
-    public Task<SessionDto> AddProduct(object session, dynamic credentialsId, dynamic guestId, dynamic productItemId);
+    public Task<ProductDto> AddCommentOnProduct(dynamic credentialsId, dynamic sessionId, dynamic productId, dynamic comment);
+    public Task<ProductDto> RemoveCommentOnProduct(dynamic credentialsId, dynamic sessionId, dynamic productId);
 
-    public Task<SessionDto> RemoveProduct(object session, dynamic credentialsId, dynamic productId);
+    public Task<WaiterDto> ChangeWaiter(dynamic credentialsId, dynamic sessionId, dynamic waiterId);
 
-    public Task<SessionDto> AddCommentOnProduct(object session, dynamic credentialsId, dynamic productId, string comment);
+    public Task<TableDto> ChangeTable(dynamic credentialsId, dynamic sessionId, dynamic tableId);
 
-    public Task<SessionDto> RemoveCommentOnProduct(object session, dynamic credentialsId, dynamic productId);
+    public Task<PaymentDto> AddPayment(dynamic credentialsId, dynamic sessionId, dynamic paymentTypeId, dynamic sum);
+    public Task<PaymentDto> RemovePayment(dynamic credentialsId, dynamic sessionId, dynamic paymentId);
 
-    public Task<SessionDto> ChangeWaiter(object session, dynamic credentialsId, dynamic waiterId);
+    public Task<OrderDto> CloseOrder(dynamic credentialsId, dynamic sessionId);
 
-    public Task<SessionDto> ChangeTable(object session, dynamic credentialsId, dynamic tableId);
-
-    public Task<SessionDto> AddPayment(object session, dynamic credentialsId, dynamic paymentTypeId, decimal sum);
-
-    public Task<SessionDto> RemovePayment(object session, dynamic credentialsId, dynamic paymentId);
-
-    public Task<SessionDto> CloseOrder(object session, dynamic credentialsId);
-
-    public Task<SessionDto> SubmitChanges(object session, dynamic credentialsId);
+    public Task<OrderDto> SubmitChanges(dynamic credentialsId, dynamic sessionId, dynamic version);
 }

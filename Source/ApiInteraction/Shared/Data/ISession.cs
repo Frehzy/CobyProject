@@ -2,9 +2,7 @@
 
 public interface ISession
 {
-    Guid OrderId { get; set; }
-
-    IReadOnlyList<IOrder> Orders { get; }
+    Guid Id { get; set; }
 
     int Version { get; }
 }

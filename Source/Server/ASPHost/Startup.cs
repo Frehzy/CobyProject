@@ -1,4 +1,5 @@
 using HostData.Cache.Credentials;
+using HostData.Cache.Orders;
 using HostData.Controller.Contract;
 using HostData.Controller.Implementation;
 using HostData.Domain.Context;
@@ -65,6 +66,7 @@ namespace ASPHost
             services.AddTransient<ISessionController, SessionController>();
 
             services.AddTransient<ICredentialsCache, CredentialsCache>();
+            services.AddTransient<ISessionCache, SessionCache>();
         }
     }
 }

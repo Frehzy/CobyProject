@@ -2,97 +2,113 @@
 using Api.Operations.Contracts;
 using Shared.Data;
 using Shared.Factory;
+using Shared.Factory.Dto;
+using Shared.Factory.InternalModel;
 
 namespace Api.Operations.Implementation;
 
-internal class SessionOperation : ISessionOperation
+internal class SessionOperation : ISessionOperation, IDisposable
 {
-    public ISession Session { get; private set; }
+    private Session _session;
+
+    public ISession Session => _session;
 
     public SessionOperation(ISession session)
     {
-        Session = session;
+        _session = SessionFactory.Create(session);
     }
 
-    public IOrder AddDiscount(ICredentials credentials, IDiscountType discountType, decimal sum)
+    public IDiscount AddDiscount(ICredentials credentials, IDiscountType discountType, decimal sum)
     {
-        var path = $"{credentials.Id}/session/discount/add/{discountType.Id}/{sum}";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/discount/add/{discountType.Id}/{sum}";
+        var discountDto = Request<DiscountDto>(path);
+        return DiscountFactory.Create(discountDto);
     }
 
-    public IOrder RemoveDiscount(ICredentials credentials, IDiscount discount)
+    public void RemoveDiscount(ICredentials credentials, IDiscount discount)
     {
-        var path = $"{credentials.Id}/session/discount/remove/{discount.Id}";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/discount/remove/{discount.Id}";
+        Request<DiscountDto>(path);
     }
 
-    public IOrder AddProduct(ICredentials credentials, IGuest guest, IProductItem productItem)
+    public IProduct AddProduct(ICredentials credentials, IGuest guest, IProductItem productItem)
     {
-        var path = $"{credentials.Id}/session/product/add/{guest.Id}/{productItem.Id}";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/product/add/{guest.Id}/{productItem.Id}";
+        var productDto = Request<ProductDto>(path);
+        return ProductFactory.Create(productDto);
     }
 
-    public IOrder RemoveProduct(ICredentials credentials, IProduct product)
+    public void RemoveProduct(ICredentials credentials, IProduct product)
     {
-        var path = $"{credentials.Id}/session/product/remove/{product.Id}";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/product/remove/{product.Id}";
+        Request<ProductDto>(path);
     }
 
-    public IOrder AddCommentOnProduct(ICredentials credentials, IProduct product, string comment)
+    public IProduct AddCommentOnProduct(ICredentials credentials, IProduct product, string comment)
     {
-        var path = $"{credentials.Id}/session/product/addComment/{product.Id}/{comment}";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/product/addComment/{product.Id}/{comment}";
+        var productDto = Request<ProductDto>(path);
+        return ProductFactory.Create(productDto);
     }
 
-    public IOrder RemoveCommentOnProduct(ICredentials credentials, IProduct product)
+    public IProduct RemoveCommentOnProduct(ICredentials credentials, IProduct product)
     {
-        var path = $"{credentials.Id}/session/product/removeComment/{product.Id}";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/product/removeComment/{product.Id}";
+        var productDto = Request<ProductDto>(path);
+        return ProductFactory.Create(productDto);
     }
 
-    public IOrder ChangeWaiter(ICredentials credentials, IWaiter waiter)
+    public void ChangeWaiter(ICredentials credentials, IWaiter waiter)
     {
-        var path = $"{credentials.Id}/session/waiter/change/{waiter.Id}";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/waiter/change/{waiter.Id}";
+        Request<WaiterDto>(path);
     }
 
-    public IOrder ChangeTable(ICredentials credentials, ITable table)
+    public void ChangeTable(ICredentials credentials, ITable table)
     {
-        var path = $"{credentials.Id}/session/table/change/{table.Id}";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/table/change/{table.Id}";
+        Request<TableDto>(path);
     }
 
-    public IOrder AddPayment(ICredentials credentials, IPaymentType paymentType, decimal sum)
+    public IPayment AddPayment(ICredentials credentials, IPaymentType paymentType, decimal sum)
     {
-        var path = $"{credentials.Id}/session/payment/add/{paymentType.Id}/{sum}";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/payment/add/{paymentType.Id}/{sum}";
+        var paymentDto = Request<PaymentDto>(path);
+        return PaymentFactory.Create(paymentDto);
     }
 
-    public IOrder RemovePayment(ICredentials credentials, IPayment payment)
+    public void RemovePayment(ICredentials credentials, IPayment payment)
     {
-        var path = $"{credentials.Id}/session/payment/remove/{payment.Id}";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/payment/remove/{payment.Id}";
+        Request<PaymentDto>(path);
     }
 
-    public IOrder CloseOrder(ICredentials credentials)
+    public void CloseOrder(ICredentials credentials)
     {
-        var path = $"{credentials.Id}/session/order/close";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/order/close";
+        Request<OrderDto>(path);
     }
 
     public IOrder SubmitChanges(ICredentials credentials)
     {
-        var path = $"{credentials.Id}/session/submitChanges";
-        return Request(path);
+        var path = $"{credentials.Id}/{_session.Id}/submitChanges/{_session.Version}";
+        var orderDto = Request<OrderDto>(path);
+        _session = default;
+        return OrderFactory.Create(orderDto);
     }
 
-    private IOrder Request(string path)
+    public void Dispose()
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress(); 
+        _session = default;
+        GC.SuppressFinalize(this);
+    }
+
+    private T Request<T>(string path)
+    {
+        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, path);
-        var sessionDto = SessionFactory.CreateDto(Session);
-        var result = Task.Run(async () => await HttpRequest.Post(uri, sessionDto)).Result;
-        Session = SessionFactory.Create(result.Content);
-        return Session.Orders.OrderByDescending(x => x.Version).First();
+        var result = Task.Run(async () => await HttpRequest.Get<T>(uri)).Result;
+        _session.Version++;
+        return result.Content;
     }
 }

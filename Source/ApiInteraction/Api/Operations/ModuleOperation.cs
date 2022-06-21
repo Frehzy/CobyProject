@@ -23,7 +23,7 @@ public sealed class ModuleOperation
 
     public static IConfigSettings ConfigSettings => _configSettings ??= ConfigBuilder.Create();
 
-    public static ICredentialsOperation CredentialsOperation => _credentialsOperation ??= new CredentialsOperation(_orderOperation);
+    public static ICredentialsOperation CredentialsOperation => _credentialsOperation ??= new CredentialsOperation();
 
     public static IDiscountTypeOperation DiscountTypeOperation => _discountTypeOperation ??= new DiscountTypeOperation();
 

@@ -16,6 +16,8 @@ public class OrderProductEntity : BaseEntity
 
     public Guid WaiterId { get; set; }
 
+    public DateTime? PrintTime { get; set; }
+
     public string? Comment { get; set; }
 
     public ProductStatus Status { get; set; }

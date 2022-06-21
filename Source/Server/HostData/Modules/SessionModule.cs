@@ -1,7 +1,5 @@
 ﻿using HostData.Controller.Contract;
-using Nancy.Extensions;
 using Shared.Factory.Dto;
-using System.Text.Json;
 
 namespace HostData.Modules;
 
@@ -13,114 +11,103 @@ public class SessionModule : BaseModule
     {
         _sessionController = sessionController;
 
-        Post("/{credentialsId}/session/discount/add/{discountTypeId}/{sum}", parameters =>
+        Get("/{credentialsId}/{sessionId}/discount/add/{discountTypeId}/{sum}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
+            var sessionId = parameters.sessionId;
             var discountTypeId = parameters.discountTypeId;
             var sum = parameters.sum;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.AddDiscount(session, credentialsId, discountTypeId, sum));
+            return await Execute<DiscountDto>(Context, () => _sessionController.AddDiscount(credentialsId, sessionId, discountTypeId, sum));
         });
 
-        Post("/{credentialsId}/session/discount/remove/{discountId}", parameters =>
+        Get("/{credentialsId}/{sessionId}/discount/remove/{discountId}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
+            var sessionId = parameters.sessionId;
             var discountId = parameters.discountId;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.RemoveDiscount(session, credentialsId, discountId));
+            return await Execute<DiscountDto>(Context, () => _sessionController.RemoveDiscount(credentialsId, sessionId, discountId));
         });
 
-        Post("/{credentialsId}/session/product/add/{guestId}/{productItemId}", parameters =>
+        Get("/{credentialsId}/{sessionId}/product/add/{guestId}/{productItemId}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
+            var sessionId = parameters.sessionId;
             var guestId = parameters.guestId;
             var productItemId = parameters.productItemId;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.AddProduct(session, credentialsId, guestId, productItemId));
+            return await Execute<ProductDto>(Context, () => _sessionController.AddProduct(credentialsId, sessionId, guestId, productItemId));
         });
 
-        Post("/{credentialsId}/session/product/remove/{productId}", parameters =>
+        Get("/{credentialsId}/{sessionId}/product/remove/{productId}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
+            var sessionId = parameters.sessionId;
             var productId = parameters.productId;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.RemoveProduct(session, credentialsId, productId));
+            return await Execute<ProductDto>(Context, () => _sessionController.RemoveProduct(credentialsId, sessionId, productId));
         });
 
-        Post("/{credentialsId}/session/product/addComment/{productId}/{comment}", parameters =>
+        Get("/{credentialsId}/{sessionId}/product/addComment/{productId}/{comment}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
+            var sessionId = parameters.sessionId;
             var productId = parameters.productId;
             var comment = parameters.comment;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.AddCommentOnProduct(session, credentialsId, productId, comment));
+            return await Execute<ProductDto>(Context, () => _sessionController.AddCommentOnProduct(credentialsId, sessionId, productId, comment));
         });
 
-        Post("/{credentialsId}/session/product/removeComment/{productId}", parameters =>
+        Get("/{credentialsId}/{sessionId}/product/removeComment/{productId}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
+            var sessionId = parameters.sessionId;
             var productId = parameters.productId;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.RemoveCommentOnProduct(session, credentialsId, productId));
+            return await Execute<ProductDto>(Context, () => _sessionController.RemoveCommentOnProduct(credentialsId, sessionId, productId));
         });
 
-        Post("/{credentialsId}/session/waiter/change/{waiterId}", parameters =>
+        Get("/{credentialsId}/{sessionId}/waiter/change/{waiterId}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
+            var sessionId = parameters.sessionId;
             var waiterId = parameters.waiterId;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.ChangeWaiter(session, credentialsId, waiterId));
+            return await Execute<WaiterDto>(Context, () => _sessionController.ChangeWaiter(credentialsId, sessionId, waiterId));
         });
 
-        Post("/{credentialsId}/session/table/change/{tableId}", parameters =>
+        Get("/{credentialsId}/{sessionId}/table/change/{tableId}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
+            var sessionId = parameters.sessionId;
             var tableId = parameters.tableId;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.ChangeTable(session, credentialsId, tableId));
+            return await Execute<TableDto>(Context, () => _sessionController.ChangeTable(credentialsId, sessionId, tableId));
         });
 
-        Post("/{credentialsId}/session/payment/add/{paymentTypeId}/{sum}", parameters =>
+        Get("/{credentialsId}/{sessionId}/payment/add/{paymentTypeId}/{sum}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
+            var sessionId = parameters.sessionId;
             var paymentTypeId = parameters.paymentTypeId;
             var sum = parameters.sum;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.AddPayment(session, credentialsId, paymentTypeId, sum));
+            return await Execute<PaymentDto>(Context, () => _sessionController.AddPayment(credentialsId, sessionId, paymentTypeId, sum));
         });
 
-        Post("/{credentialsId}/session/payment/remove/{paymentId}", parameters =>
+        Get("/{credentialsId}/{sessionId}/payment/remove/{paymentId}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
+            var sessionId = parameters.sessionId;
             var paymentId = parameters.paymentId;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.RemovePayment(session, credentialsId, paymentId));
+            return await Execute<PaymentDto>(Context, () => _sessionController.RemovePayment(credentialsId, sessionId, paymentId));
         });
 
-        Post("/{credentialsId}/session/order/close", parameters =>
+        Get("/{credentialsId}/{sessionId}/order/close", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.CloseOrder(session, credentialsId));
+            var sessionId = parameters.sessionId;
+            return await Execute<OrderDto>(Context, () => _sessionController.CloseOrder(credentialsId, sessionId));
         });
 
-        Post("/{credentialsId}/session/submitChanges", parameters =>
+        Get("/{credentialsId}/{sessionId}/submitChanges/{version}", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
-            var json = Request.Body.AsString();
-            var session = JsonSerializer.Deserialize<SessionDto>(json);
-            return Execute<SessionDto>(Context, () => _sessionController.SubmitChanges(session, credentialsId));
+            var sessionId = parameters.sessionId;
+            var version = parameters.version;
+            return await Execute<OrderDto>(Context, () => _sessionController.SubmitChanges(credentialsId, sessionId, version));
         });
     }
 }
