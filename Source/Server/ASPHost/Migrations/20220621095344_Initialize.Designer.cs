@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ASPHost.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220618092113_Initialize")]
+    [Migration("20220621095344_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,8 +37,42 @@ namespace ASPHost.Migrations
                     b.Property<decimal>("DiscountSum")
                         .HasColumnType("numeric");
 
+                    b.Property<Guid>("DiscountTypeId")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("UpdateTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("WaiterCreatedId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("WaiterUpdatedId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscountTypeId");
+
+                    b.ToTable("DiscountEntity");
+                });
+
+            modelBuilder.Entity("HostData.Domain.Contracts.Entities.DiscountTypeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -61,7 +95,7 @@ namespace ASPHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AllDiscounts");
+                    b.ToTable("DiscountTypes");
                 });
 
             modelBuilder.Entity("HostData.Domain.Contracts.Entities.GuestEntity", b =>
@@ -257,6 +291,9 @@ namespace ASPHost.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<DateTime?>("PrintTime")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<Guid>("ProductsId")
                         .HasColumnType("uuid");
 
@@ -410,7 +447,7 @@ namespace ASPHost.Migrations
                     b.HasIndex("WaiterId")
                         .IsUnique();
 
-                    b.ToTable("AllOrders");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("HostData.Domain.Contracts.Entities.PaymentTypeEntity", b =>
@@ -449,10 +486,10 @@ namespace ASPHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentTypeEntity");
+                    b.ToTable("PaymentTypes");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.ProductEntity", b =>
+            modelBuilder.Entity("HostData.Domain.Contracts.Entities.ProductItemEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -488,7 +525,7 @@ namespace ASPHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AllProducts");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("HostData.Domain.Contracts.Entities.TableEntity", b =>
@@ -504,6 +541,7 @@ namespace ASPHost.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Number")
@@ -523,7 +561,7 @@ namespace ASPHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AllTables");
+                    b.ToTable("Tables");
                 });
 
             modelBuilder.Entity("HostData.Domain.Contracts.Entities.WaiterEntity", b =>
@@ -536,6 +574,9 @@ namespace ASPHost.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSessionOpen")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -564,14 +605,15 @@ namespace ASPHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AllWaiters");
+                    b.ToTable("Waiters");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("2c4c850c-728e-45a9-bb41-615f5723e0aa"),
-                            CreatedTime = new DateTime(2022, 6, 18, 14, 20, 56, 117, DateTimeKind.Local).AddTicks(6),
+                            CreatedTime = new DateTime(2022, 6, 21, 14, 53, 24, 34, DateTimeKind.Local).AddTicks(8639),
                             IsDeleted = false,
+                            IsSessionOpen = false,
                             Name = "ADMIN",
                             Password = "ADMINPASSWORD",
                             Permissions = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 },
@@ -579,6 +621,17 @@ namespace ASPHost.Migrations
                             WaiterCreatedId = new Guid("00000000-0000-0000-0000-000000000000"),
                             WaiterUpdatedId = new Guid("00000000-0000-0000-0000-000000000000")
                         });
+                });
+
+            modelBuilder.Entity("HostData.Domain.Contracts.Entities.DiscountEntity", b =>
+                {
+                    b.HasOne("HostData.Domain.Contracts.Entities.DiscountTypeEntity", "DiscountType")
+                        .WithMany()
+                        .HasForeignKey("DiscountTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DiscountType");
                 });
 
             modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderDiscountEntity", b =>
@@ -651,7 +704,7 @@ namespace ASPHost.Migrations
 
             modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderProductEntity", b =>
                 {
-                    b.HasOne("HostData.Domain.Contracts.Entities.ProductEntity", "ProductEntity")
+                    b.HasOne("HostData.Domain.Contracts.Entities.ProductItemEntity", "ProductItem")
                         .WithMany()
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -665,7 +718,7 @@ namespace ASPHost.Migrations
 
                     b.Navigation("Order");
 
-                    b.Navigation("ProductEntity");
+                    b.Navigation("ProductItem");
                 });
 
             modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderTableEntity", b =>

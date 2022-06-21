@@ -21,7 +21,7 @@ public class CredentialsController : BaseController, ICredentialsController
 
     public async Task<CredentialsDto> CreateCredentials(dynamic password)
     {
-        var p = (string)Convert.ToString(password);
+        string p = Convert.ToString(password.ToString());
 
         var waiters = await WaiterService.GetAll();
         var waiterModule = waiters.First(x => x.Password.Equals(p));
@@ -30,7 +30,7 @@ public class CredentialsController : BaseController, ICredentialsController
 
     public async Task<SessionDto> CreateSession(dynamic orderId)
     {
-        var oId = (Guid)CheckDynamicGuid(orderId);
+        Guid oId = CheckDynamicGuid(orderId);
 
         var orderModule = await _orderService.GetById(oId);
         return await _sessionCache.TryAdd(orderModule);

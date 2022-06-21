@@ -1,9 +1,9 @@
 ﻿using HostData.Domain.Contracts.Models;
 using Shared.Factory.Dto;
 
-namespace HostData.Mapper;
+namespace HostData.Factory;
 
-public static class PaymentMapper
+public static class PaymentFactory
 {
     public static PaymentDto CreateDto(PaymentModel paymentModel) =>
         new(paymentModel.Id,

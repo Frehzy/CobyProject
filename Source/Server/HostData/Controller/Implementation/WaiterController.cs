@@ -2,6 +2,7 @@
 using HostData.Controller.Contract;
 using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
+using HostData.Factory;
 using HostData.Mapper;
 using Shared.Data.Enum;
 using Shared.Exceptions;
@@ -21,9 +22,9 @@ public class WaiterController : BaseController, IWaiterController
 
     public async Task<WaiterDto> AddPermissionOnWaiterById(dynamic credentials, dynamic waiterId, dynamic permission)
     {
-        var cId = (Guid)CheckDynamicGuid(credentials);
-        var wId = (Guid)CheckDynamicGuid(waiterId);
-        var pEnum = (EmployeePermission)Enum.Parse<EmployeePermission>(permission);
+        Guid cId = CheckDynamicGuid(credentials);
+        Guid wId = CheckDynamicGuid(waiterId);
+        EmployeePermission pEnum = Enum.Parse<EmployeePermission>(permission);
         var entityThatChanges = await CheckCredentials(cId);
 
         var waiterModel = await _waiterService.GetById(wId);
@@ -33,7 +34,7 @@ public class WaiterController : BaseController, IWaiterController
         waiterModel.Permissions.Add(pEnum);
         await _waiterService.Update(entityThatChanges.Id, waiterModel);
 
-        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+        return WaiterFactory.CreateDto(waiterModel);
 
         static bool CheckIfExistsPermission(WaiterModel model, EmployeePermission permission) =>
             model.Permissions.Any(x => x.HasFlag(permission));
@@ -41,9 +42,9 @@ public class WaiterController : BaseController, IWaiterController
 
     public async Task<WaiterDto> CreateWaiter(dynamic credentials, dynamic name, dynamic password)
     {
-        var cId = (Guid)CheckDynamicGuid(credentials);
-        var n = (string)Convert.ToString(name);
-        var p = (string)Convert.ToString(password);
+        Guid cId = CheckDynamicGuid(credentials);
+        string n = Convert.ToString(name.ToString());
+        string p = Convert.ToString(password.ToString());
         var entityThatChanges = await CheckCredentials(cId);
 
         var waiterModel = new WaiterModel()
@@ -53,19 +54,19 @@ public class WaiterController : BaseController, IWaiterController
             IsSessionOpen = false
         };
         await _waiterService.Create(entityThatChanges.Id, waiterModel);
-        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+        return WaiterFactory.CreateDto(waiterModel);
     }
 
     public async Task<WaiterDto> GetWaiterById(dynamic waiterId)
     {
-        var wId = (Guid)CheckDynamicGuid(waiterId);
+        Guid wId = CheckDynamicGuid(waiterId);
         var waiterModel = await _waiterService.GetById(wId);
-        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+        return WaiterFactory.CreateDto(waiterModel);
     }
 
     public async Task<WaiterModel> GetWaiterByPassword(dynamic password)
     {
-        var p = (string)Convert.ToString(password);
+        string p = Convert.ToString(password.ToString());
         var waitersPermissionModel = await _waiterService.GetAll();
         return waitersPermissionModel.First(x => x.Password.Equals(p));
     }
@@ -73,14 +74,14 @@ public class WaiterController : BaseController, IWaiterController
     public async Task<List<WaiterDto>> GetWaiters()
     {
         var waiterModels = await _waiterService.GetAll();
-        return waiterModels.Select(x => Mapper.Map<WaiterModel, WaiterDto>(x)).ToList();
+        return waiterModels.Select(x => WaiterFactory.CreateDto(x)).ToList();
     }
 
     public async Task<WaiterDto> RemovePermissionOnWaiterById(dynamic credentials, dynamic waiterId, dynamic permission)
     {
-        var cId = (Guid)CheckDynamicGuid(credentials);
-        var wId = (Guid)CheckDynamicGuid(waiterId);
-        var pEnum = (EmployeePermission)Enum.Parse<EmployeePermission>(permission);
+        Guid cId = CheckDynamicGuid(credentials);
+        Guid wId = CheckDynamicGuid(waiterId);
+        EmployeePermission pEnum = Enum.Parse<EmployeePermission>(permission);
         var entityThatChanges = await CheckCredentials(cId);
 
         var waiterModel = await _waiterService.GetById(wId);
@@ -89,49 +90,49 @@ public class WaiterController : BaseController, IWaiterController
 
         await _waiterService.Update(entityThatChanges.Id, waiterModel);
 
-        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+        return WaiterFactory.CreateDto(waiterModel);
     }
 
     public async Task<WaiterDto> RemoveWaiterById(dynamic credentials, dynamic waiterId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentials);
-        var wId = (Guid)CheckDynamicGuid(waiterId);
+        Guid cId = CheckDynamicGuid(credentials);
+        Guid wId = CheckDynamicGuid(waiterId);
 
         var entityThatChanges = await CheckCredentials(cId);
 
         var waiterModel = await _waiterService.GetById(wId);
 
         await _waiterService.Remove(entityThatChanges.Id, wId);
-        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+        return WaiterFactory.CreateDto(waiterModel);
     }
 
     public async Task<WaiterDto> OpenPersonalShift(dynamic credentials, dynamic waiterId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentials);
-        var wId = (Guid)CheckDynamicGuid(waiterId);
+        Guid cId = CheckDynamicGuid(credentials);
+        Guid wId = CheckDynamicGuid(waiterId);
 
-        var entityThatChanges = await CheckCredentials(cId);
+        var waiterModel = await WaiterService.GetById(wId);
+        var entityThatChanges = WaiterFactory.CreateDto(waiterModel);
 
-        var waiterModel = await _waiterService.GetById(wId);
         waiterModel.IsSessionOpen = true;
 
         await _waiterService.Update(entityThatChanges.Id, waiterModel);
 
-        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+        return WaiterFactory.CreateDto(waiterModel);
     }
 
     public async Task<WaiterDto> ClosePersonalShift(dynamic credentials, dynamic waiterId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentials);
-        var wId = (Guid)CheckDynamicGuid(waiterId);
+        Guid cId = CheckDynamicGuid(credentials);
+        Guid wId = CheckDynamicGuid(waiterId);
 
-        var entityThatChanges = await CheckCredentials(cId);
+        var waiterModel = await WaiterService.GetById(wId);
+        var entityThatChanges = WaiterFactory.CreateDto(waiterModel);
 
-        var waiterModel = await _waiterService.GetById(wId);
         waiterModel.IsSessionOpen = false;
 
         await _waiterService.Update(entityThatChanges.Id, waiterModel);
 
-        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+        return WaiterFactory.CreateDto(waiterModel);
     }
 }

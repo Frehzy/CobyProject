@@ -7,11 +7,7 @@ public class OrderDiscountEntity : BaseEntity
 {
     [JsonIgnore]
     [ForeignKey(nameof(Id))]
-    public virtual DiscountTypeEntity Discount { get; set; }
-
-    public decimal DiscountSum { get; set; }
-
-    public bool IsActive { get; set; }
+    public virtual DiscountEntity Discount { get; set; }
 
     public virtual OrderEntity Order { get; set; }
 

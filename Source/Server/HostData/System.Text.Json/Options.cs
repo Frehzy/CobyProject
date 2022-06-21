@@ -18,7 +18,6 @@ public static class Options
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             AllowTrailingCommas = true,
             NumberHandling = JsonNumberHandling.AllowReadingFromString,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             PropertyNameCaseInsensitive = true
         };
         return options;

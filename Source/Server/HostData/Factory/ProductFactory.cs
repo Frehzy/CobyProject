@@ -1,9 +1,9 @@
 ﻿using HostData.Domain.Contracts.Models;
 using Shared.Factory.Dto;
 
-namespace HostData.Mapper;
+namespace HostData.Factory;
 
-public static class ProductMapper
+public static class ProductFactory
 {
     public static ProductDto CreateDto(ProductModel productModel) =>
         new(productModel.Id,

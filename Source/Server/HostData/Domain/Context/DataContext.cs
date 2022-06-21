@@ -8,17 +8,17 @@ namespace HostData.Domain.Context;
 
 public class DataContext : DbContext
 {
-    public DbSet<DiscountTypeEntity> AllDiscountTypes { get; set; }
+    public DbSet<DiscountTypeEntity> DiscountTypes { get; set; }
 
-    public DbSet<OrderEntity> AllOrders { get; set; }
+    public DbSet<OrderEntity> Orders { get; set; }
 
-    public DbSet<PaymentTypeEntity> AllPaymentTypes { get; set; }
+    public DbSet<PaymentTypeEntity> PaymentTypes { get; set; }
 
-    public DbSet<ProductItemEntity> AllProducts { get; set; }
+    public DbSet<ProductItemEntity> Products { get; set; }
 
-    public DbSet<TableEntity> AllTables { get; set; }
+    public DbSet<TableEntity> Tables { get; set; }
 
-    public DbSet<WaiterEntity> AllWaiters { get; set; }
+    public DbSet<WaiterEntity> Waiters { get; set; }
 
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {

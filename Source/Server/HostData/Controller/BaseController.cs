@@ -1,6 +1,7 @@
 ﻿using HostData.Cache.Credentials;
 using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
+using HostData.Factory;
 using HostData.Mapper;
 using Shared.Data.Enum;
 using Shared.Exceptions;
@@ -37,7 +38,7 @@ public class BaseController
         if (waiterModel.IsSessionOpen is false || waiterModel.IsDeleted is true)
             throw new WaiterDeletedOrPersonalSessionNotOpen(waiterModel.Id);
 
-        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+        return WaiterFactory.CreateDto(waiterModel);
     }
 
     protected async Task<WaiterDto> CheckPermission(Guid waiterId, EmployeePermission checkPermission)
@@ -46,6 +47,6 @@ public class BaseController
         if (waiterModel.Permissions.Any(x => x.HasFlag(checkPermission)) is false)
             throw new PermissionDeniedException(checkPermission);
 
-        return Mapper.Map<WaiterModel, WaiterDto>(waiterModel);
+        return WaiterFactory.CreateDto(waiterModel);
     }
 }

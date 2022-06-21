@@ -2,6 +2,7 @@
 using HostData.Controller.Contract;
 using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
+using HostData.Factory;
 using HostData.Mapper;
 using Shared.Data.Enum;
 using Shared.Factory.Dto;
@@ -20,10 +21,10 @@ public class ProductItemController : BaseController, IProductItemController
 
     public async Task<ProductItemDto> CreateProductItem(dynamic credentials, dynamic name, dynamic price, dynamic productType)
     {
-        var cId = (Guid)CheckDynamicGuid(credentials);
-        var n = (string)Convert.ToString(name);
-        var p = (decimal)decimal.Parse(price);
-        var pTypeEnum = (ProductType)Enum.Parse<ProductType>(productType);
+        Guid cId = CheckDynamicGuid(credentials);
+        string n = Convert.ToString(name.ToString());
+        decimal p = decimal.Parse(price);
+        ProductType pTypeEnum = Enum.Parse<ProductType>(productType);
         var entityThatChanges = await CheckCredentials(cId);
 
         var productItemModel = new ProductItemModel()
@@ -33,32 +34,32 @@ public class ProductItemController : BaseController, IProductItemController
             Type = pTypeEnum,
         };
         await _productItemService.Create(entityThatChanges.Id, productItemModel);
-        return Mapper.Map<ProductItemModel, ProductItemDto>(productItemModel);
+        return ProductFactory.CreateDto(productItemModel);
     }
 
     public async Task<ProductItemDto> GetProductItemId(dynamic productItemId)
     {
-        var pIId = (Guid)CheckDynamicGuid(productItemId);
+        Guid pIId = CheckDynamicGuid(productItemId);
         var productItemModel = await _productItemService.GetById(pIId);
-        return Mapper.Map<ProductItemModel, ProductItemDto>(productItemModel);
+        return ProductFactory.CreateDto(productItemModel);
     }
 
     public async Task<List<ProductItemDto>> GetProductItems()
     {
         var productItemsModel = await _productItemService.GetAll();
-        return productItemsModel.Select(x => Mapper.Map<ProductItemModel, ProductItemDto>(x)).ToList();
+        return productItemsModel.Select(x => ProductFactory.CreateDto(x)).ToList();
     }
 
     public async Task<ProductItemDto> RemoveProductItemById(dynamic credentials, dynamic productItemId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentials);
-        var pIId = (Guid)CheckDynamicGuid(productItemId);
+        Guid cId = CheckDynamicGuid(credentials);
+        Guid pIId = CheckDynamicGuid(productItemId);
 
         var entityThatChanges = await CheckCredentials(cId);
 
         var productItemModel = await _productItemService.GetById(pIId);
 
         await _productItemService.Remove(entityThatChanges.Id, pIId);
-        return Mapper.Map<ProductItemModel, ProductItemDto>(productItemModel);
+        return ProductFactory.CreateDto(productItemModel);
     }
 }

@@ -1,9 +1,9 @@
 ﻿using HostData.Domain.Contracts.Models;
 using Shared.Factory.Dto;
 
-namespace HostData.Mapper;
+namespace HostData.Factory;
 
-public static class DiscountMapper
+public static class DiscountFactory
 {
     public static DiscountDto CreateDto(DiscountModel discountModel) =>
         new(discountModel.Id,

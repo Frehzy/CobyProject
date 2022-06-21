@@ -2,6 +2,7 @@
 using HostData.Controller.Contract;
 using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
+using HostData.Factory;
 using HostData.Mapper;
 using Shared.Data.Enum;
 using Shared.Factory.Dto;
@@ -22,9 +23,9 @@ public class OrderController : BaseController, IOrderController
 
     public async Task<OrderDto> CreateOrder(dynamic credentials, dynamic tableId, dynamic waiterId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentials);
-        var tId = (Guid)CheckDynamicGuid(tableId);
-        var wId = (Guid)CheckDynamicGuid(waiterId);
+        Guid cId = CheckDynamicGuid(credentials);
+        Guid tId = CheckDynamicGuid(tableId);
+        Guid wId = CheckDynamicGuid(waiterId);
         var entityThatChanges = await CheckCredentials(cId);
 
         var table = await _tableService.GetById(tId);
@@ -44,38 +45,38 @@ public class OrderController : BaseController, IOrderController
             Status = OrderStatus.Open
         };
         await _orderService.Create(entityThatChanges.Id, orderModel);
-        return Mapper.Map<OrderModel, OrderDto>(orderModel);
+        return OrderFactory.CreateDto(orderModel);
     }
 
     public async Task<List<OrderDto>> GetOpenOrders()
     {
         var ordersModel = await _orderService.GetOpenOrders();
-        return ordersModel.Select(x => Mapper.Map<OrderModel, OrderDto>(x)).ToList();
+        return ordersModel.Select(x => OrderFactory.CreateDto(x)).ToList();
     }
 
     public async Task<OrderDto> GetOrderById(dynamic orderId)
     {
-        var oId = (Guid)CheckDynamicGuid(orderId);
+        Guid oId = CheckDynamicGuid(orderId);
         var orderModel = await _orderService.GetById(oId);
-        return Mapper.Map<OrderModel, OrderDto>(orderModel);
+        return OrderFactory.CreateDto(orderModel);
     }
 
     public async Task<List<OrderDto>> GetOrders()
     {
         var ordersModel = await _orderService.GetAll();
-        return ordersModel.Select(x => Mapper.Map<OrderModel, OrderDto>(x)).ToList();
+        return ordersModel.Select(x => OrderFactory.CreateDto(x)).ToList();
     }
 
     public async Task<OrderDto> RemoveOrderById(dynamic credentials, dynamic orderId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentials);
-        var oId = (Guid)CheckDynamicGuid(orderId);
+        Guid cId = CheckDynamicGuid(credentials);
+        Guid oId = CheckDynamicGuid(orderId);
 
         var entityThatChanges = await CheckCredentials(cId);
 
         var orderModel = await _orderService.GetById(oId);
 
         await _orderService.Remove(entityThatChanges.Id, oId);
-        return Mapper.Map<OrderModel, OrderDto>(orderModel);
+        return OrderFactory.CreateDto(orderModel);
     }
 }

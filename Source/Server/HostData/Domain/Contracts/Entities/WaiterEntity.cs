@@ -8,5 +8,7 @@ public class WaiterEntity : BaseEntity
 
     public string Password { get; set; }
 
+    public bool IsSessionOpen { get; set; }
+
     public List<EmployeePermission> Permissions { get; set; }
 }

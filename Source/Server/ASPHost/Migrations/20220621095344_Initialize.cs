@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -9,13 +11,11 @@ namespace ASPHost.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AllDiscounts",
+                name: "DiscountTypes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    DiscountSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
@@ -25,66 +25,7 @@ namespace ASPHost.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AllDiscounts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AllProducts",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false),
-                    Type = table.Column<byte>(type: "smallint", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    WaiterUpdatedId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Version = table.Column<int>(type: "integer", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AllProducts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AllTables",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Number = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    WaiterUpdatedId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Version = table.Column<int>(type: "integer", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AllTables", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AllWaiters",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
-                    Permissions = table.Column<byte[]>(type: "smallint[]", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    WaiterUpdatedId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Version = table.Column<int>(type: "integer", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AllWaiters", x => x.Id);
+                    table.PrimaryKey("PK_DiscountTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,7 +48,7 @@ namespace ASPHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PaymentTypeEntity",
+                name: "PaymentTypes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -123,14 +64,17 @@ namespace ASPHost.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentTypeEntity", x => x.Id);
+                    table.PrimaryKey("PK_PaymentTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderWaiterEntity",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Type = table.Column<byte>(type: "smallint", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
@@ -140,11 +84,71 @@ namespace ASPHost.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderWaiterEntity", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tables",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Number = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    WaiterUpdatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Version = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tables", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Waiters",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    IsSessionOpen = table.Column<bool>(type: "boolean", nullable: false),
+                    Permissions = table.Column<byte[]>(type: "smallint[]", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    WaiterUpdatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Version = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Waiters", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DiscountEntity",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DiscountSum = table.Column<decimal>(type: "numeric", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    DiscountTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    WaiterUpdatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Version = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DiscountEntity", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderWaiterEntity_AllWaiters_Id",
-                        column: x => x.Id,
-                        principalTable: "AllWaiters",
+                        name: "FK_DiscountEntity_DiscountTypes_DiscountTypeId",
+                        column: x => x.DiscountTypeId,
+                        principalTable: "DiscountTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -165,15 +169,38 @@ namespace ASPHost.Migrations
                 {
                     table.PrimaryKey("PK_OrderPaymentTypeEntity", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderPaymentTypeEntity_PaymentTypeEntity_Id",
+                        name: "FK_OrderPaymentTypeEntity_PaymentTypes_Id",
                         column: x => x.Id,
-                        principalTable: "PaymentTypeEntity",
+                        principalTable: "PaymentTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AllOrders",
+                name: "OrderWaiterEntity",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    WaiterCreatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    WaiterUpdatedId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Version = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderWaiterEntity", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderWaiterEntity_Waiters_Id",
+                        column: x => x.Id,
+                        principalTable: "Waiters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -196,9 +223,9 @@ namespace ASPHost.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AllOrders", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AllOrders_OrderWaiterEntity_WaiterId",
+                        name: "FK_Orders_OrderWaiterEntity_WaiterId",
                         column: x => x.WaiterId,
                         principalTable: "OrderWaiterEntity",
                         principalColumn: "Id",
@@ -222,15 +249,15 @@ namespace ASPHost.Migrations
                 {
                     table.PrimaryKey("PK_OrderDiscountEntity", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderDiscountEntity_AllDiscounts_Id",
+                        name: "FK_OrderDiscountEntity_DiscountEntity_Id",
                         column: x => x.Id,
-                        principalTable: "AllDiscounts",
+                        principalTable: "DiscountEntity",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDiscountEntity_AllOrders_DiscountsId",
+                        name: "FK_OrderDiscountEntity_Orders_DiscountsId",
                         column: x => x.DiscountsId,
-                        principalTable: "AllOrders",
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -252,15 +279,15 @@ namespace ASPHost.Migrations
                 {
                     table.PrimaryKey("PK_OrderGuestEntity", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderGuestEntity_AllOrders_GuestsId",
-                        column: x => x.GuestsId,
-                        principalTable: "AllOrders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_OrderGuestEntity_GuestEntity_Id",
                         column: x => x.Id,
                         principalTable: "GuestEntity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderGuestEntity_Orders_GuestsId",
+                        column: x => x.GuestsId,
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -285,15 +312,15 @@ namespace ASPHost.Migrations
                 {
                     table.PrimaryKey("PK_OrderPaymentEntity", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderPaymentEntity_AllOrders_PaymentsId",
-                        column: x => x.PaymentsId,
-                        principalTable: "AllOrders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_OrderPaymentEntity_OrderPaymentTypeEntity_PaymentTypeId",
                         column: x => x.PaymentTypeId,
                         principalTable: "OrderPaymentTypeEntity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderPaymentEntity_Orders_PaymentsId",
+                        column: x => x.PaymentsId,
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -306,6 +333,7 @@ namespace ASPHost.Migrations
                     ProductsId = table.Column<Guid>(type: "uuid", nullable: false),
                     GuestId = table.Column<Guid>(type: "uuid", nullable: false),
                     WaiterId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PrintTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     Comment = table.Column<string>(type: "text", nullable: true),
                     Status = table.Column<byte>(type: "smallint", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -319,15 +347,15 @@ namespace ASPHost.Migrations
                 {
                     table.PrimaryKey("PK_OrderProductEntity", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderProductEntity_AllOrders_ProductsId",
+                        name: "FK_OrderProductEntity_Orders_ProductsId",
                         column: x => x.ProductsId,
-                        principalTable: "AllOrders",
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderProductEntity_AllProducts_Id",
+                        name: "FK_OrderProductEntity_Products_Id",
                         column: x => x.Id,
-                        principalTable: "AllProducts",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -349,29 +377,28 @@ namespace ASPHost.Migrations
                 {
                     table.PrimaryKey("PK_OrderTableEntity", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderTableEntity_AllOrders_TablesId",
+                        name: "FK_OrderTableEntity_Orders_TablesId",
                         column: x => x.TablesId,
-                        principalTable: "AllOrders",
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderTableEntity_AllTables_Id",
+                        name: "FK_OrderTableEntity_Tables_Id",
                         column: x => x.Id,
-                        principalTable: "AllTables",
+                        principalTable: "Tables",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "AllWaiters",
-                columns: new[] { "Id", "CreatedTime", "IsDeleted", "Name", "Password", "Permissions", "UpdateTime", "Version", "WaiterCreatedId", "WaiterUpdatedId" },
-                values: new object[] { new Guid("2c4c850c-728e-45a9-bb41-615f5723e0aa"), new DateTime(2022, 6, 18, 14, 20, 56, 117, DateTimeKind.Local).AddTicks(6), false, "ADMIN", "ADMINPASSWORD", new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 }, null, 1, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000") });
+                table: "Waiters",
+                columns: new[] { "Id", "CreatedTime", "IsDeleted", "IsSessionOpen", "Name", "Password", "Permissions", "UpdateTime", "Version", "WaiterCreatedId", "WaiterUpdatedId" },
+                values: new object[] { new Guid("2c4c850c-728e-45a9-bb41-615f5723e0aa"), new DateTime(2022, 6, 21, 14, 53, 24, 34, DateTimeKind.Local).AddTicks(8639), false, false, "ADMIN", "ADMINPASSWORD", new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 }, null, 1, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000") });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AllOrders_WaiterId",
-                table: "AllOrders",
-                column: "WaiterId",
-                unique: true);
+                name: "IX_DiscountEntity_DiscountTypeId",
+                table: "DiscountEntity",
+                column: "DiscountTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDiscountEntity_DiscountsId",
@@ -400,6 +427,12 @@ namespace ASPHost.Migrations
                 column: "ProductsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_WaiterId",
+                table: "Orders",
+                column: "WaiterId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderTableEntity_TablesId",
                 table: "OrderTableEntity",
                 column: "TablesId");
@@ -423,7 +456,7 @@ namespace ASPHost.Migrations
                 name: "OrderTableEntity");
 
             migrationBuilder.DropTable(
-                name: "AllDiscounts");
+                name: "DiscountEntity");
 
             migrationBuilder.DropTable(
                 name: "GuestEntity");
@@ -432,22 +465,25 @@ namespace ASPHost.Migrations
                 name: "OrderPaymentTypeEntity");
 
             migrationBuilder.DropTable(
-                name: "AllProducts");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "AllOrders");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "AllTables");
+                name: "Tables");
 
             migrationBuilder.DropTable(
-                name: "PaymentTypeEntity");
+                name: "DiscountTypes");
+
+            migrationBuilder.DropTable(
+                name: "PaymentTypes");
 
             migrationBuilder.DropTable(
                 name: "OrderWaiterEntity");
 
             migrationBuilder.DropTable(
-                name: "AllWaiters");
+                name: "Waiters");
         }
     }
 }

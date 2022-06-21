@@ -3,6 +3,7 @@ using HostData.Cache.Orders;
 using HostData.Controller.Contract;
 using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
+using HostData.Factory;
 using HostData.Mapper;
 using Shared.Data.Enum;
 using Shared.Exceptions;
@@ -44,10 +45,10 @@ public class SessionController : BaseController, ISessionController
 
     public async Task<ProductDto> AddCommentOnProduct(dynamic credentialsId, dynamic sessionId, dynamic productId, dynamic comment)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
-        var pId = (Guid)CheckDynamicGuid(productId);
-        var comm = (string)Convert.ToString(comment);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
+        Guid pId = CheckDynamicGuid(productId);
+        string comm = Convert.ToString(comment.ToString());
         var entityThatChanges = await CheckCredentials(cId);
 
         var order = await _sessionCache.GetBySessionId(sId);
@@ -56,15 +57,15 @@ public class SessionController : BaseController, ISessionController
 
         await _sessionCache.Update(order);
 
-        return ProductMapper.CreateDto(product);
+        return ProductFactory.CreateDto(product);
     }
 
     public async Task<DiscountDto> AddDiscount(dynamic credentialsId, dynamic sessionId, dynamic discountTypeId, dynamic sum)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
-        var dtId = (Guid)CheckDynamicGuid(discountTypeId);
-        var s = (decimal)decimal.Parse(sum);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
+        Guid dtId = CheckDynamicGuid(discountTypeId);
+        decimal s = decimal.Parse(sum);
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanAddDiscountOnOrder);
 
@@ -78,15 +79,15 @@ public class SessionController : BaseController, ISessionController
         order.Discounts.Add(discountModel);
 
         await _sessionCache.Update(order);
-        return DiscountMapper.CreateDto(discountModel);
+        return DiscountFactory.CreateDto(discountModel);
     }
 
     public async Task<PaymentDto> AddPayment(dynamic credentialsId, dynamic sessionId, dynamic paymentTypeId, dynamic sum)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
-        var ptId = (Guid)CheckDynamicGuid(paymentTypeId);
-        var s = (decimal)decimal.Parse(sum);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
+        Guid ptId = CheckDynamicGuid(paymentTypeId);
+        decimal s = decimal.Parse(sum);
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanAddPaymentOnOrder);
 
@@ -101,15 +102,15 @@ public class SessionController : BaseController, ISessionController
         order.Payments.Add(payment);
 
         await _sessionCache.Update(order);
-        return PaymentMapper.CreateDto(payment);
+        return PaymentFactory.CreateDto(payment);
     }
 
     public async Task<ProductDto> AddProduct(dynamic credentialsId, dynamic sessionId, dynamic guestId, dynamic productItemId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
-        var gId = (Guid)CheckDynamicGuid(guestId);
-        var piId = (Guid)CheckDynamicGuid(productItemId);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
+        Guid gId = CheckDynamicGuid(guestId);
+        Guid piId = CheckDynamicGuid(productItemId);
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanAddDishesOnOrder);
 
@@ -126,14 +127,14 @@ public class SessionController : BaseController, ISessionController
         order.Products.Add(product);
 
         await _sessionCache.Update(order);
-        return ProductMapper.CreateDto(product);
+        return ProductFactory.CreateDto(product);
     }
 
     public async Task<TableDto> ChangeTable(dynamic credentialsId, dynamic sessionId, dynamic tableId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
-        var tId = (Guid)CheckDynamicGuid(tableId);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
+        Guid tId = CheckDynamicGuid(tableId);
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanChangeTableOnOrder);
 
@@ -143,14 +144,14 @@ public class SessionController : BaseController, ISessionController
         order.Tables.Add(table);
 
         await _sessionCache.Update(order);
-        return Mapper.Map<TableModel, TableDto>(table);
+        return TableFactory.CreateDto(table);
     }
 
     public async Task<WaiterDto> ChangeWaiter(dynamic credentialsId, dynamic sessionId, dynamic waiterId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
-        var wId = (Guid)CheckDynamicGuid(waiterId);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
+        Guid wId = CheckDynamicGuid(waiterId);
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanChangeWaiterOnOrder);
 
@@ -159,13 +160,13 @@ public class SessionController : BaseController, ISessionController
         order.Waiter = waiter;
 
         await _sessionCache.Update(order);
-        return Mapper.Map<WaiterModel, WaiterDto>(waiter);
+        return WaiterFactory.CreateDto(waiter);
     }
 
     public async Task<OrderDto> CloseOrder(dynamic credentialsId, dynamic sessionId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanCloseOrder);
 
@@ -180,14 +181,14 @@ public class SessionController : BaseController, ISessionController
         order.Status = OrderStatus.Closed;
 
         await _sessionCache.Update(order);
-        return OrderMapper.CreateDto(order);
+        return OrderFactory.CreateDto(order);
     }
 
     public async Task<ProductDto> RemoveCommentOnProduct(dynamic credentialsId, dynamic sessionId, dynamic productId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
-        var pId = (Guid)CheckDynamicGuid(productId);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
+        Guid pId = CheckDynamicGuid(productId);
         var entityThatChanges = await CheckCredentials(cId);
 
         var order = await _sessionCache.GetBySessionId(sId);
@@ -195,14 +196,14 @@ public class SessionController : BaseController, ISessionController
         product.Comment = string.Empty;
 
         await _sessionCache.Update(order);
-        return ProductMapper.CreateDto(product);
+        return ProductFactory.CreateDto(product);
     }
 
     public async Task<DiscountDto> RemoveDiscount(dynamic credentialsId, dynamic sessionId, dynamic discountId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
-        var dId = (Guid)CheckDynamicGuid(discountId);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
+        Guid dId = CheckDynamicGuid(discountId);
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanRemoveDiscountOnOrder);
 
@@ -211,14 +212,14 @@ public class SessionController : BaseController, ISessionController
         discount.IsActive = false;
 
         await _sessionCache.Update(order);
-        return DiscountMapper.CreateDto(discount);
+        return DiscountFactory.CreateDto(discount);
     }
 
     public async Task<PaymentDto> RemovePayment(dynamic credentialsId, dynamic sessionId, dynamic paymentId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
-        var pId = (Guid)CheckDynamicGuid(paymentId);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
+        Guid pId = CheckDynamicGuid(paymentId);
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanRemovePaymentOnOrder);
 
@@ -228,14 +229,14 @@ public class SessionController : BaseController, ISessionController
         payment.Status = PaymentStatus.Removed;
 
         await _sessionCache.Update(order);
-        return PaymentMapper.CreateDto(payment);
+        return PaymentFactory.CreateDto(payment);
     }
 
     public async Task<ProductDto> RemoveProduct(dynamic credentialsId, dynamic sessionId, dynamic productId)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
-        var pId = (Guid)CheckDynamicGuid(productId);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
+        Guid pId = CheckDynamicGuid(productId);
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanRemovePrintedDishesOnOrder);
 
@@ -251,14 +252,14 @@ public class SessionController : BaseController, ISessionController
         product.Status = ProductStatus.Deleted;
 
         await _sessionCache.Update(order);
-        return ProductMapper.CreateDto(product);
+        return ProductFactory.CreateDto(product);
     }
 
     public async Task<OrderDto> SubmitChanges(dynamic credentialsId, dynamic sessionId, dynamic version)
     {
-        var cId = (Guid)CheckDynamicGuid(credentialsId);
-        var sId = (Guid)CheckDynamicGuid(sessionId);
-        var v = (int)int.Parse(version);
+        Guid cId = CheckDynamicGuid(credentialsId);
+        Guid sId = CheckDynamicGuid(sessionId);
+        int v = int.Parse(version);
         var entityThatChanges = await CheckCredentials(cId);
 
         var orderOnCache = await _sessionCache.GetBySessionId(sId);
@@ -270,6 +271,6 @@ public class SessionController : BaseController, ISessionController
         await _orderService.Update(entityThatChanges.Id, orderOnCache);
 
         await _sessionCache.RemoveBySessionId(sId);
-        return OrderMapper.CreateDto(orderOnCache);
+        return OrderFactory.CreateDto(orderOnCache);
     }
 }
