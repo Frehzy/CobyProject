@@ -36,8 +36,6 @@ public interface IOrder
 
     public int Version { get; }
 
-    public bool IsDeleted { get; }
-
     public IReadOnlyList<ITable> GetTables();
 
     public IReadOnlyList<IDiscount> GetDiscounts();

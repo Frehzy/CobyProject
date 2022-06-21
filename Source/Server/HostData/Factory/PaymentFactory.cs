@@ -9,13 +9,11 @@ public static class PaymentFactory
         new(paymentModel.Id,
             paymentModel.Sum,
             CreateDto(paymentModel.Type),
-            paymentModel.Status,
-            paymentModel.IsDeleted);
+            paymentModel.Status);
 
     public static PaymentTypeDto CreateDto(PaymentTypeModel paymentTypeModel) =>
         new(paymentTypeModel.Id,
             paymentTypeModel.Name,
             paymentTypeModel.Kind,
-            paymentTypeModel.NeedOpenCashBox,
-            paymentTypeModel.IsDeleted);
+            paymentTypeModel.NeedOpenCashBox);
 }

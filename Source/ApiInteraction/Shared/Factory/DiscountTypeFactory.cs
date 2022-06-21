@@ -7,11 +7,11 @@ namespace Shared.Factory;
 internal class DiscountTypeFactory
 {
     public static DiscountType Create(IDiscountType discount) =>
-        new(discount.Id, discount.Name, discount.IsDeleted);
+        new(discount.Id, discount.Name);
 
     public static DiscountTypeDto CreateDto(IDiscountType discount) =>
-        new(discount.Id, discount.Name, discount.IsDeleted);
+        new(discount.Id, discount.Name);
 
     public static DiscountType Create(DiscountTypeDto discount) =>
-        new(discount.Id, discount.Name, discount.IsDeleted);
+        new(discount.Id, discount.Name);
 }

@@ -13,16 +13,13 @@ internal class Payment : IPayment
 
     public PaymentStatus Status { get; set; }
 
-    public bool IsDeleted { get; set; }
-
     public Payment() { }
 
-    public Payment(Guid id, decimal sum, PaymentType type, PaymentStatus status, bool isDeleted)
+    public Payment(Guid id, decimal sum, PaymentType type, PaymentStatus status)
     {
         Id = id;
         Sum = sum;
         Type = type;
         Status = status;
-        IsDeleted = isDeleted;
     }
 }

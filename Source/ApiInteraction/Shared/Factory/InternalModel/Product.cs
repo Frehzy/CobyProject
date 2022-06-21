@@ -17,13 +17,11 @@ internal class Product : IProduct
 
     public IProductItem ProductItem { get; set; }
 
-    public bool IsDeleted { get; set; }
-
     public string? Comment { get; set; }
 
     public Product() { }
 
-    public Product(Guid id, Guid guestId, Guid waiterId, DateTime? printTime, ProductStatus status, IProductItem productItem, bool isDeleted, string? comment)
+    public Product(Guid id, Guid guestId, Guid waiterId, DateTime? printTime, ProductStatus status, IProductItem productItem, string? comment)
     {
         Id = id;
         GuestId = guestId;
@@ -31,7 +29,6 @@ internal class Product : IProduct
         PrintTime = printTime;
         Status = status;
         ProductItem = productItem;
-        IsDeleted = isDeleted;
         Comment = comment;
     }
 }

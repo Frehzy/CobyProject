@@ -32,8 +32,8 @@ public class PaymentTypeService : BaseService, IPaymentTypeService
     public async Task<PaymentTypeModel> GetById(Guid id) =>
         await base.GetById<PaymentTypeModel, PaymentTypeEntity>(id);
 
-    public async Task<List<PaymentTypeModel>> GetAll() =>
-        await base.GetAll<PaymentTypeModel, PaymentTypeEntity>();
+    public async Task<List<PaymentTypeModel>> Get() =>
+        await base.Get<PaymentTypeModel, PaymentTypeEntity>();
 
     public async Task Remove(Guid entityThatChangesId, Guid id) =>
         await base.Remove<PaymentTypeEntity>(entityThatChangesId, id);

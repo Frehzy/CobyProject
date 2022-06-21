@@ -7,11 +7,11 @@ namespace Shared.Factory;
 internal class WaiterFactory
 {
     public static Waiter Create(IWaiter waiter) =>
-        new(waiter.Id, waiter.Name, waiter.IsSessionOpen, waiter.GetPermissions().ToList(), waiter.IsDeleted);
+        new(waiter.Id, waiter.Name, waiter.IsSessionOpen, waiter.GetPermissions().ToList());
 
     public static WaiterDto CreateDto(IWaiter waiter) =>
-        new(waiter.Id, waiter.Name, waiter.IsSessionOpen, waiter.GetPermissions().ToList(), waiter.IsDeleted);
+        new(waiter.Id, waiter.Name, waiter.IsSessionOpen, waiter.GetPermissions().ToList());
 
     public static Waiter Create(WaiterDto waiter) =>
-        new(waiter.Id, waiter.Name, waiter.IsSessionOpen, waiter.GetPermissions(), waiter.IsDeleted);
+        new(waiter.Id, waiter.Name, waiter.IsSessionOpen, waiter.GetPermissions());
 }

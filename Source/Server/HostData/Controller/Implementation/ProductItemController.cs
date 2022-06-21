@@ -46,7 +46,7 @@ public class ProductItemController : BaseController, IProductItemController
 
     public async Task<List<ProductItemDto>> GetProductItems()
     {
-        var productItemsModel = await _productItemService.GetAll();
+        var productItemsModel = await _productItemService.Get();
         return productItemsModel.Select(x => ProductFactory.CreateDto(x)).ToList();
     }
 

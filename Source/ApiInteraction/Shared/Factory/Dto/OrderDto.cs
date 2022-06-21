@@ -17,8 +17,7 @@ public record OrderDto(int Number,
                          decimal ResultSum,
                          decimal DiscountsSum,
                          decimal PaymentsSum,
-                         int Version,
-                         bool IsDeleted)
+                         int Version)
 {
     public List<ProductDto> GetProducts() =>
         (Products ?? Enumerable.Empty<ProductDto>()).ToList();

@@ -63,7 +63,7 @@ public class OrderController : BaseController, IOrderController
 
     public async Task<List<OrderDto>> GetOrders()
     {
-        var ordersModel = await _orderService.GetAll();
+        var ordersModel = await _orderService.Get();
         return ordersModel.Select(x => OrderFactory.CreateDto(x)).ToList();
     }
 

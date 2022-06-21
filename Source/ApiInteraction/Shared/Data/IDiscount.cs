@@ -9,6 +9,4 @@ public interface IDiscount
     public decimal DiscountSum { get; }
 
     public bool IsActive { get; }
-
-    public bool IsDeleted { get; }
 }

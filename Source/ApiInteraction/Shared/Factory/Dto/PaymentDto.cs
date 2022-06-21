@@ -2,4 +2,4 @@
 
 namespace Shared.Factory.Dto;
 
-public record PaymentDto(Guid Id, decimal Sum, PaymentTypeDto Type, PaymentStatus Status, bool IsDeleted);
+public record PaymentDto(Guid Id, decimal Sum, PaymentTypeDto Type, PaymentStatus Status);

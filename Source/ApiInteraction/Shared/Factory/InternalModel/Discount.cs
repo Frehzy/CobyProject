@@ -12,16 +12,13 @@ internal class Discount : IDiscount
 
     public bool IsActive { get; set; }
 
-    public bool IsDeleted { get; set; }
-
     public Discount() { }
 
-    public Discount(Guid id, IDiscountType type, decimal discountSum, bool isActive, bool isDeleted)
+    public Discount(Guid id, IDiscountType type, decimal discountSum, bool isActive)
     {
         Id = id;
         Type = type;
         DiscountSum = discountSum;
         IsActive = isActive;
-        IsDeleted = isDeleted;
     }
 }

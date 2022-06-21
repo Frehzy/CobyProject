@@ -32,8 +32,8 @@ public class DiscountTypeService : BaseService, IDiscountTypeService
     public async Task<DiscountTypeModel> GetById(Guid id) =>
         await base.GetById<DiscountTypeModel, DiscountTypeEntity>(id);
 
-    public async Task<List<DiscountTypeModel>> GetAll() =>
-        await base.GetAll<DiscountTypeModel, DiscountTypeEntity>();
+    public async Task<List<DiscountTypeModel>> Get() =>
+        await base.Get<DiscountTypeModel, DiscountTypeEntity>();
 
     public async Task Remove(Guid entityThatChangesId, Guid id) =>
         await base.Remove<DiscountTypeEntity>(entityThatChangesId, id);

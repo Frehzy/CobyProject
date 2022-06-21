@@ -11,6 +11,4 @@ public interface IPayment
     public IPaymentType Type { get; }
 
     public PaymentStatus Status { get; }
-
-    public bool IsDeleted { get; }
 }

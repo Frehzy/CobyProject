@@ -37,8 +37,6 @@ internal class Order : IOrder
 
     public int Version { get; set; }
 
-    public bool IsDeleted { get; set; }
-
     public Order() { }
 
     public Order(int number, Guid id, IReadOnlyList<ITable> table, IWaiter waiter)
@@ -54,10 +52,9 @@ internal class Order : IOrder
         Payments = new List<IPayment>();
         Status = OrderStatus.Open;
         Version = 1;
-        IsDeleted = false;
     }
 
-    public Order(int number, Guid id, IReadOnlyList<ITable> tables, IWaiter waiter, DateTime startTime, DateTime? endTime, IReadOnlyList<IGuest>? guests, IReadOnlyList<IProduct>? products, IReadOnlyList<IDiscount> discounts, IReadOnlyList<IPayment> payments, OrderStatus status, int version, bool isDeleted)
+    public Order(int number, Guid id, IReadOnlyList<ITable> tables, IWaiter waiter, DateTime startTime, DateTime? endTime, IReadOnlyList<IGuest>? guests, IReadOnlyList<IProduct>? products, IReadOnlyList<IDiscount> discounts, IReadOnlyList<IPayment> payments, OrderStatus status, int version)
     {
         Number = number;
         Id = id;
@@ -71,7 +68,6 @@ internal class Order : IOrder
         Payments = payments;
         Status = status;
         Version = version;
-        IsDeleted = isDeleted;
     }
 
     public IReadOnlyList<IDiscount> GetDiscounts() =>

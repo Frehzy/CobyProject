@@ -8,14 +8,11 @@ internal class DiscountType : IDiscountType
 
     public string Name { get; set; }
 
-    public bool IsDeleted { get; set; }
-
     public DiscountType() { }
 
-    public DiscountType(Guid id, string name, bool isDeleted)
+    public DiscountType(Guid id, string name)
     {
         Id = id;
         Name = name;
-        IsDeleted = isDeleted;
     }
 }

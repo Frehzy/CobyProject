@@ -32,9 +32,9 @@ public class OrderService : BaseService, IOrderService
         return await base.GetById<OrderModel, OrderEntity>(id);
     }
 
-    public async Task<List<OrderModel>> GetAll()
+    public async Task<List<OrderModel>> Get()
     {
-        return await base.GetAll<OrderModel, OrderEntity>();
+        return await base.Get<OrderModel, OrderEntity>();
     }
 
     public async Task Remove(Guid entityThatChangesId, Guid id) =>

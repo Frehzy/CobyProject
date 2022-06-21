@@ -53,6 +53,7 @@ public class DataContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
         if (optionsBuilder.IsConfigured is false)
         {

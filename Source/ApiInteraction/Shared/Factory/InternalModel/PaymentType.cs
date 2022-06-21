@@ -13,16 +13,13 @@ internal class PaymentType : IPaymentType
 
     public bool NeedOpenCashBox { get; set; }
 
-    public bool IsDeleted { get; set; }
-
     public PaymentType() { }
 
-    public PaymentType(Guid id, string name, PaymentTypeKind kind, bool needOpenCashBox, bool isDeleted)
+    public PaymentType(Guid id, string name, PaymentTypeKind kind, bool needOpenCashBox)
     {
         Id = id;
         Name = name;
         Kind = kind;
         NeedOpenCashBox = needOpenCashBox;
-        IsDeleted = isDeleted;
     }
 }

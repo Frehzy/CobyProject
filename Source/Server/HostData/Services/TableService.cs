@@ -32,8 +32,8 @@ public class TableService : BaseService, ITableService
     public async Task<TableModel> GetById(Guid id) =>
         await base.GetById<TableModel, TableEntity>(id);
 
-    public async Task<List<TableModel>> GetAll() =>
-        await base.GetAll<TableModel, TableEntity>();
+    public async Task<List<TableModel>> Get() =>
+        await base.Get<TableModel, TableEntity>();
 
     public async Task Remove(Guid entityThatChangesId, Guid id) =>
         await base.Remove<TableEntity>(entityThatChangesId, id);

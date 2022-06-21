@@ -12,13 +12,11 @@ public static class ProductFactory
             productModel.PrintTime,
             productModel.Status,
             CreateDto(productModel.ProductItem),
-            productModel.IsDeleted,
             productModel.Comment);
 
     public static ProductItemDto CreateDto(ProductItemModel productItemModel) =>
         new(productItemModel.Id,
             productItemModel.Name,
             productItemModel.Price,
-            productItemModel.Type,
-            productItemModel.IsDeleted);
+            productItemModel.Type);
 }

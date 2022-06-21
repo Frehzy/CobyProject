@@ -11,6 +11,4 @@ public interface IPaymentType
     public PaymentTypeKind Kind { get; }
 
     public bool NeedOpenCashBox { get; } //нужно ли открывать кассовый ящик
-
-    public bool IsDeleted { get; }
 }

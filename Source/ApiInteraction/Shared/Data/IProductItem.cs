@@ -11,6 +11,4 @@ public interface IProductItem
     public decimal Price { get; }
 
     public ProductType Type { get; }
-
-    public bool IsDeleted { get; }
 }

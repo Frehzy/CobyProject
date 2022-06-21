@@ -67,13 +67,13 @@ public class WaiterController : BaseController, IWaiterController
     public async Task<WaiterModel> GetWaiterByPassword(dynamic password)
     {
         string p = Convert.ToString(password.ToString());
-        var waitersPermissionModel = await _waiterService.GetAll();
+        var waitersPermissionModel = await _waiterService.Get();
         return waitersPermissionModel.First(x => x.Password.Equals(p));
     }
 
     public async Task<List<WaiterDto>> GetWaiters()
     {
-        var waiterModels = await _waiterService.GetAll();
+        var waiterModels = await _waiterService.Get();
         return waiterModels.Select(x => WaiterFactory.CreateDto(x)).ToList();
     }
 

@@ -43,7 +43,7 @@ public class TableController : BaseController, ITableController
 
     public async Task<List<TableDto>> GetTables()
     {
-        var tableModels = await _tableService.GetAll();
+        var tableModels = await _tableService.Get();
         return tableModels.Select(x => TableFactory.CreateDto(x)).ToList();
     }
 

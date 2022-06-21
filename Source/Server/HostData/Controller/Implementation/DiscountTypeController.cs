@@ -41,7 +41,7 @@ public class DiscountTypeController : BaseController, IDiscountTypeController
 
     public async Task<List<DiscountTypeDto>> GetDiscountTypes()
     {
-        var discountTypeModel = await _discountTypeService.GetAll();
+        var discountTypeModel = await _discountTypeService.Get();
         return discountTypeModel.Select(x => DiscountFactory.CreateDto(x)).ToList();
     }
 

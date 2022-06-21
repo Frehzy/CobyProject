@@ -7,6 +7,4 @@ public interface IGuest
     public string Name { get; }
 
     public int Rank { get; }
-
-    public bool IsDeleted { get; }
 }

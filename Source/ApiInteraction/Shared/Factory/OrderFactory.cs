@@ -18,8 +18,7 @@ internal static class OrderFactory
             order.GetDiscounts().Select(x => DiscountFactory.Create(x)).ToList(),
             order.GetPayments().Select(x => PaymentFactory.Create(x)).ToList(),
             order.Status,
-            order.Version,
-            order.IsDeleted);
+            order.Version);
 
     public static Order Create(OrderDto order) =>
         new(order.Number,
@@ -33,8 +32,7 @@ internal static class OrderFactory
             order.GetDiscounts().Select(x => DiscountFactory.Create(x)).ToList(),
             order.GetPayments().Select(x => PaymentFactory.Create(x)).ToList(),
             order.Status,
-            order.Version,
-            order.IsDeleted);
+            order.Version);
 
     public static OrderDto CreateDto(IOrder order) =>
         new(order.Number,
@@ -52,6 +50,5 @@ internal static class OrderFactory
             order.ResultSum,
             order.DiscountsSum,
             order.PaymentsSum,
-            order.Version,
-            order.IsDeleted);
+            order.Version);
 }

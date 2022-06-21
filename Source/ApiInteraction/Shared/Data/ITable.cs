@@ -7,6 +7,4 @@ public interface ITable
     public string Name { get; }
 
     public int Number { get; }
-
-    public bool IsDeleted { get; }
 }

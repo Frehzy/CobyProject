@@ -39,7 +39,7 @@ public class PaymentTypeController : BaseController, IPaymentTypeController
 
     public async Task<List<PaymentTypeDto>> GetPaymentTypes()
     {
-        var paymentTypesModel = await _paymentTypeService.GetAll();
+        var paymentTypesModel = await _paymentTypeService.Get();
         return paymentTypesModel.Select(x => PaymentFactory.CreateDto(x)).ToList();
     }
 

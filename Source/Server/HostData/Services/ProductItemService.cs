@@ -32,8 +32,8 @@ public class ProductItemService : BaseService, IProductItemService
     public async Task<ProductItemModel> GetById(Guid id) =>
         await base.GetById<ProductItemModel, ProductItemEntity>(id);
 
-    public async Task<List<ProductItemModel>> GetAll() =>
-        await base.GetAll<ProductItemModel, ProductItemEntity>();
+    public async Task<List<ProductItemModel>> Get() =>
+        await base.Get<ProductItemModel, ProductItemEntity>();
 
     public async Task Remove(Guid entityThatChangesId, Guid id) =>
         await base.Remove<ProductItemEntity>(entityThatChangesId, id);

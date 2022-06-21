@@ -13,7 +13,6 @@ internal class ProductFactory
             product.PrintTime,
             product.Status,
             ProductItemFactory.Create(product.ProductItem),
-            product.IsDeleted,
             product.Comment);
 
     public static ProductDto CreateDto(IProduct product) =>
@@ -23,7 +22,6 @@ internal class ProductFactory
             product.PrintTime,
             product.Status,
             ProductItemFactory.CreateDto(product.ProductItem),
-            product.IsDeleted,
             product.Comment);
 
     public static Product Create(ProductDto product) =>
@@ -33,6 +31,5 @@ internal class ProductFactory
             product.PrintTime,
             product.Status,
             ProductItemFactory.Create(product.ProductItem),
-            product.IsDeleted,
             product.Comment);
 }

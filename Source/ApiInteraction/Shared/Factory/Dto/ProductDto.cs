@@ -8,5 +8,4 @@ public record ProductDto(Guid Id,
                         DateTime? PrintTime,
                         ProductStatus Status,
                         ProductItemDto ProductItem,
-                        bool IsDeleted,
                         string? Comment);

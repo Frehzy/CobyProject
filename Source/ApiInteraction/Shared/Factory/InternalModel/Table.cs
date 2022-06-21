@@ -10,15 +10,12 @@ internal class Table : ITable
 
     public int Number { get; set; }
 
-    public bool IsDeleted { get; set; }
-
     public Table() { }
 
-    public Table(Guid id, string name, int number, bool isDeleted)
+    public Table(Guid id, string name, int number)
     {
         Id = id;
         Name = name;
         Number = number;
-        IsDeleted = isDeleted;
     }
 }

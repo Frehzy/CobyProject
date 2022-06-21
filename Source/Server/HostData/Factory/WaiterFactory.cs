@@ -9,6 +9,5 @@ public static class WaiterFactory
         new(waiterModel.Id,
             waiterModel.Name,
             waiterModel.IsSessionOpen,
-            waiterModel.Permissions,
-            waiterModel.IsDeleted);
+            waiterModel.Permissions);
 }

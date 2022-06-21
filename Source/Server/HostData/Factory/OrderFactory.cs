@@ -12,7 +12,7 @@ public static class OrderFactory
             WaiterFactory.CreateDto(orderModel.Waiter),
             orderModel.StartTime,
             orderModel.CloseTime,
-            orderModel.Guests.Select(x => new GuestDto(x.Id, x.Name, x.Rank, x.IsDeleted)).ToList(),
+            orderModel.Guests.Select(x => new GuestDto(x.Id, x.Name, x.Rank)).ToList(),
             orderModel.Products.Select(x => ProductFactory.CreateDto(x)).ToList(),
             orderModel.Discounts.Select(x => DiscountFactory.CreateDto(x)).ToList(),
             orderModel.Payments.Select(x => PaymentFactory.CreateDto(x)).ToList(),
@@ -21,6 +21,5 @@ public static class OrderFactory
             default,
             default,
             default,
-            orderModel.Version,
-            orderModel.IsDeleted);
+            orderModel.Version);
 }

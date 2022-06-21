@@ -7,11 +7,11 @@ namespace Shared.Factory;
 internal class PaymentFactory
 {
     public static Payment Create(IPayment payment) =>
-        new(payment.Id, payment.Sum, PaymentTypeFactory.Create(payment.Type), payment.Status, payment.IsDeleted);
+        new(payment.Id, payment.Sum, PaymentTypeFactory.Create(payment.Type), payment.Status);
 
     public static PaymentDto CreateDto(IPayment payment) =>
-        new(payment.Id, payment.Sum, PaymentTypeFactory.CreateDto(payment.Type), payment.Status, payment.IsDeleted);
+        new(payment.Id, payment.Sum, PaymentTypeFactory.CreateDto(payment.Type), payment.Status);
 
     public static Payment Create(PaymentDto payment) =>
-        new(payment.Id, payment.Sum, PaymentTypeFactory.Create(payment.Type), payment.Status, payment.IsDeleted);
+        new(payment.Id, payment.Sum, PaymentTypeFactory.Create(payment.Type), payment.Status);
 }

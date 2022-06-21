@@ -2,4 +2,4 @@
 
 namespace Shared.Factory.Dto;
 
-public record ProductItemDto(Guid Id, string Name, decimal Price, ProductType Type, bool IsDeleted);
+public record ProductItemDto(Guid Id, string Name, decimal Price, ProductType Type);

@@ -13,16 +13,13 @@ internal class ProductItem : IProductItem
 
     public ProductType Type { get; set; }
 
-    public bool IsDeleted { get; set; }
-
     public ProductItem() { }
 
-    public ProductItem(Guid id, string name, decimal price, ProductType type, bool isDeleted)
+    public ProductItem(Guid id, string name, decimal price, ProductType type)
     {
         Id = id;
         Name = name;
         Price = price;
         Type = type;
-        IsDeleted = isDeleted;
     }
 }

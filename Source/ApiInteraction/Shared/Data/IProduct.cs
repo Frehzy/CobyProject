@@ -16,7 +16,5 @@ public interface IProduct
 
     public IProductItem ProductItem { get; }
 
-    public bool IsDeleted { get; }
-
     public string? Comment { get; }
 }

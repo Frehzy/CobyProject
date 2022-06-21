@@ -64,9 +64,9 @@ public abstract class BaseService
         return Mapper.Map<TEntity, TModel>(entity);
     }
 
-    protected virtual async Task<List<TModel>> GetAll<TModel, TEntity>() where TEntity : class, IEntity, new() where TModel : class, new()
+    protected virtual async Task<List<TModel>> Get<TModel, TEntity>() where TEntity : class, IEntity, new() where TModel : class, new()
     {
-        var collection = await DbRepository.GetAll<TEntity>();
+        var collection = await DbRepository.Get<TEntity>();
         return Mapper.Map<TEntity, TModel>(collection).ToList();
     }
 

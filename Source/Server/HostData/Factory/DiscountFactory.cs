@@ -9,11 +9,9 @@ public static class DiscountFactory
         new(discountModel.Id,
             CreateDto(discountModel.Discount),
             discountModel.DiscountSum,
-            discountModel.IsActive,
-            discountModel.IsDeleted);
+            discountModel.IsActive);
 
     public static DiscountTypeDto CreateDto(DiscountTypeModel discountTypeModel) =>
         new(discountTypeModel.Id,
-            discountTypeModel.Name,
-            discountTypeModel.IsDeleted);
+            discountTypeModel.Name);
 }

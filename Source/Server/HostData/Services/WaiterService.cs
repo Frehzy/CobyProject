@@ -30,8 +30,8 @@ public class WaiterService : BaseService, IWaiterService
     public async Task<WaiterModel> GetById(Guid id) =>
         await base.GetById<WaiterModel, WaiterEntity>(id);
 
-    public async Task<List<WaiterModel>> GetAll() =>
-        await base.GetAll<WaiterModel, WaiterEntity>();
+    public async Task<List<WaiterModel>> Get() =>
+        await base.Get<WaiterModel, WaiterEntity>();
 
     public async Task Remove(Guid entityThatChangesId, Guid id) =>
         await base.Remove<WaiterEntity>(entityThatChangesId, id);

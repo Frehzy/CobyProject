@@ -23,7 +23,7 @@ public class CredentialsController : BaseController, ICredentialsController
     {
         string p = Convert.ToString(password.ToString());
 
-        var waiters = await WaiterService.GetAll();
+        var waiters = await WaiterService.Get();
         var waiterModule = waiters.First(x => x.Password.Equals(p));
         return await CredentialsCache.TryAdd(waiterModule);
     }
