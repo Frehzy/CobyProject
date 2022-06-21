@@ -25,6 +25,7 @@ namespace HostData.Cache.Orders
         {
             if (CheckIfExistsSession(orderModel.Id, out var existsSession) is not null)
             {
+                existsSession.Reset(orderModel);
                 existsSession.ResetTimer();
                 return new SessionDto(existsSession.SessionId, existsSession.Version);
             }
@@ -39,8 +40,11 @@ namespace HostData.Cache.Orders
                 sessionAction = _sessions.FirstOrDefault(x => x.Value.Order.Id.Equals(orderId)).Value;
         }
 
-        public async Task<OrderModel> GetBySessionId(Guid sessionId) =>
-            _sessions.GetValueOrDefault(sessionId)?.Order;
+        public async Task<(OrderModel Order, int SessionVersion)> GetBySessionId(Guid sessionId)
+        {
+            var session = _sessions.GetValueOrDefault(sessionId);
+            return (session.Order, session.Version);
+        }
 
         public async Task Update(OrderModel orderModel)
         {

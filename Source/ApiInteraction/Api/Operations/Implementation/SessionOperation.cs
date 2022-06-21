@@ -91,7 +91,7 @@ internal class SessionOperation : ISessionOperation, IDisposable
 
     public IOrder SubmitChanges(ICredentials credentials)
     {
-        var path = $"{credentials.Id}/{_session.Id}/submitChanges/{_session.Version}";
+        var path = $"{credentials.Id}/{_session.Id}/submitChanges";
         var orderDto = HttpRequest.Request<OrderDto>(path);
         _session = default;
         return OrderFactory.Create(orderDto);

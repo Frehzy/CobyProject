@@ -49,7 +49,8 @@ public class SessionController : BaseController, ISessionController
         string comm = Convert.ToString(comment.ToString());
         var entityThatChanges = await CheckCredentials(cId);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         var product = order.Products.First(x => x.Id.Equals(pId));
         product.Comment = comm;
@@ -68,7 +69,8 @@ public class SessionController : BaseController, ISessionController
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanAddDiscountOnOrder);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         var discountType = await _discountTypeService.GetById(dtId);
         var discountModel = new DiscountModel()
@@ -91,7 +93,8 @@ public class SessionController : BaseController, ISessionController
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanAddPaymentOnOrder);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         var paymentType = await _paymentTypeService.GetById(ptId);
         var payment = new PaymentModel()
@@ -115,7 +118,8 @@ public class SessionController : BaseController, ISessionController
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanAddDishesOnOrder);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         var guest = order.Guests.First(x => x.Id.Equals(gId));
         var productItem = await _productItemService.GetById(piId);
@@ -140,7 +144,8 @@ public class SessionController : BaseController, ISessionController
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanChangeTableOnOrder);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         var table = await _tableService.GetById(tId);
         order.Tables.Clear();
@@ -158,7 +163,8 @@ public class SessionController : BaseController, ISessionController
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanChangeWaiterOnOrder);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         var waiter = await _waiterService.GetById(wId);
         order.Waiter = waiter;
@@ -174,7 +180,8 @@ public class SessionController : BaseController, ISessionController
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanCloseOrder);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         order.CloseTime = DateTime.Now;
         order.Payments.Where(x => x.IsDeleted is false).ToList().ForEach(x => x.Status = PaymentStatus.Finished);
@@ -196,7 +203,8 @@ public class SessionController : BaseController, ISessionController
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanRemoveOrder);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         order.Status = OrderStatus.Deleted;
 
@@ -211,7 +219,8 @@ public class SessionController : BaseController, ISessionController
         Guid pId = CheckDynamicGuid(productId);
         var entityThatChanges = await CheckCredentials(cId);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         var product = order.Products.First(x => x.Id.Equals(pId));
         product.Comment = string.Empty;
@@ -228,7 +237,8 @@ public class SessionController : BaseController, ISessionController
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanRemoveDiscountOnOrder);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         var discount = order.Discounts.Where(x => x.IsDeleted is false).First(x => x.Id.Equals(dId));
         discount.IsActive = false;
@@ -245,7 +255,8 @@ public class SessionController : BaseController, ISessionController
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanRemovePaymentOnOrder);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         var payment = order.Payments.Where(x => x.IsDeleted == false && x.Status.HasFlag(PaymentStatus.New))
                                     .First(x => x.Id.Equals(pId));
@@ -263,7 +274,8 @@ public class SessionController : BaseController, ISessionController
         var entityThatChanges = await CheckCredentials(cId);
         await CheckPermission(entityThatChanges.Id, EmployeePermission.CanRemovePrintedDishesOnOrder);
 
-        var order = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var order = orderVersion.Order;
         await CheckIfOrderIsClosed(order);
         var product = order.Products.Where(x => x.IsDeleted == false && x.Status.HasFlag(ProductStatus.Deleted) is false)
                                     .First(x => x.Id.Equals(pId));
@@ -279,18 +291,18 @@ public class SessionController : BaseController, ISessionController
         return ProductFactory.CreateDto(product);
     }
 
-    public async Task<OrderDto> SubmitChanges(dynamic credentialsId, dynamic sessionId, dynamic version)
+    public async Task<OrderDto> SubmitChanges(dynamic credentialsId, dynamic sessionId)
     {
         Guid cId = CheckDynamicGuid(credentialsId);
         Guid sId = CheckDynamicGuid(sessionId);
-        int v = int.Parse(version);
         var entityThatChanges = await CheckCredentials(cId);
 
-        var orderOnCache = await _sessionCache.GetBySessionId(sId);
+        var orderVersion = await _sessionCache.GetBySessionId(sId);
+        var orderOnCache = orderVersion.Order;
         var order = await _orderService.GetById(orderOnCache.Id);
 
-        if (order.Version != orderOnCache.Version - v)
-            throw new InvalidSessionException(v, orderOnCache.Id);
+        if (order.Version != orderOnCache.Version - orderVersion.SessionVersion)
+            throw new InvalidSessionException(orderVersion.SessionVersion, orderOnCache.Id);
 
         await _orderService.Update(entityThatChanges.Id, orderOnCache);
 

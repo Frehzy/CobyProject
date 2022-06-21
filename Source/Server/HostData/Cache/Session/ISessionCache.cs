@@ -10,7 +10,7 @@ public interface ISessionCache
 
     public Task<SessionDto> TryAdd(OrderModel orderModel);
 
-    public Task<OrderModel> GetBySessionId(Guid sessionId);
+    public Task<(OrderModel Order, int SessionVersion)> GetBySessionId(Guid sessionId);
 
     public Task Update(OrderModel orderModel);
 

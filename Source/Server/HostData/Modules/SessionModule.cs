@@ -102,12 +102,11 @@ public class SessionModule : BaseModule
             return await Execute<OrderDto>(Context, () => _sessionController.CloseOrder(credentialsId, sessionId));
         });
 
-        Get("/{credentialsId}/{sessionId}/submitChanges/{version}", async parameters =>
+        Get("/{credentialsId}/{sessionId}/submitChanges", async parameters =>
         {
             var credentialsId = parameters.credentialsId;
             var sessionId = parameters.sessionId;
-            var version = parameters.version;
-            return await Execute<OrderDto>(Context, () => _sessionController.SubmitChanges(credentialsId, sessionId, version));
+            return await Execute<OrderDto>(Context, () => _sessionController.SubmitChanges(credentialsId, sessionId));
         });
 
         Get("/{credentialsId}/{sessionId}/deleteOrder", async parameters =>

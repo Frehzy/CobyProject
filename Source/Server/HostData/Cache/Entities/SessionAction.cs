@@ -30,6 +30,12 @@ namespace HostData.Cache.Entities
         public void ResetTimer() =>
             _timeoutTimer.Change(TimeSpan.FromHours(1), TimeSpan.FromHours(1));
 
+        public void Reset(OrderModel orderModel)
+        {
+            Order = orderModel;
+            Version = 1;
+        }
+
         private void TimeoutHandler(object data) =>
             TimerCallBackAction?.Invoke(this);
     }
