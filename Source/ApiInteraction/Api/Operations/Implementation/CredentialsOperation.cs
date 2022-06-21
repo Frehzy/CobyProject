@@ -10,17 +10,21 @@ internal class CredentialsOperation : ICredentialsOperation
 {
     public ICredentials CreateCredentials(string waiterPassword)
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"credentials/create/{waiterPassword}");
-        var result = Task.Run(async () => await HttpRequest.Get<CredentialsDto>(uri)).Result;
-        return CredentialsFactory.Create(result.Content);
+        var result = Request<CredentialsDto>($"credentials/create/{waiterPassword}");
+        return CredentialsFactory.Create(result);
     }
 
     public ISession CreateSession(IOrder order)
     {
+        var result = Request<SessionDto>($"session/create/{order.Id}");
+        return SessionFactory.Create(result);
+    }
+
+    private T Request<T>(string path)
+    {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"session/create/{order.Id}");
-        var result = Task.Run(async () => await HttpRequest.Get<SessionDto>(uri)).Result;
-        return SessionFactory.Create(result.Content);
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, path);
+        var result = Task.Run(async () => await HttpRequest.Get<T>(uri)).Result;
+        return result.Content;
     }
 }

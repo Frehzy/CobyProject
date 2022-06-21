@@ -10,41 +10,38 @@ internal class OrderOperation : IOrderOperation
 {
     public IOrder CreateOrder(ICredentials credentials, IWaiter waiter, ITable table)
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{credentials.Id}/order/create/{waiter.Id}/{table.Id}");
-        var result = Task.Run(async () => await HttpRequest.Get<OrderDto>(uri)).Result;
-        return OrderFactory.Create(result.Content);
+        var result = Request<OrderDto>($"{credentials.Id}/order/create/{waiter.Id}/{table.Id}");
+        return OrderFactory.Create(result);
     }
 
     public IReadOnlyList<IOrder> GetOpenOrders()
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "openOrders");
-        var result = Task.Run(async () => await HttpRequest.Get<List<OrderDto>>(uri)).Result;
-        return result.Content.Select(x => OrderFactory.Create(x)).ToList();
+        var result = Request<List<OrderDto>>($"openOrders");
+        return result.Select(x => OrderFactory.Create(x)).ToList();
     }
 
     public IOrder GetOrderById(Guid orderId)
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"order/{orderId}");
-        var result = Task.Run(async () => await HttpRequest.Get<OrderDto>(uri)).Result;
-        return OrderFactory.Create(result.Content);
+        var result = Request<OrderDto>($"order/{orderId}");
+        return OrderFactory.Create(result);
     }
 
     public IReadOnlyList<IOrder> GetOrders()
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "orders");
-        var result = Task.Run(async () => await HttpRequest.Get<List<OrderDto>>(uri)).Result;
-        return result.Content.Select(x => OrderFactory.Create(x)).ToList();
+        var result = Request<List<OrderDto>>($"orders");
+        return result.Select(x => OrderFactory.Create(x)).ToList();
     }
 
     public bool RemoveOrder(ICredentials credentials, IOrder order)
     {
+        return Request<OrderDto>($"{credentials.Id}/order/remove/{order.Id}") is not null;
+    }
+
+    private T Request<T>(string path)
+    {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{credentials.Id}/order/remove/{order.Id}");
-        var result = Task.Run(async () => await HttpRequest.Get<OrderDto>(uri)).Result;
-        return result.Content is not null;
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, path);
+        var result = Task.Run(async () => await HttpRequest.Get<T>(uri)).Result;
+        return result.Content;
     }
 }

@@ -11,33 +11,32 @@ internal class PaymentTypeOperation : IPaymentTypeOperation
 {
     public IPaymentType CreatePaymentType(ICredentials credentials, string name, PaymentTypeKind kind, bool needOpenCashRegister)
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{credentials.Id}/paymentType/create/{name}/{kind}/{needOpenCashRegister}");
-        var result = Task.Run(async () => await HttpRequest.Get<PaymentTypeDto>(uri)).Result;
-        return PaymentTypeFactory.Create(result.Content);
+        var result = Request<PaymentTypeDto>($"{credentials.Id}/paymentType/create/{name}/{kind}/{needOpenCashRegister}");
+        return PaymentTypeFactory.Create(result);
     }
 
     public IPaymentType GetPaymentById(Guid paymentTypeId)
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"paymentType/{paymentTypeId}");
-        var result = Task.Run(async () => await HttpRequest.Get<PaymentTypeDto>(uri)).Result;
-        return PaymentTypeFactory.Create(result.Content);
+        var result = Request<PaymentTypeDto>($"paymentType/{paymentTypeId}");
+        return PaymentTypeFactory.Create(result);
     }
 
     public IReadOnlyList<IPaymentType> GetPaymentTypes()
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "paymentTypes");
-        var result = Task.Run(async () => await HttpRequest.Get<List<PaymentTypeDto>>(uri)).Result;
-        return result.Content.Select(x => PaymentTypeFactory.Create(x)).ToList();
+        var result = Request<List<PaymentTypeDto>>($"paymentTypes");
+        return result.Select(x => PaymentTypeFactory.Create(x)).ToList();
     }
 
     public bool RemovePaymentType(ICredentials credentials, IPaymentType paymentType)
     {
+        return Request<PaymentTypeDto>($"{credentials.Id}/paymentType/remove/{paymentType.Id}") is not null;
+    }
+
+    private T Request<T>(string path)
+    {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{credentials.Id}/paymentType/remove/{paymentType.Id}");
-        var result = Task.Run(async () => await HttpRequest.Get<PaymentTypeDto>(uri)).Result;
-        return result.Content is not null;
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, path);
+        var result = Task.Run(async () => await HttpRequest.Get<T>(uri)).Result;
+        return result.Content;
     }
 }

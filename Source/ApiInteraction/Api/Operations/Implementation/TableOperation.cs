@@ -10,33 +10,32 @@ internal class TableOperation : ITableOperation
 {
     public ITable CreateTable(ICredentials credentials, int tableNumber, string tableName)
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{credentials.Id}/table/create/{tableNumber}/{tableName}");
-        var result = Task.Run(async () => await HttpRequest.Get<TableDto>(uri)).Result;
-        return TableFactory.Create(result.Content);
+        var result = Request<TableDto>($"{credentials.Id}/table/create/{tableNumber}/{tableName}");
+        return TableFactory.Create(result);
     }
 
     public ITable GetTableById(Guid tableId)
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"table/{tableId}");
-        var result = Task.Run(async () => await HttpRequest.Get<TableDto>(uri)).Result;
-        return TableFactory.Create(result.Content);
+        var result = Request<TableDto>($"table/{tableId}");
+        return TableFactory.Create(result);
     }
 
     public IReadOnlyList<ITable> GetTables()
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "tables");
-        var result = Task.Run(async () => await HttpRequest.Get<List<TableDto>>(uri)).Result;
-        return result.Content.Select(x => TableFactory.Create(x)).ToList();
+        var result = Request<List<TableDto>>($"tables");
+        return result.Select(x => TableFactory.Create(x)).ToList();
     }
 
     public bool RemoveTable(ICredentials credentials, ITable table)
     {
+        return Request<TableDto>($"{credentials.Id}/table/remove/{table.Id}") is not null;
+    }
+
+    private T Request<T>(string path)
+    {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{credentials.Id}/table/remove/{table.Id}");
-        var result = Task.Run(async () => await HttpRequest.Get<TableDto>(uri)).Result;
-        return result.Content is not null;
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, path);
+        var result = Task.Run(async () => await HttpRequest.Get<T>(uri)).Result;
+        return result.Content;
     }
 }

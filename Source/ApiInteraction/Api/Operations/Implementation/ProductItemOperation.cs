@@ -11,33 +11,32 @@ internal class ProductItemOperation : IProductItemOperation
 {
     public IProductItem CreateProduct(ICredentials credentials, string name, decimal price, ProductType productType)
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{credentials.Id}/product/create/{name}/{price}/{productType}");
-        var result = Task.Run(async () => await HttpRequest.Get<ProductItemDto>(uri)).Result;
-        return ProductItemFactory.Create(result.Content);
+        var result = Request<ProductItemDto>($"{credentials.Id}/product/create/{name}/{price}/{productType}");
+        return ProductItemFactory.Create(result);
     }
 
     public IProductItem GetProductById(Guid productId)
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"product/{productId}");
-        var result = Task.Run(async () => await HttpRequest.Get<ProductItemDto>(uri)).Result;
-        return ProductItemFactory.Create(result.Content);
+        var result = Request<ProductItemDto>($"product/{productId}");
+        return ProductItemFactory.Create(result);
     }
 
     public IReadOnlyList<IProductItem> GetProducts()
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, "products");
-        var result = Task.Run(async () => await HttpRequest.Get<List<ProductItemDto>>(uri)).Result;
-        return result.Content.Select(x => ProductItemFactory.Create(x)).ToList();
+        var result = Request<List<ProductItemDto>>($"products");
+        return result.Select(x => ProductItemFactory.Create(x)).ToList();
     }
 
     public bool RemoveProduct(ICredentials credentials, IProductItem productItem)
     {
+        return Request<ProductItemDto>($"{credentials.Id}/product/remmove/{productItem.Id}") is not null;
+    }
+
+    private T Request<T>(string path)
+    {
         var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
-        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, $"{credentials.Id}/product/remmove/{productItem.Id}");
-        var result = Task.Run(async () => await HttpRequest.Get<ProductItemDto>(uri)).Result;
-        return result.Content is not null;
+        var uri = HttpUtility.CreateUri(ip.ToString(), 5050, path);
+        var result = Task.Run(async () => await HttpRequest.Get<T>(uri)).Result;
+        return result.Content;
     }
 }
