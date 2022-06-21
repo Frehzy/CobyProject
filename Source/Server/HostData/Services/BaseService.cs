@@ -61,15 +61,13 @@ public abstract class BaseService
     protected virtual async Task<TModel> GetById<TModel, TEntity>(Guid id) where TEntity : class, IEntity, new() where TModel : class, new()
     {
         var entity = await DbRepository.GetById<TEntity>(id);
-        var model = Mapper.Map<TEntity, TModel>(entity);
-        return model;
+        return Mapper.Map<TEntity, TModel>(entity);
     }
 
     protected virtual async Task<List<TModel>> GetAll<TModel, TEntity>() where TEntity : class, IEntity, new() where TModel : class, new()
     {
         var collection = await DbRepository.GetAll<TEntity>();
-        var models = Mapper.Map<TEntity, TModel>(collection);
-        return models.ToList();
+        return Mapper.Map<TEntity, TModel>(collection).ToList();
     }
 
     protected virtual async Task Remove<TEntity>(Guid entityThatChangesId, Guid id) where TEntity : class, IEntity
