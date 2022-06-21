@@ -1,13 +1,5 @@
-using HostData.Cache.Credentials;
-using HostData.Cache.Orders;
-using HostData.Controller.Contract;
-using HostData.Controller.Implementation;
+using ASPHost.ConfigureServices;
 using HostData.Domain.Context;
-using HostData.Domain.Contracts.Services;
-using HostData.Domain.Repository;
-using HostData.Mapper;
-using HostData.Repository;
-using HostData.Services;
 using Microsoft.EntityFrameworkCore;
 using Nancy.Owin;
 
@@ -27,6 +19,10 @@ namespace ASPHost
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
+            app.UseRouting();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 
@@ -45,28 +41,11 @@ namespace ASPHost
                             assembly.MigrationsAssembly("ASPHost"));
             });
 
-            services.AddScoped<IDbRepository, DbRepository>();
-
-            services.AddTransient<IDiscountTypeService, DiscountTypeService>();
-            services.AddTransient<IOrderService, OrderService>();
-            services.AddTransient<IPaymentTypeService, PaymentTypeService>();
-            services.AddTransient<IProductItemService, ProductItemService>();
-            services.AddTransient<ITableService, TableService>();
-            services.AddTransient<IWaiterService, WaiterService>();
-
-            services.AddTransient<IMapper, Mapper>();
-
-            services.AddTransient<IWaiterController, WaiterController>();
-            services.AddTransient<ICredentialsController, CredentialsController>();
-            services.AddTransient<ITableController, TableController>();
-            services.AddTransient<IPaymentTypeController, PaymentTypeController>();
-            services.AddTransient<IDiscountTypeController, DiscountTypeController>();
-            services.AddTransient<IProductItemController, ProductItemController>();
-            services.AddTransient<IOrderController, OrderController>();
-            services.AddTransient<ISessionController, SessionController>();
-
-            services.AddTransient<ICredentialsCache, CredentialsCache>();
-            services.AddTransient<ISessionCache, SessionCache>();
+            ConfigureRepository.ConfigureService(services);
+            ConfigureServiceBase.ConfigureService(services);
+            ConfigureMapper.ConfigureService(services);
+            ConfigureController.ConfigureService(services);
+            ConfigureCache.ConfigureService(services);
         }
     }
 }
