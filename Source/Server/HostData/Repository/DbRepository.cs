@@ -76,8 +76,9 @@ public sealed class DbRepository : IDbRepository
 
     public async Task<int> SaveChangesAsync()
     {
-        await Context.SaveChangesAsync();
+        var result = await Context.SaveChangesAsync();
         ClearTracker();
+        return result;
     }
 
     private void ClearTracker()
