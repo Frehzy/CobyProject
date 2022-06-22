@@ -1,5 +1,6 @@
 ﻿using Api.Http;
 using Api.Operations.Contracts;
+using Api.Services;
 using Shared.Data;
 using Shared.Factory;
 using Shared.Factory.Dto;
@@ -8,9 +9,17 @@ namespace Api.Operations.Implementation;
 
 internal class OrderOperation : IOrderOperation
 {
+    private readonly IOrderService _orderService;
+
+    public OrderOperation(IOrderService orderService)
+    {
+        _orderService = orderService;
+    }
+
     public IOrder CreateOrder(ICredentials credentials, IWaiter waiter, ITable table)
     {
         var result = HttpRequest.Request<OrderDto>($"{credentials.Id}/order/create/{waiter.Id}/{table.Id}");
+        _orderService.SendOrder(result);
         return OrderFactory.Create(result);
     }
 
@@ -34,6 +43,8 @@ internal class OrderOperation : IOrderOperation
 
     public bool RemoveOrder(ICredentials credentials, IOrder order)
     {
-        return HttpRequest.Request<OrderDto>($"{credentials.Id}/order/remove/{order.Id}") is not null;
+        var result = HttpRequest.Request<OrderDto>($"{credentials.Id}/order/remove/{order.Id}");
+        _orderService.SendOrder(result);
+        return result is not null;
     }
 }

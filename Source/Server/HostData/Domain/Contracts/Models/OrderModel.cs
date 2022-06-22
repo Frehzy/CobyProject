@@ -22,9 +22,9 @@ public class OrderModel : BaseModel
 
     public OrderStatus Status { get; set; }
 
-    public DateTime StartTime { get; set; }
+    public DateTime StartTime { get; set; } = DateTime.Now;
 
     public DateTime? CloseTime { get; set; }
 
-    public OrderModel() { }
+    public OrderModel() : base() { }
 }

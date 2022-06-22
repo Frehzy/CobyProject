@@ -21,11 +21,11 @@ public class OrderController : BaseController, IOrderController
         _tableService = tableService;
     }
 
-    public async Task<OrderDto> CreateOrder(dynamic credentials, dynamic tableId, dynamic waiterId)
+    public async Task<OrderDto> CreateOrder(dynamic credentials, dynamic waiterId, dynamic tableId)
     {
         Guid cId = CheckDynamicGuid(credentials);
-        Guid tId = CheckDynamicGuid(tableId);
         Guid wId = CheckDynamicGuid(waiterId);
+        Guid tId = CheckDynamicGuid(tableId);
         var entityThatChanges = await CheckCredentials(cId);
 
         var table = await _tableService.GetById(tId);
@@ -34,7 +34,7 @@ public class OrderController : BaseController, IOrderController
 
         var orderModel = new OrderModel()
         {
-            Number = lastOrder.Number + 1,
+            Number = lastOrder?.Number + 1 ?? 1,
             Waiter = waiter,
             Tables = new List<TableModel> { table },
             Guests = new List<GuestModel>(),

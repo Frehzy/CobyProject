@@ -6,5 +6,5 @@ public class TableModel : BaseModel
 
     public string? Name { get; set; }
 
-    public TableModel() { }
+    public TableModel() : base() { }
 }

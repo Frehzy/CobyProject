@@ -6,11 +6,11 @@ namespace HostData.Domain.Contracts.Entities;
 public abstract class BaseEntity : IEntity
 {
     [Key]
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public DateTime CreatedTime { get; set; } = DateTime.Now;
 
-    public Guid WaiterCreatedId { get; set; }
+    public Guid WaiterCreatedId { get; set; } = Guid.Empty;
 
     public DateTime? UpdateTime { get; set; }
 

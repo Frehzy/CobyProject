@@ -1,5 +1,6 @@
 ﻿using Api.Http;
 using Api.Operations.Contracts;
+using Api.Services;
 using Shared.Data;
 using Shared.Factory;
 using Shared.Factory.Dto;
@@ -10,10 +11,11 @@ namespace Api.Operations.Implementation;
 internal class SessionOperation : ISessionOperation, IDisposable
 {
     private Session _session;
+    private readonly IOrderService _orderService;
 
     public ISession Session => _session;
 
-    public SessionOperation(ISession session)
+    public SessionOperation(ISession session, IOrderService orderService)
     {
         _session = SessionFactory.Create(session);
     }
@@ -92,9 +94,10 @@ internal class SessionOperation : ISessionOperation, IDisposable
     public IOrder SubmitChanges(ICredentials credentials)
     {
         var path = $"{credentials.Id}/{_session.Id}/submitChanges";
-        var orderDto = HttpRequest.Request<OrderDto>(path);
+        var result = HttpRequest.Request<OrderDto>(path);
         _session = default;
-        return OrderFactory.Create(orderDto);
+        _orderService.SendOrder(result);
+        return OrderFactory.Create(result);
     }
 
     public void DeleteOrder(ICredentials credentials)

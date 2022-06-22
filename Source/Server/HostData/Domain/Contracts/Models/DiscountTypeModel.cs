@@ -4,5 +4,5 @@ public class DiscountTypeModel : BaseModel
 {
     public string Name { get; set; }
 
-    public DiscountTypeModel() { }
+    public DiscountTypeModel() : base() { }
 }

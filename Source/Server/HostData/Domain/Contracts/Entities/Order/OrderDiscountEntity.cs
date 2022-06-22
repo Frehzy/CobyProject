@@ -3,13 +3,21 @@ using System.Text.Json.Serialization;
 
 namespace HostData.Domain.Contracts.Entities.Order;
 
-public class OrderDiscountEntity : BaseEntity
+public class OrderDiscountEntity
 {
-    [JsonIgnore]
-    [ForeignKey(nameof(Id))]
-    public virtual DiscountEntity Discount { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    public virtual OrderEntity Order { get; set; }
+    public Guid OrderEntityId { get; set; } = Guid.NewGuid();
+
+    [JsonIgnore]
+    [ForeignKey(nameof(OrderEntityId))]
+    public virtual OrderEntity OrderEntity { get; set; }
+
+    public Guid DiscountTypeEntityId { get; set; }
+
+    public decimal DiscountSum { get; set; }
+
+    public bool IsActive { get; set; }
 
     public OrderDiscountEntity() : base() { }
 }

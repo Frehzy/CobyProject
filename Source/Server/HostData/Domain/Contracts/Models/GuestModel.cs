@@ -6,5 +6,5 @@ public class GuestModel : BaseModel
 
     public int Rank { get; set; }
 
-    public GuestModel() { }
+    public GuestModel() : base() { }
 }

@@ -8,7 +8,11 @@ public class ProductModel : BaseModel
 
     public Guid GuestId { get; set; }
 
+    public GuestModel Guest { get; set; }
+
     public Guid WaiterId { get; set; }
+
+    public WaiterModel Waiter { get; set; }
 
     public DateTime? PrintTime { get; set; }
 
@@ -16,5 +20,5 @@ public class ProductModel : BaseModel
 
     public ProductStatus Status { get; set; }
 
-    public ProductModel() { }
+    public ProductModel() : base() { }
 }

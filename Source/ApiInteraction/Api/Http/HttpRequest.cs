@@ -1,4 +1,5 @@
 ﻿using Api.Operations;
+using Shared.Configuration;
 using Shared.Exceptions;
 using System.Net;
 using System.Text;
@@ -10,7 +11,7 @@ internal static class HttpRequest
 {
     public static T Request<T>(string path)
     {
-        var ip = ModuleOperation.NetOperation.GetLocalIPAddress();
+        var ip = NetOperation.GetLocalIPAddress();
         var uri = HttpUtility.CreateUri(ip.ToString(), 5050, path);
         var result = Task.Run(async () => await Get<T>(uri)).Result;
         return result.Content;

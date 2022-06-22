@@ -10,5 +10,5 @@ public class ProductItemModel : BaseModel
 
     public ProductType Type { get; set; }
 
-    public ProductItemModel() { }
+    public ProductItemModel() : base() { }
 }

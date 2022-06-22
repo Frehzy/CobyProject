@@ -22,7 +22,7 @@ public class Program
             .WriteTo.Console(outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {Level:u3}] {Message:lj}{NewLine}{Exception}")
             .CreateLogger();
 
-        var ip = new NetOperation().GetLocalIPAddress();
+        var ip = NetOperation.GetLocalIPAddress();
         var hostBuilder = Host.CreateDefaultBuilder(args);
         var host = ConfigureHostBuilder(hostBuilder, ip);
         host.Run();

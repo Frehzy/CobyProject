@@ -3,13 +3,17 @@ using System.Text.Json.Serialization;
 
 namespace HostData.Domain.Contracts.Entities.Order;
 
-public class OrderWaiterEntity : BaseEntity
+public class OrderWaiterEntity
 {
-    [JsonIgnore]
-    [ForeignKey(nameof(Id))]
-    public virtual WaiterEntity WaiterEntity { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-    public virtual OrderEntity Order { get; set; }
+    public Guid OrderEntityId { get; set; } = Guid.NewGuid();
+
+    [JsonIgnore]
+    [ForeignKey(nameof(OrderEntityId))]
+    public virtual OrderEntity OrderEntity { get; set; }
+
+    public Guid WaiterEntityId { get; set; }
 
     public OrderWaiterEntity() : base() { }
 }

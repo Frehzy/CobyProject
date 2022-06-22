@@ -1,5 +1,6 @@
 using ASPHost.ConfigureServices;
 using HostData.Domain.Context;
+using HostData.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Nancy.Owin;
 
@@ -27,6 +28,11 @@ namespace ASPHost
             AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 
             app.UseOwin(x => x.UseNancy());
+
+            app.UseEndpoints(endPoint =>
+            {
+                endPoint.MapHub<OrderHub>("/ordersNotification");
+            });
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -46,6 +52,8 @@ namespace ASPHost
             ConfigureMapper.ConfigureService(services);
             ConfigureController.ConfigureService(services);
             ConfigureCache.ConfigureService(services);
+
+            services.AddSignalR();
         }
     }
 }

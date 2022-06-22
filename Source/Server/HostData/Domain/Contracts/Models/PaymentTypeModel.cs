@@ -10,5 +10,5 @@ public class PaymentTypeModel : BaseModel
 
     public bool NeedOpenCashBox { get; set; }
 
-    public PaymentTypeModel() { }
+    public PaymentTypeModel() : base() { }
 }

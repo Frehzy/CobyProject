@@ -12,5 +12,5 @@ public class WaiterModel : BaseModel
 
     public List<EmployeePermission> Permissions { get; set; }
 
-    public WaiterModel() { }
+    public WaiterModel() : base() { }
 }

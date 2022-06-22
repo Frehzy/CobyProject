@@ -1,7 +1,9 @@
 ﻿#nullable disable
 
+using Api.Notification;
 using Api.Operations.Contracts;
 using Api.Operations.Implementation;
+using Api.Services;
 using Shared.Configuration;
 using Shared.Data;
 
@@ -9,34 +11,55 @@ namespace Api.Operations;
 
 public sealed class ModuleOperation
 {
-    private static NetOperation _netOperation;
-    private static IConfigSettings _configSettings;
-    private static CredentialsOperation _credentialsOperation;
-    private static DiscountTypeOperation _discountTypeOperation;
-    private static OrderOperation _orderOperation;
-    private static PaymentTypeOperation _paymentTypeOperation;
-    private static ProductItemOperation _productItemOperation;
-    private static TableOperation _tableOperation;
-    private static WaiterOperation _waiterOperation;
+    private readonly IConfigSettings _configSettings;
 
-    public static NetOperation NetOperation => _netOperation ??= new NetOperation();
+    private readonly CredentialsOperation _credentialsOperation;
+    private readonly DiscountTypeOperation _discountTypeOperation;
+    private readonly OrderOperation _orderOperation;
+    private readonly PaymentTypeOperation _paymentTypeOperation;
+    private readonly ProductItemOperation _productItemOperation;
+    private readonly TableOperation _tableOperation;
+    private readonly WaiterOperation _waiterOperation;
 
-    public static IConfigSettings ConfigSettings => _configSettings ??= ConfigBuilder.Create();
+    private readonly NotificationService _notificationService;
 
-    public static ICredentialsOperation CredentialsOperation => _credentialsOperation ??= new CredentialsOperation();
+    private readonly OrderService _orderService;
 
-    public static IDiscountTypeOperation DiscountTypeOperation => _discountTypeOperation ??= new DiscountTypeOperation();
+    public ModuleOperation(IServiceProvider service)
+    {
+        _configSettings = ConfigBuilder.Create();
 
-    public static IOrderOperation OrderOperation => _orderOperation ??= new OrderOperation();
+        _credentialsOperation = (CredentialsOperation)service.GetService(typeof(ICredentialsOperation));
+        _discountTypeOperation = (DiscountTypeOperation)service.GetService(typeof(IDiscountTypeOperation));
+        _orderOperation = (OrderOperation)service.GetService(typeof(IOrderOperation));
+        _paymentTypeOperation = (PaymentTypeOperation)service.GetService(typeof(IPaymentTypeOperation));
+        _productItemOperation = (ProductItemOperation)service.GetService(typeof(IProductItemOperation));
+        _tableOperation = (TableOperation)service.GetService(typeof(ITableOperation));
+        _waiterOperation = (WaiterOperation)service.GetService(typeof(IWaiterOperation));
 
-    public static IPaymentTypeOperation PaymentTypeOperation => _paymentTypeOperation ??= new PaymentTypeOperation();
+        _notificationService = (NotificationService)service.GetService(typeof(INotificationService));
 
-    public static IProductItemOperation ProductItemOperation => _productItemOperation ??= new ProductItemOperation();
+        _orderService = (OrderService)service.GetService(typeof(IOrderService));
+    }
 
-    public static ITableOperation TableOperation => _tableOperation ??= new TableOperation();
+    public IConfigSettings ConfigSettings => _configSettings;
 
-    public static IWaiterOperation WaiterOperation => _waiterOperation ??= new WaiterOperation();
+    public ICredentialsOperation CredentialsOperation => _credentialsOperation;
 
-    public static ISessionOperation SessionOperation(ISession session) =>
-        new SessionOperation(session);
+    public IDiscountTypeOperation DiscountTypeOperation => _discountTypeOperation;
+
+    public IOrderOperation OrderOperation => _orderOperation;
+
+    public IPaymentTypeOperation PaymentTypeOperation => _paymentTypeOperation;
+
+    public IProductItemOperation ProductItemOperation => _productItemOperation;
+
+    public ITableOperation TableOperation => _tableOperation;
+
+    public IWaiterOperation WaiterOperation => _waiterOperation;
+
+    public INotificationService NotificationService => _notificationService;
+
+    public ISessionOperation SessionOperation(ISession session) =>
+        new SessionOperation(session, _orderService);
 }

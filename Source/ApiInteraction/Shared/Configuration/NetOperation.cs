@@ -3,9 +3,9 @@ using System.Net.Sockets;
 
 namespace Shared.Configuration;
 
-public class NetOperation
+public static class NetOperation
 {
-    public IPAddress GetLocalIPAddress()
+    public static IPAddress GetLocalIPAddress()
     {
         var host = Dns.GetHostEntry(Dns.GetHostName());
         foreach (var ip in host.AddressList.Where(ip => ip.AddressFamily.Equals(AddressFamily.InterNetwork)))

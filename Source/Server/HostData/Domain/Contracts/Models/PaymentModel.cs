@@ -10,5 +10,5 @@ public class PaymentModel : BaseModel
 
     public PaymentStatus Status { get; set; }
 
-    public PaymentModel() { }
+    public PaymentModel() : base() { }
 }
