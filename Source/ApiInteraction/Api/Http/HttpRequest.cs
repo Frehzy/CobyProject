@@ -1,5 +1,4 @@
-﻿using Api.Operations;
-using Shared.Configuration;
+﻿using Shared.Configuration;
 using Shared.Exceptions;
 using System.Net;
 using System.Text;

@@ -1,5 +1,4 @@
 ﻿using Api.Operations;
-using Api.Operations.Contracts;
 
 namespace Coby.ViewModel;
 

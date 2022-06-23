@@ -67,7 +67,7 @@ public sealed class ModuleOperation
 
 
     private async Task Connect()
-    { 
+    {
         if (_orderService.IsConnected is false)
             await _orderService.Connect();
     }

@@ -162,7 +162,7 @@ public class OrderService : IOrderService
     {
         var newOrder = orderEntity;
         newOrder.OrderWaiterEntity = ConvertToWaiterEntity(orderModel.Waiter, needGenerateGuid ? null : orderEntity.OrderWaiterEntity.Id);
-        newOrder.OrderDiscountEntities = orderModel.Discounts.Select(x => ConvertToDiscountEntity(x, needGenerateGuid ? null :x.Id)).ToList();
+        newOrder.OrderDiscountEntities = orderModel.Discounts.Select(x => ConvertToDiscountEntity(x, needGenerateGuid ? null : x.Id)).ToList();
         newOrder.OrderGuestEntities = orderModel.Guests.Select(x => ConvertToGuestEntity(x, needGenerateGuid ? x.Id : null)).ToList();
         newOrder.OrderPaymentEntities = orderModel.Payments.Select(x => ConvertToPaymentEntity(x, needGenerateGuid ? null : x.Id)).ToList();
         newOrder.OrderProductEntities = orderModel.Products.Select(x => ConvertToProductEntity(x, needGenerateGuid ? null : x.Id)).ToList();
@@ -236,7 +236,7 @@ public class OrderService : IOrderService
 
     private async Task<OrderModel> ConvertToModel(OrderEntity orderEntity) =>
         new()
-        { 
+        {
             Number = orderEntity.Number,
             IsDeleted = orderEntity.IsDeleted,
             Id = orderEntity.Id,
@@ -246,14 +246,14 @@ public class OrderService : IOrderService
             Status = orderEntity.Status,
             CloseTime = orderEntity.CloseTime,
             Waiter = await _waiterService.GetById(orderEntity.OrderWaiterEntity.WaiterEntityId),
-            Discounts = orderEntity.OrderDiscountEntities.Select(async x => new DiscountModel() 
-            { 
+            Discounts = orderEntity.OrderDiscountEntities.Select(async x => new DiscountModel()
+            {
                 Id = x.Id,
                 DiscountSum = x.DiscountSum,
                 IsActive = x.IsActive,
                 Discount = await _discountTypeService.GetById(x.DiscountTypeEntityId)
             }).Select(x => x.Result).ToList(),
-            Tables = orderEntity.OrderTableEntities.Select(async x => 
+            Tables = orderEntity.OrderTableEntities.Select(async x =>
             {
                 var table = await _tableService.GetById(x.TableEntityId);
                 return new TableModel()
@@ -265,7 +265,7 @@ public class OrderService : IOrderService
                     IsDeleted = table.IsDeleted
                 };
             }).Select(x => x.Result).ToList(),
-            Products = orderEntity.OrderProductEntities.Select(async x => 
+            Products = orderEntity.OrderProductEntities.Select(async x =>
             {
                 var productItem = await _productItemService.GetById(x.ProductItemEntityId);
                 return new ProductModel()
@@ -291,7 +291,7 @@ public class OrderService : IOrderService
                 };
             }).Select(x => x.Result).ToList(),
             Guests = orderEntity.OrderGuestEntities.Select(x => new GuestModel()
-            { 
+            {
                 Id = x.Id,
                 Name = x.Name,
                 Rank = x.Rank
