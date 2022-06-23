@@ -10,9 +10,6 @@ internal class NotificationService : INotificationService
 
     public NotificationService(IOrderService orderService)
     {
-        orderService.OnOrder += (order) =>
-        {
-            OnOrder?.Invoke(OrderFactory.Create(order));
-        };
+        orderService.OnOrder += (order) => OnOrder?.Invoke(OrderFactory.Create(order));
     }
 }

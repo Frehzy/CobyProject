@@ -38,7 +38,7 @@ public class Program
                                  {
                                      x.AllowSynchronousIO = true;
                                  })
-                                 .UseUrls($"http://{ip}:5050", "https://localhost:5051")
+                                 .UseUrls($"http://{ip}:5050")
                                  .UseStartup<Startup>();
                    }).Build();
 }

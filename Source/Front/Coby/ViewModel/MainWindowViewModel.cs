@@ -5,14 +5,15 @@ namespace Coby.ViewModel;
 
 internal class MainWindowViewModel
 {
+    private readonly ModuleOperation _module;
+
     public MainWindowViewModel()
     {
         IServiceProvider service = Api.Notification.Configure.ConfigureServices();
-        var module = new ModuleOperation(service);
-        module.NotificationService.OnOrder += NotificationService_OnOrder;
+        _module = new ModuleOperation(service);
+        _module.NotificationService.OnOrder += NotificationService_OnOrder;
 
-
-        var credentials = module.CredentialsOperation.CreateCredentials("ADMINPASSWORD");
+        /*var credentials = module.CredentialsOperation.CreateCredentials("ADMINPASSWORD");
         var waiters = module.WaiterOperation.GetWaiters();
         var waiter = waiters.First();
 
@@ -22,7 +23,7 @@ internal class MainWindowViewModel
         var tables = module.TableOperation.GetTables();
         var table = tables.First();
 
-        var order = module.OrderOperation.CreateOrder(credentials, waiter, table);
+        var order = module.OrderOperation.CreateOrder(credentials, waiter, table);*/
     }
 
     private void NotificationService_OnOrder(Shared.Data.IOrder order)

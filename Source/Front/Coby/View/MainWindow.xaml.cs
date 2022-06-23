@@ -11,7 +11,7 @@ namespace Coby.View
         public MainWindow()
         {
             InitializeComponent();
-            Content = new MainWindowViewModel();
+            DataContext = new MainWindowViewModel();
         }
     }
 }

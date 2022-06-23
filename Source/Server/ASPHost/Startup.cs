@@ -27,12 +27,12 @@ namespace ASPHost
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 
-            app.UseOwin(x => x.UseNancy());
-
             app.UseEndpoints(endPoint =>
             {
                 endPoint.MapHub<OrderHub>("/ordersNotification");
             });
+
+            app.UseOwin(x => x.UseNancy());
         }
 
         public void ConfigureServices(IServiceCollection services)

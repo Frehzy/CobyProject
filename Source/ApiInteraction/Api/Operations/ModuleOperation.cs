@@ -40,6 +40,8 @@ public sealed class ModuleOperation
         _notificationService = (NotificationService)service.GetService(typeof(INotificationService));
 
         _orderService = (OrderService)service.GetService(typeof(IOrderService));
+
+        Connect();
     }
 
     public IConfigSettings ConfigSettings => _configSettings;
@@ -62,4 +64,11 @@ public sealed class ModuleOperation
 
     public ISessionOperation SessionOperation(ISession session) =>
         new SessionOperation(session, _orderService);
+
+
+    private async Task Connect()
+    { 
+        if (_orderService.IsConnected is false)
+            await _orderService.Connect();
+    }
 }
