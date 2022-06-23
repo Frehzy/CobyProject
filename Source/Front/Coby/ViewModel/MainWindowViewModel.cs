@@ -27,6 +27,6 @@ internal class MainWindowViewModel
 
     private void NotificationService_OnOrder(Shared.Data.IOrder order)
     {
-        throw new NotImplementedException();
+        
     }
 }
