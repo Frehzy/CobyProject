@@ -76,7 +76,7 @@ namespace HostData.Cache.Orders
         {
             foreach (var session in _sessions.Values)
                 session.TimerCallBackAction -= RemoveSession;
-            GC.SuppressFinalize(this);
+            GC.Collect();
         }
 
         private void RemoveSession(SessionAction order) =>

@@ -16,7 +16,7 @@ public class OrderHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        foreach(var order in await _orderService.Get())
+        foreach (var order in await _orderService.Get())
             await Clients.Client(Context.ConnectionId).SendAsync("OnOrder", OrderFactory.CreateDto(order));
 
         await base.OnConnectedAsync();

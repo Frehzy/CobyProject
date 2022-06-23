@@ -9,7 +9,7 @@ internal class MainWindowViewModel
     public MainWindowViewModel()
     {
         _module = ModuleOperation.GetInstance();
-        _module.NotificationService.OnOrder += NotificationService_OnOrder;
+        _module.NotificationService.ReceiveOrder += NotificationService_OnOrder;
         /*var credentials = module.CredentialsOperation.CreateCredentials("ADMINPASSWORD");
         var waiters = module.WaiterOperation.GetWaiters();
         var waiter = waiters.First();
@@ -25,6 +25,6 @@ internal class MainWindowViewModel
 
     private void NotificationService_OnOrder(Shared.Data.IOrder order)
     {
-        
+
     }
 }

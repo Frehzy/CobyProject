@@ -30,6 +30,7 @@ namespace ASPHost
             app.UseEndpoints(endPoint =>
             {
                 endPoint.MapHub<OrderHub>("/ordersNotification");
+                endPoint.MapHub<WaiterHub>("/waitersNotification");
             });
 
             app.UseOwin(x => x.UseNancy());

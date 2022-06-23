@@ -3,7 +3,8 @@
 using Api.Notification;
 using Api.Operations.Contracts;
 using Api.Operations.Implementation;
-using Api.Services;
+using Api.Services.Contrancts;
+using Api.Services.Implementation;
 using Shared.Configuration;
 using Shared.Data;
 
@@ -76,5 +77,12 @@ public sealed class ModuleOperation
     {
         if (_orderService.IsConnected is false)
             await _orderService.Connect();
+    }
+
+    ~ModuleOperation()
+    {
+        if (_orderService.IsConnected is true)
+            _orderService.Disconnect();
+        GC.Collect();
     }
 }

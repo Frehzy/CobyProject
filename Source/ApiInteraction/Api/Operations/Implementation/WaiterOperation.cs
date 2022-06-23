@@ -1,5 +1,6 @@
 ﻿using Api.Http;
 using Api.Operations.Contracts;
+using Api.Services.Contrancts;
 using Shared.Data;
 using Shared.Data.Enum;
 using Shared.Factory;
@@ -9,21 +10,31 @@ namespace Api.Operations.Implementation;
 
 internal class WaiterOperation : IWaiterOperation
 {
+    private readonly IWaiterService _waiterService;
+
+    public WaiterOperation(IWaiterService waiterService)
+    {
+        _waiterService = waiterService;
+    }
+
     public IWaiter AddPermissionOnWaiter(ICredentials credentials, IWaiter waiter, EmployeePermission permission)
     {
         var result = HttpRequest.Request<WaiterDto>($"{credentials.Id}/waiter/update/addPermission/{waiter.Id}/{permission}");
+        _waiterService.SendWaiter(result);
         return WaiterFactory.Create(result);
     }
 
     public IWaiter ClosePersonalShift(ICredentials credentials, IWaiter waiter)
     {
         var result = HttpRequest.Request<WaiterDto>($"{credentials.Id}/waiter/personalShift/close/{waiter.Id}");
+        _waiterService.SendWaiter(result);
         return WaiterFactory.Create(result);
     }
 
     public IWaiter CreateWaiter(ICredentials credentials, string name, string password)
     {
         var result = HttpRequest.Request<WaiterDto>($"{credentials.Id}/waiter/create/{name}/{password}");
+        _waiterService.SendWaiter(result);
         return WaiterFactory.Create(result);
     }
 
@@ -42,17 +53,21 @@ internal class WaiterOperation : IWaiterOperation
     public IWaiter OpenPersonalShift(ICredentials credentials, IWaiter waiter)
     {
         var result = HttpRequest.Request<WaiterDto>($"{credentials.Id}/waiter/personalShift/open/{waiter.Id}");
+        _waiterService.SendWaiter(result);
         return WaiterFactory.Create(result);
     }
 
     public IWaiter RemovePermissionOnWaiter(ICredentials credentials, IWaiter waiter, EmployeePermission permission)
     {
         var result = HttpRequest.Request<WaiterDto>($"{credentials.Id}/waiter/update/removePermission/{waiter.Id}/{permission}");
+        _waiterService.SendWaiter(result);
         return WaiterFactory.Create(result);
     }
 
     public bool RemoveWaiter(ICredentials credentials, IWaiter waiter)
     {
-        return HttpRequest.Request<WaiterDto>($"{credentials.Id}/waiter/remove/{waiter.Id}") is not null;
+        var result = HttpRequest.Request<WaiterDto>($"{credentials.Id}/waiter/remove/{waiter.Id}");
+        _waiterService.SendWaiter(result);
+        return result is not null;
     }
 }
