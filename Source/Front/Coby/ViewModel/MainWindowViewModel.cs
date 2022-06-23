@@ -8,10 +8,8 @@ internal class MainWindowViewModel
 
     public MainWindowViewModel()
     {
-        IServiceProvider service = Api.Notification.Configure.ConfigureServices();
-        _module = new ModuleOperation(service);
+        _module = ModuleOperation.GetInstance();
         _module.NotificationService.OnOrder += NotificationService_OnOrder;
-
         /*var credentials = module.CredentialsOperation.CreateCredentials("ADMINPASSWORD");
         var waiters = module.WaiterOperation.GetWaiters();
         var waiter = waiters.First();

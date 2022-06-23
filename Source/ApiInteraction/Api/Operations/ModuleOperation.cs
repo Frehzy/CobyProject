@@ -11,6 +11,8 @@ namespace Api.Operations;
 
 public sealed class ModuleOperation
 {
+    private static ModuleOperation _instance;
+
     private readonly IConfigSettings _configSettings;
 
     private readonly CredentialsOperation _credentialsOperation;
@@ -24,25 +26,6 @@ public sealed class ModuleOperation
     private readonly NotificationService _notificationService;
 
     private readonly OrderService _orderService;
-
-    public ModuleOperation(IServiceProvider service)
-    {
-        _configSettings = ConfigBuilder.Create();
-
-        _credentialsOperation = (CredentialsOperation)service.GetService(typeof(ICredentialsOperation));
-        _discountTypeOperation = (DiscountTypeOperation)service.GetService(typeof(IDiscountTypeOperation));
-        _orderOperation = (OrderOperation)service.GetService(typeof(IOrderOperation));
-        _paymentTypeOperation = (PaymentTypeOperation)service.GetService(typeof(IPaymentTypeOperation));
-        _productItemOperation = (ProductItemOperation)service.GetService(typeof(IProductItemOperation));
-        _tableOperation = (TableOperation)service.GetService(typeof(ITableOperation));
-        _waiterOperation = (WaiterOperation)service.GetService(typeof(IWaiterOperation));
-
-        _notificationService = (NotificationService)service.GetService(typeof(INotificationService));
-
-        _orderService = (OrderService)service.GetService(typeof(IOrderService));
-
-        Connect();
-    }
 
     public IConfigSettings ConfigSettings => _configSettings;
 
@@ -62,11 +45,34 @@ public sealed class ModuleOperation
 
     public INotificationService NotificationService => _notificationService;
 
+    public static ModuleOperation GetInstance() =>
+        _instance ??= new ModuleOperation();
+
     public ISessionOperation SessionOperation(ISession session) =>
         new SessionOperation(session, _orderService);
 
+    private ModuleOperation()
+    {
+        var service = Configure.ConfigureServices();
 
-    private async Task Connect()
+        _configSettings = ConfigBuilder.Create();
+
+        _credentialsOperation = (CredentialsOperation)service.GetService(typeof(ICredentialsOperation));
+        _discountTypeOperation = (DiscountTypeOperation)service.GetService(typeof(IDiscountTypeOperation));
+        _orderOperation = (OrderOperation)service.GetService(typeof(IOrderOperation));
+        _paymentTypeOperation = (PaymentTypeOperation)service.GetService(typeof(IPaymentTypeOperation));
+        _productItemOperation = (ProductItemOperation)service.GetService(typeof(IProductItemOperation));
+        _tableOperation = (TableOperation)service.GetService(typeof(ITableOperation));
+        _waiterOperation = (WaiterOperation)service.GetService(typeof(IWaiterOperation));
+
+        _notificationService = (NotificationService)service.GetService(typeof(INotificationService));
+
+        _orderService = (OrderService)service.GetService(typeof(IOrderService));
+
+        ConnectToSignalR();
+    }
+
+    private async Task ConnectToSignalR()
     {
         if (_orderService.IsConnected is false)
             await _orderService.Connect();

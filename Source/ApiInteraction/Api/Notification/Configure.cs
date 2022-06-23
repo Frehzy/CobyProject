@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Api.Notification;
 
-public static class Configure
+internal static class Configure
 {
     public static IServiceProvider ConfigureServices() =>
         new ServiceCollection()
