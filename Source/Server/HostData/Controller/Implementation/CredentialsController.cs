@@ -19,6 +19,12 @@ public class CredentialsController : BaseController, ICredentialsController
         _orderService = orderService;
     }
 
+    public async Task<LicenceDto> CheckLicence(dynamic moduleLicenceId)
+    {
+        int mLId = int.Parse(moduleLicenceId);
+        return new LicenceDto(mLId);
+    }
+
     public async Task<CredentialsDto> CreateCredentials(dynamic password)
     {
         string p = Convert.ToString(password.ToString());

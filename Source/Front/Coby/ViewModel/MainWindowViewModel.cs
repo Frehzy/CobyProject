@@ -5,17 +5,15 @@ using ApiModule.Operations;
 namespace Coby.ViewModel;
 
 [LicenceModule(5)]
-internal class MainWindowViewModel
+internal class MainWindowViewModel : IIntegrationModule
 {
     private readonly ModuleOperation _module;
 
     public MainWindowViewModel()
     {
-        /*_module = ModuleOperation.GetInstance();
+        _module = ModuleOperation.GetInstance();
         _module.NotificationService.ReceiveOrder += NotificationService_ReceiveOrder;
-        _module.NotificationService.ReceiveWaiter += NotificationService_ReceiveWaiter;*/
-
-        var q = new IntegrationModule();
+        _module.NotificationService.ReceiveWaiter += NotificationService_ReceiveWaiter;
 
         /*var credentials = module.CredentialsOperation.CreateCredentials("ADMINPASSWORD");
         var waiters = module.WaiterOperation.GetWaiters();
@@ -38,5 +36,10 @@ internal class MainWindowViewModel
     private void NotificationService_ReceiveOrder(Shared.Data.IEntityChangedEvent<Shared.Data.IOrder> obj)
     {
         //throw new NotImplementedException();
+    }
+
+    public void Dispose()
+    {
+        throw new NotImplementedException();
     }
 }

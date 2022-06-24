@@ -21,6 +21,12 @@ public class CredentialsModule : BaseModule
             return await Execute<CredentialsDto>(Context, () => _credentialsController.CreateCredentials(password));
         });
 
+        Get("moduleLicence/check/{moduleLicenceId}", async parameters =>
+        {
+            var moduleLicenceId = parameters.moduleLicenceId;
+            return await Execute<LicenceDto>(Context, () => _credentialsController.CheckLicence(moduleLicenceId));
+        });
+
         Get("/session/create/{orderId}", async parameters =>
         {
             var orderId = parameters.orderId;

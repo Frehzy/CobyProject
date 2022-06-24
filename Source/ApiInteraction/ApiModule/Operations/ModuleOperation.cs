@@ -1,11 +1,15 @@
 ﻿#nullable disable
 
 using ApiModule.Api;
+using ApiModule.Attributes;
+using ApiModule.Http;
 using ApiModule.Operations.Contracts;
 using ApiModule.Operations.Implementation;
 using ApiModule.Services.Contrancts;
 using ApiModule.Services.Implementation;
 using Shared.Data;
+using Shared.Exceptions;
+using Shared.Factory.Dto;
 
 namespace ApiModule.Operations;
 
@@ -50,6 +54,8 @@ public sealed class ModuleOperation
 
     private ModuleOperation()
     {
+        CheckLicence();
+
         var service = BuildServiceProvider.ConfigureServices();
 
         _credentialsOperation = (CredentialsOperation)service.GetService(typeof(ICredentialsOperation));
@@ -74,6 +80,30 @@ public sealed class ModuleOperation
             await _orderService.Connect();
         if (_waiterService.IsConnected is false)
             await _waiterService.Connect();
+    }
+
+    private void CheckLicence()
+    {
+        var licence = GetModuleLicence();
+        HttpRequest.Request<LicenceDto>($"moduleLicence/check/{licence.ModuleLicenceId}");
+
+        LicenceModuleAttribute GetModuleLicence()
+        {
+            var licenceModuleAttributes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(x => typeof(IIntegrationModule).IsAssignableFrom(x))
+                .SelectMany(x =>
+                {
+                    var attributes = x.GetCustomAttributes(typeof(LicenceModuleAttribute), true);
+                    return attributes.Cast<LicenceModuleAttribute>();
+                });
+
+            if (licenceModuleAttributes.Distinct().Count() != 1)
+                throw new InvalidLicenceModuleException($"You must have only one [{nameof(LicenceModuleAttribute.ModuleLicenceId)}] " +
+                                                        $"and inherit from the [{nameof(IIntegrationModule)}] interface");
+
+            return licenceModuleAttributes.First();
+        }
     }
 
     ~ModuleOperation()
