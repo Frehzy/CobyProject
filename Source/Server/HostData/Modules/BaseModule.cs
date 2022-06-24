@@ -68,6 +68,12 @@ public abstract class BaseModule : NancyModule
             Log.Error(ex, json);
             return CreateExceptionResponse(json, nameof(EntityAlreadyExistsException));
         }
+        catch(InvalidLicenceModuleException ex)
+        {
+            var json = JsonSerializer.Serialize(ex.CreateDictionary(), System.Text.Json.Options.JsonSerializerOptions);
+            Log.Error(ex, json);
+            return CreateExceptionResponse(json, nameof(InvalidLicenceModuleException));
+        }
         catch (EntityException ex)
         {
             var json = JsonSerializer.Serialize(ex.CreateDictionary(), System.Text.Json.Options.JsonSerializerOptions);

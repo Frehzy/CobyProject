@@ -22,6 +22,7 @@ public class CredentialsController : BaseController, ICredentialsController
     public async Task<LicenceDto> CheckLicence(dynamic moduleLicenceId)
     {
         int mLId = int.Parse(moduleLicenceId);
+        //тут нужен запрос в базу данных
         return new LicenceDto(mLId);
     }
 

@@ -67,6 +67,7 @@ internal static class HttpRequest
             nameof(CantRemoveDeletedItemException) => JsonSerializer.Deserialize<CantRemoveDeletedItemException>(json),
             nameof(WaiterDeletedOrPersonalSessionNotOpen) => JsonSerializer.Deserialize<WaiterDeletedOrPersonalSessionNotOpen>(json),
             nameof(EntityAlreadyExistsException) => JsonSerializer.Deserialize<EntityAlreadyExistsException>(json),
+            nameof(InvalidLicenceModuleException) => JsonSerializer.Deserialize<InvalidLicenceModuleException>(json),
             nameof(EntityException) => JsonSerializer.Deserialize<EntityException>(json),
             _ => new Exception(json),
         };
