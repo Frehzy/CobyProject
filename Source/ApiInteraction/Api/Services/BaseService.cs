@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Shared.Data.Enum;
+using Shared.Factory.InternalModel;
 
 namespace Api.Services;
 
-internal abstract class BaseService<TDto>
+internal abstract class BaseService<TDto> where TDto : class
 {
     public bool IsConnected => Connection.State == HubConnectionState.Connected;
 
     public HubConnection Connection { get; private set; }
 
-    public event Action<TDto>? ReceiveEvent;
+    public event Action<EntityChangedEvent<TDto>>? ReceiveEvent;
 
     public BaseService(Uri url)
     {
@@ -21,9 +23,9 @@ internal abstract class BaseService<TDto>
     public async Task Disconnect() =>
         await Connection.StopAsync();
 
-    public async Task Send(string methodName, TDto dto) =>
-        await Connection.InvokeAsync(methodName, dto);
+    public async Task Send(string methodName, TDto dto, EventType eventType) =>
+        await Connection.InvokeAsync(methodName, dto, eventType);
 
-    protected void RaiseReceiveEvent(TDto dto) =>
-        ReceiveEvent?.Invoke(dto);
+    protected void RaiseReceiveEvent(TDto dto, EventType eventType) =>
+        ReceiveEvent?.Invoke(new EntityChangedEvent<TDto>(dto, eventType));
 }

@@ -2,6 +2,7 @@
 using Api.Operations.Contracts;
 using Api.Services.Contrancts;
 using Shared.Data;
+using Shared.Data.Enum;
 using Shared.Factory;
 using Shared.Factory.Dto;
 
@@ -95,7 +96,7 @@ internal class SessionOperation : ISessionOperation, IDisposable
         var path = $"{credentials.Id}/{Session.Id}/submitChanges";
         var result = HttpRequest.Request<OrderDto>(path);
         Dispose();
-        _orderService.SendOrder(result);
+        _orderService.SendOrder(result, EventType.Updated);
         return OrderFactory.Create(result);
     }
 

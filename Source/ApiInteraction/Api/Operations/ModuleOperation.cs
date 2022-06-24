@@ -27,6 +27,7 @@ public sealed class ModuleOperation
     private readonly NotificationService _notificationService;
 
     private readonly OrderService _orderService;
+    private readonly WaiterService _waiterService;
 
     public IConfigSettings ConfigSettings => _configSettings;
 
@@ -69,6 +70,7 @@ public sealed class ModuleOperation
         _notificationService = (NotificationService)service.GetService(typeof(INotificationService));
 
         _orderService = (OrderService)service.GetService(typeof(IOrderService));
+        _waiterService = (WaiterService)service.GetService(typeof(IWaiterService));
 
         ConnectToSignalR();
     }
@@ -77,12 +79,16 @@ public sealed class ModuleOperation
     {
         if (_orderService.IsConnected is false)
             await _orderService.Connect();
+        if (_waiterService.IsConnected is false)
+            await _waiterService.Connect();
     }
 
     ~ModuleOperation()
     {
         if (_orderService.IsConnected is true)
             _orderService.Disconnect();
+        if (_waiterService.IsConnected is true)
+            _waiterService.Disconnect();
         GC.Collect();
     }
 }

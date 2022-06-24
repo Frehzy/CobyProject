@@ -4,7 +4,7 @@ namespace Api.Notification;
 
 public interface INotificationService
 {
-    public event Action<IOrder>? ReceiveOrder;
+    public event Action<IEntityChangedEvent<IOrder>>? ReceiveOrder;
 
-    public event Action<IWaiter>? ReceiveWaiter;
+    public event Action<IEntityChangedEvent<IWaiter>>? ReceiveWaiter;
 }

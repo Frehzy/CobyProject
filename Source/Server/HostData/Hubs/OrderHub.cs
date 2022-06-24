@@ -1,6 +1,7 @@
 ﻿using HostData.Domain.Contracts.Services;
 using HostData.Factory;
 using Microsoft.AspNetCore.SignalR;
+using Shared.Data.Enum;
 using Shared.Factory.Dto;
 
 namespace HostData.Hubs;
@@ -17,13 +18,13 @@ public class OrderHub : Hub
     public override async Task OnConnectedAsync()
     {
         foreach (var order in await _orderService.Get())
-            await Clients.Client(Context.ConnectionId).SendAsync("OnOrder", OrderFactory.CreateDto(order));
+            await Clients.Client(Context.ConnectionId).SendAsync("OnOrder", OrderFactory.CreateDto(order), EventType.Updated);
 
         await base.OnConnectedAsync();
     }
 
-    public async Task SendOrder(OrderDto order)
+    public async Task SendOrder(OrderDto order, EventType eventType)
     {
-        await Clients.All.SendAsync("OnOrder", order);
+        await Clients.All.SendAsync("OnOrder", order, eventType);
     }
 }

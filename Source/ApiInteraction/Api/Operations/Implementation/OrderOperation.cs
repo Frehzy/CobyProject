@@ -2,6 +2,7 @@
 using Api.Operations.Contracts;
 using Api.Services.Contrancts;
 using Shared.Data;
+using Shared.Data.Enum;
 using Shared.Factory;
 using Shared.Factory.Dto;
 
@@ -19,7 +20,7 @@ internal class OrderOperation : IOrderOperation
     public IOrder CreateOrder(ICredentials credentials, IWaiter waiter, ITable table)
     {
         var result = HttpRequest.Request<OrderDto>($"{credentials.Id}/order/create/{waiter.Id}/{table.Id}");
-        _orderService.SendOrder(result);
+        _orderService.SendOrder(result, EventType.Created);
         return OrderFactory.Create(result);
     }
 
@@ -44,7 +45,7 @@ internal class OrderOperation : IOrderOperation
     public bool RemoveOrder(ICredentials credentials, IOrder order)
     {
         var result = HttpRequest.Request<OrderDto>($"{credentials.Id}/order/remove/{order.Id}");
-        _orderService.SendOrder(result);
+        _orderService.SendOrder(result, EventType.Removed);
         return result is not null;
     }
 }

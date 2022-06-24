@@ -9,7 +9,8 @@ internal class MainWindowViewModel
     public MainWindowViewModel()
     {
         _module = ModuleOperation.GetInstance();
-        _module.NotificationService.ReceiveOrder += NotificationService_OnOrder;
+        _module.NotificationService.ReceiveOrder += NotificationService_ReceiveOrder;
+        _module.NotificationService.ReceiveWaiter += NotificationService_ReceiveWaiter;
         /*var credentials = module.CredentialsOperation.CreateCredentials("ADMINPASSWORD");
         var waiters = module.WaiterOperation.GetWaiters();
         var waiter = waiters.First();
@@ -23,8 +24,13 @@ internal class MainWindowViewModel
         var order = module.OrderOperation.CreateOrder(credentials, waiter, table);*/
     }
 
-    private void NotificationService_OnOrder(Shared.Data.IOrder order)
+    private void NotificationService_ReceiveWaiter(Shared.Data.IEntityChangedEvent<Shared.Data.IWaiter> obj)
     {
+        //throw new NotImplementedException();
+    }
 
+    private void NotificationService_ReceiveOrder(Shared.Data.IEntityChangedEvent<Shared.Data.IOrder> obj)
+    {
+        //throw new NotImplementedException();
     }
 }
