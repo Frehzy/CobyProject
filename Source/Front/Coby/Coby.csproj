@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ApiInteraction\Api\Api.csproj" />
+    <ProjectReference Include="..\..\ApiInteraction\ApiModule\ApiModule.csproj" />
   </ItemGroup>
 
 </Project>

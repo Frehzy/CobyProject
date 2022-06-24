@@ -17,5 +17,5 @@ using System.Runtime.InteropServices;
 // будет видимым для COM.
 
 [assembly: Guid("6c445b69-fb74-438f-9416-38a805b4ee8e")]
-[assembly: InternalsVisibleTo("Api")]
+[assembly: InternalsVisibleTo("ApiModule")]
 [assembly: InternalsVisibleTo("HostData")]

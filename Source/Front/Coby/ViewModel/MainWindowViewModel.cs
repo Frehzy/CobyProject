@@ -1,16 +1,22 @@
-﻿using Api.Operations;
+﻿using ApiModule.Api;
+using ApiModule.Attributes;
+using ApiModule.Operations;
 
 namespace Coby.ViewModel;
 
+[LicenceModule(5)]
 internal class MainWindowViewModel
 {
     private readonly ModuleOperation _module;
 
     public MainWindowViewModel()
     {
-        _module = ModuleOperation.GetInstance();
+        /*_module = ModuleOperation.GetInstance();
         _module.NotificationService.ReceiveOrder += NotificationService_ReceiveOrder;
-        _module.NotificationService.ReceiveWaiter += NotificationService_ReceiveWaiter;
+        _module.NotificationService.ReceiveWaiter += NotificationService_ReceiveWaiter;*/
+
+        var q = new IntegrationModule();
+
         /*var credentials = module.CredentialsOperation.CreateCredentials("ADMINPASSWORD");
         var waiters = module.WaiterOperation.GetWaiters();
         var waiter = waiters.First();

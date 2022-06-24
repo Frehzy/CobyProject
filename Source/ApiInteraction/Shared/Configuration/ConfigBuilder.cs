@@ -4,7 +4,7 @@ using Shared.Factory.InternalModel;
 
 namespace Shared.Configuration;
 
-public static class ConfigBuilder
+internal static class ConfigBuilder
 {
     public static IConfigSettings Create()
     {

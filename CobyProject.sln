@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Front", "Front", "{95AD45D1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HostData", "Source\Server\HostData\HostData.csproj", "{3878D12E-1DEC-4E71-A041-E285853C2B3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Source\ApiInteraction\Api\Api.csproj", "{CE39CB81-5AAD-4E95-B0D3-D8EFD9A1AB4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiModule", "Source\ApiInteraction\ApiModule\ApiModule.csproj", "{CE39CB81-5AAD-4E95-B0D3-D8EFD9A1AB4F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coby", "Source\Front\Coby\Coby.csproj", "{1F32B475-CB46-42E5-989A-15DA6735A253}"
 EndProject
