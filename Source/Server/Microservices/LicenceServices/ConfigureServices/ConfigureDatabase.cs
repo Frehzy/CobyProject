@@ -7,6 +7,6 @@ public static class ConfigureDatabase
 {
     public static void ConfigureService(IServiceCollection services, DbContextOptions<LicenceServicesDataContext> options)
     {
-        services.AddSingleton(typeof(LicenceServicesDataContext), _ => new LicenceServicesDataContext(options));
+        services.AddDbContext<LicenceServicesDataContext>(ServiceLifetime.Transient);
     }
 }

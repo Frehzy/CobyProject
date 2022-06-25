@@ -1,4 +1,5 @@
 ﻿using ApiHostData.Cache.Licence;
+using ApiHostData.Controller.Contract;
 using ApiHostData.Factory;
 using ApiHostData.Services.Contract;
 using Microsoft.AspNetCore.SignalR;
@@ -11,7 +12,8 @@ public class WaiterHub : BaseHub
 {
     private readonly IWaiterService _waiterService;
 
-    public WaiterHub(IWaiterService waiterService, ILicenceCache licenceCache) : base(licenceCache)
+    public WaiterHub(IWaiterService waiterService, ILicenceCache licenceCache, ICredentialsController credentialsController) 
+        : base(licenceCache, credentialsController)
     {
         _waiterService = waiterService;
     }

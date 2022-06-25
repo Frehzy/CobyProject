@@ -16,7 +16,7 @@ public class LicenceModule : BaseModule
         {
             var organizationId = parameters.organizationId;
             var moduleLicenceId = parameters.moduleLicenceId;
-            return await Execute<LicenceDto>(Context, () => _licenceController.GetLicence(organizationId, moduleLicenceId));
+            return await Execute<List<LicenceDto>>(Context, () => _licenceController.GetLicence(organizationId, moduleLicenceId));
         });
     }
 }

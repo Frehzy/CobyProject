@@ -1,4 +1,5 @@
 ﻿using ApiHostData.Cache.Licence;
+using ApiHostData.Controller.Contract;
 using ApiHostData.Factory;
 using ApiHostData.Services.Contract;
 using Microsoft.AspNetCore.SignalR;
@@ -11,7 +12,8 @@ public class OrderHub : BaseHub
 {
     private readonly IOrderService _orderService;
 
-    public OrderHub(IOrderService orderService, ILicenceCache licenceCache) : base(licenceCache)
+    public OrderHub(IOrderService orderService, ILicenceCache licenceCache, ICredentialsController credentialsController) 
+        : base(licenceCache, credentialsController)
     {
         _orderService = orderService;
     }

@@ -1,5 +1,6 @@
 ﻿using ApiHostData.Cache.Entities;
 using Serilog;
+using Shared.Factory.Dto;
 using SharedData.System.Collections.Concurrent;
 using SharedData.System.Text.Json;
 using System.Collections.Specialized;
@@ -10,7 +11,7 @@ namespace ApiHostData.Cache.Licence;
 public class LicenceCache : ILicenceCache
 {
     private readonly ObservableConcurrentDictionary<int, LicenceAction> _licences = new();
-    private object _locker = new();
+    private readonly object _locker = new();
 
     public IReadOnlyList<LicenceAction> Licences => _licences.Values.ToList();
 
@@ -19,13 +20,13 @@ public class LicenceCache : ILicenceCache
         _licences.CollectionChanged += Licences_CollectionChanged;
     }
 
-    public bool AddLicence(int moduleLicenceId, string terminalId, string organizationId)
+    public bool AddLicence(string terminalId, LicenceDto licence)
     {
         lock (_locker)
         {
             try
             {
-                if (_licences.TryGetValue(moduleLicenceId, out var licenceOnCache) is true) //если такой модуль существует в кэше
+                if (_licences.TryGetValue(licence.ModuleLicenceId, out var licenceOnCache) is true) //если такой модуль существует в кэше
                 {
                     if (licenceOnCache.TerminalsId.All(x => x.Equals(terminalId)) is false) //и такой терминал не занял модуль
                         licenceOnCache.ReservedLicence(terminalId);
@@ -33,9 +34,9 @@ public class LicenceCache : ILicenceCache
                 else
                 {
                     //запрос в БД за количеством лицензий на организацию
-                    var licenceEntity = new LicenceAction(default);
+                    var licenceEntity = new LicenceAction(licence.MaxReservedLicence);
                     licenceEntity.ReservedLicence(terminalId);
-                    _licences.TryAdd(moduleLicenceId, licenceEntity);
+                    _licences.TryAdd(licence.ModuleLicenceId, licenceEntity);
                 }
                 return true;
             }

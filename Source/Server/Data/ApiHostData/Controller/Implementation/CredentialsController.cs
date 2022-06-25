@@ -2,8 +2,12 @@
 using ApiHostData.Cache.Session;
 using ApiHostData.Controller.Contract;
 using ApiHostData.Services.Contract;
+using Shared.Configuration;
+using Shared.Exceptions;
 using Shared.Factory.Dto;
 using SharedData.Mapper;
+using System.Net;
+using System.Text.Json;
 
 namespace ApiHostData.Controller.Implementation;
 
@@ -19,11 +23,24 @@ public class CredentialsController : BaseController, ICredentialsController
         _orderService = orderService;
     }
 
-    public async Task<LicenceDto> CheckLicence(dynamic moduleLicenceId)
+    public async Task<List<LicenceDto>> CheckLicence(dynamic organizationId, dynamic moduleLicenceId)
     {
+        Guid oId = CheckDynamicGuid(organizationId);
         int mLId = int.Parse(moduleLicenceId);
-        //тут нужен запрос в базу данных
-        return new LicenceDto(default, default, default);
+        return await GetLicences(oId, mLId);
+
+        async Task<List<LicenceDto>> GetLicences(Guid organizationId, int moduleLicenceId)
+        {
+            var ip = NetOperation.GetLocalIPAddress();
+            var uri = new Uri($"http://{ip}:5051/{organizationId}/{moduleLicenceId}");
+            using var client = new HttpClient();
+            var response = await client.GetAsync(uri);
+            if (response.StatusCode is not HttpStatusCode.OK)
+                throw new InvalidLicenceModuleException();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<LicenceDto>>(json);
+        }
     }
 
     public async Task<CredentialsDto> CreateCredentials(dynamic password)

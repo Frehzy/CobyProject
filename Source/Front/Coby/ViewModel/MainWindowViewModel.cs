@@ -4,7 +4,7 @@ using ApiModule.Operations;
 
 namespace Coby.ViewModel;
 
-[LicenceModule(5)]
+[LicenceModule(5050)]
 internal class MainWindowViewModel : IIntegrationModule
 {
     private readonly ModuleOperation _module;

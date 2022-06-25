@@ -10,6 +10,7 @@ using ApiModule.Services.Implementation;
 using Shared.Data;
 using Shared.Exceptions;
 using Shared.Factory.Dto;
+using Shared.Factory.InternalModel;
 
 namespace ApiModule.Operations;
 
@@ -85,7 +86,7 @@ public sealed class ModuleOperation
     private int CheckLicence()
     {
         var licence = GetModuleLicence();
-        HttpRequest.Request<LicenceDto>($"moduleLicence/check/{licence.ModuleLicenceId}");
+        HttpRequest.Request<List<LicenceDto>>($"moduleLicence/check/{ConfigSettings.CreateInstance().OrganizationId}/{licence.ModuleLicenceId}");
         return licence.ModuleLicenceId;
 
         LicenceModuleAttribute GetModuleLicence()

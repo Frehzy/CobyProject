@@ -8,5 +8,5 @@ public interface ICredentialsController
 
     public Task<SessionDto> CreateSession(dynamic orderId);
 
-    public Task<LicenceDto> CheckLicence(dynamic moduleLicenceId);
+    public Task<List<LicenceDto>> CheckLicence(dynamic organizationId, dynamic moduleLicenceId);
 }
