@@ -43,13 +43,14 @@ public class Startup
         DbContextOptionsBuilder<ApiHostServicesDataContext> options = new();
         options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"),
                     assembly =>
-                        assembly.MigrationsAssembly("ApiHostServices"));
+                        assembly.MigrationsAssembly(nameof(ApiHostServices)));
 
         ConfigureServiceBase.ConfigureService(services);
         ConfigureMapper.ConfigureService(services);
         ConfigureController.ConfigureService(services);
         ConfigureCache.ConfigureService(services);
         ConfigureDatabase.ConfigureService(services, options.Options);
+        ConfigureRepository.ConfigureService(services);
 
         services.AddSignalR(options => options.EnableDetailedErrors = true);
     }

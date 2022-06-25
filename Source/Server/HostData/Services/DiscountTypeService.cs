@@ -2,7 +2,7 @@
 using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
 using HostData.Mapper;
-using HostData.Repository;
+using HostData.Repository.Contracts;
 using Shared.Data;
 using Shared.Exceptions;
 
@@ -10,7 +10,7 @@ namespace HostData.Services;
 
 public class DiscountTypeService : BaseService, IDiscountTypeService
 {
-    public DiscountTypeService(IDbRepository dbRepository, IMapper mapper) : base(dbRepository, mapper)
+    public DiscountTypeService(IApiHostRepository dbRepository, IMapper mapper) : base(dbRepository, mapper)
     {
     }
 

@@ -1,16 +1,14 @@
-﻿using HostData.Domain.Context;
-using HostData.Domain.Contracts.Entities;
-using HostData.Repository;
+﻿using HostData.Domain.Contracts.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace HostData.Domain.Repository;
+namespace HostData.Repository;
 
-public sealed class DbRepository : IDbRepository
+public abstract class BaseRepository<TDataContext> where TDataContext : DbContext
 {
-    public DataContext Context { get; private set; }
+    public TDataContext Context { get; private set; }
 
-    public DbRepository(DataContext context) =>
+    public BaseRepository(TDataContext context) =>
         Context = context;
 
     public async Task<T> GetById<T>(Guid id) where T : class, IEntity =>

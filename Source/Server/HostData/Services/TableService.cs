@@ -1,8 +1,9 @@
-﻿using HostData.Domain.Contracts.Entities;
+﻿using HostData.Domain.Context;
+using HostData.Domain.Contracts.Entities;
 using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
 using HostData.Mapper;
-using HostData.Repository;
+using HostData.Repository.Contracts;
 using Shared.Data;
 using Shared.Exceptions;
 
@@ -10,7 +11,7 @@ namespace HostData.Services;
 
 public class TableService : BaseService, ITableService
 {
-    public TableService(IDbRepository dbRepository, IMapper mapper) : base(dbRepository, mapper)
+    public TableService(IApiHostRepository dbRepository, IMapper mapper) : base(dbRepository, mapper)
     {
     }
 

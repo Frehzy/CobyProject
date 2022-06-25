@@ -1,12 +1,12 @@
 ﻿using HostData.Repository.Contracts;
 using HostData.Repository.Implementation;
 
-namespace ApiHostServices.ConfigureServices;
+namespace LicenceServices.ConfigureServices;
 
 public static class ConfigureRepository
 {
     public static void ConfigureService(IServiceCollection services)
     {
-        services.AddScoped<IApiHostRepository, ApiHostRepository>();
+        services.AddScoped<ILicenceRepository, LicenceRepository>();
     }
 }

@@ -1,3 +1,6 @@
+using HostData.Domain.Context;
+using LicenceServices.ConfigureServices;
+using Microsoft.EntityFrameworkCore;
 using Nancy.Owin;
 
 namespace LicenceServices;
@@ -29,5 +32,16 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddMvc();
+
+        DbContextOptionsBuilder<LicenceServicesDataContext> options = new();
+        options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"),
+                    assembly =>
+                        assembly.MigrationsAssembly(nameof(LicenceServices)));
+
+        ConfigureServiceBase.ConfigureService(services);
+        ConfigureMapper.ConfigureService(services);
+        ConfigureController.ConfigureService(services);
+        ConfigureDatabase.ConfigureService(services, options.Options);
+        ConfigureRepository.ConfigureService(services);
     }
 }

@@ -1,9 +1,10 @@
-﻿using HostData.Domain.Contracts.Entities;
+﻿using HostData.Domain.Context;
+using HostData.Domain.Contracts.Entities;
 using HostData.Domain.Contracts.Entities.Order;
 using HostData.Domain.Contracts.Models;
 using HostData.Domain.Contracts.Services;
 using HostData.Mapper;
-using HostData.Repository;
+using HostData.Repository.Contracts;
 using HostData.System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -14,7 +15,7 @@ namespace HostData.Services;
 
 public class OrderService : IOrderService
 {
-    protected readonly IDbRepository _dbRepository;
+    protected readonly IApiHostRepository _dbRepository;
     private readonly IMapper _mapper;
     private readonly IProductItemService _productItemService;
     private readonly IWaiterService _waiterService;
@@ -22,7 +23,7 @@ public class OrderService : IOrderService
     private readonly IPaymentTypeService _paymentTypeService;
     private readonly IDiscountTypeService _discountTypeService;
 
-    public OrderService(IDbRepository dbRepository, IMapper mapper, IProductItemService productItemService, IWaiterService waiterService, ITableService tableService, IPaymentTypeService paymentTypeService, IDiscountTypeService discountTypeService)
+    public OrderService(IApiHostRepository dbRepository, IMapper mapper, IProductItemService productItemService, IWaiterService waiterService, ITableService tableService, IPaymentTypeService paymentTypeService, IDiscountTypeService discountTypeService)
     {
         _dbRepository = dbRepository;
         _mapper = mapper;

@@ -1,12 +1,12 @@
-﻿using HostData.Domain.Context;
-using HostData.Domain.Contracts.Entities;
+﻿using HostData.Domain.Contracts.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace HostData.Repository;
 
-public interface IDbRepository
+public interface IBaseRepository<TDataContext> where TDataContext : DbContext
 {
-    DataContext Context { get; }
+    TDataContext Context { get; }
 
     Task<T> GetById<T>(Guid id) where T : class, IEntity;
     Task<List<T>> Get<T>() where T : class, IEntity;

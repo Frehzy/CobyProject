@@ -1,7 +1,8 @@
-﻿using HostData.Domain.Contracts.Entities;
+﻿using HostData.Domain.Context;
+using HostData.Domain.Contracts.Entities;
 using HostData.Domain.Contracts.Models;
 using HostData.Mapper;
-using HostData.Repository;
+using HostData.Repository.Contracts;
 using HostData.System.Text.Json;
 using Serilog;
 using System.Linq.Expressions;
@@ -11,11 +12,11 @@ namespace HostData.Services;
 
 public abstract class BaseService
 {
-    protected IDbRepository DbRepository { get; }
+    protected IApiHostRepository DbRepository { get; }
 
     protected IMapper Mapper { get; }
 
-    public BaseService(IDbRepository dbRepository,
+    public BaseService(IApiHostRepository dbRepository,
                        IMapper mapper)
     {
         DbRepository = dbRepository;
