@@ -40,21 +40,14 @@ namespace ASPHost
         {
             services.AddMvc();
 
-            services.AddDbContext<DataContext>(options =>
-            {
-                options
-                    .UseNpgsql(_configuration.GetConnectionString("DefaultConnection"),
-                        assembly =>
-                            assembly.MigrationsAssembly("ASPHost"));
-            });
-
             ConfigureRepository.ConfigureService(services);
             ConfigureServiceBase.ConfigureService(services);
             ConfigureMapper.ConfigureService(services);
             ConfigureController.ConfigureService(services);
             ConfigureCache.ConfigureService(services);
+            ConfigureDatabase.ConfigureService(services, _configuration);
 
-            services.AddSignalR();
+            services.AddSignalR(options => options.EnableDetailedErrors = true);
         }
     }
 }

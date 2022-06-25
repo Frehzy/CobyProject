@@ -5,7 +5,7 @@ namespace ApiModule.Api;
 
 public interface IConfiguration
 {
-    public IConfigSettings ConfigSettings { get; }
+    public IConfigSettings ConfigurationSettings { get; }
 
     public static IConfiguration CreateInstance() =>
         new Configuration();

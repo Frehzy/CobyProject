@@ -1,5 +1,4 @@
-﻿using ApiModule.Services;
-using ApiModule.Services.Contrancts;
+﻿using ApiModule.Services.Contrancts;
 using Microsoft.AspNetCore.SignalR.Client;
 using Shared.Data.Enum;
 using Shared.Factory.Dto;
@@ -8,9 +7,9 @@ namespace ApiModule.Services.Implementation;
 
 internal class OrderService : BaseService<OrderDto>, IOrderService
 {
-    public OrderService(Uri url) : base(new Uri(url, "ordersNotification"))
+    public OrderService(Uri url, int moduleLicenceId, Guid terminalId) : base(new Uri(url, "ordersNotification"), moduleLicenceId, terminalId)
     {
-        Connection.On<OrderDto, EventType>("OnOrder", (dto, eventType) => RaiseReceiveEvent(dto, eventType)); ;
+        Connection.On<OrderDto, EventType>("OnOrder", (dto, eventType) => RaiseReceiveEvent(dto, eventType));
     }
 
     public async Task SendOrder(OrderDto order, EventType eventType) =>

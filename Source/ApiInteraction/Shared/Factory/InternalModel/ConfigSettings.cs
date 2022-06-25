@@ -5,13 +5,14 @@ namespace Shared.Factory.InternalModel;
 
 internal class ConfigSettings : IConfigSettings
 {
+    private static ConfigSettings _instance;
+
     public Guid OrganizationId { get; set; }
 
-    public ConfigSettings() { }
+    public Guid TerminalId { get; private set; } = Guid.NewGuid();
 
-    public void Update()
-    {
-        var config = ConfigBuilder.Create();
-        OrganizationId = config.OrganizationId;
-    }
+    public static IConfigSettings CreateInstance() =>
+        _instance ??= ConfigBuilder.Create();
+
+    internal ConfigSettings() { }
 }

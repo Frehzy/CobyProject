@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Shared.Data.Enum;
+using Shared.Exceptions;
+using Shared.Factory.Dto;
 using Shared.Factory.InternalModel;
 
 namespace ApiModule.Services;
@@ -12,15 +14,25 @@ internal abstract class BaseService<TDto> where TDto : class
 
     public event Action<EntityChangedEvent<TDto>>? ReceiveEvent;
 
-    public BaseService(Uri url)
+    public BaseService(Uri url, int moduleLicenceId, Guid terminalId)
     {
-        Connection ??= new HubConnectionBuilder().WithUrl(url).Build();
+        Connection ??= new HubConnectionBuilder().WithUrl(url, options =>
+        {
+            options.Headers.Add(nameof(LicenceDto.ModuleLicenceId), moduleLicenceId.ToString());
+            options.Headers.Add(nameof(ConfigSettings.TerminalId), terminalId.ToString());
+        }).Build();
+
+        Connection.On<string>("ExceptionConnection", async (message) =>
+        {
+            await Disconnect();
+            throw new InvalidLicenceModuleException(message);
+        });
     }
 
-    public async Task Connect() =>
+    public virtual async Task Connect() =>
         await Connection.StartAsync();
 
-    public async Task Disconnect() =>
+    public virtual async Task Disconnect() =>
         await Connection.StopAsync();
 
     public async Task Send(string methodName, TDto dto, EventType eventType) =>

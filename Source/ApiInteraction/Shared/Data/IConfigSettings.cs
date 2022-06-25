@@ -4,5 +4,5 @@ public interface IConfigSettings
 {
     public Guid OrganizationId { get; }
 
-    public void Update();
+    public Guid TerminalId { get; }
 }

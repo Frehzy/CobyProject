@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Shared.Data;
 using Shared.Factory.InternalModel;
 
 namespace Shared.Configuration;
 
 internal static class ConfigBuilder
 {
-    public static IConfigSettings Create()
+    internal static ConfigSettings Create()
     {
         var config = new ConfigSettings();
 

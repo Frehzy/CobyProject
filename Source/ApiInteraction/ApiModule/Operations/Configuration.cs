@@ -1,6 +1,6 @@
 ﻿using ApiModule.Api;
-using Shared.Configuration;
 using Shared.Data;
+using Shared.Factory.InternalModel;
 
 namespace ApiModule.Operations;
 
@@ -8,5 +8,5 @@ internal sealed class Configuration : IConfiguration
 {
     private IConfigSettings _configSettings;
 
-    public IConfigSettings ConfigSettings => _configSettings ??= ConfigBuilder.Create();
+    public IConfigSettings ConfigurationSettings => _configSettings ??= ConfigSettings.CreateInstance();
 }

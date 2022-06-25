@@ -10,6 +10,7 @@ using ApiModule.Services.Implementation;
 using Shared.Data;
 using Shared.Exceptions;
 using Shared.Factory.Dto;
+using System.ComponentModel;
 
 namespace ApiModule.Operations;
 
@@ -54,9 +55,9 @@ public sealed class ModuleOperation
 
     private ModuleOperation()
     {
-        CheckLicence();
+        var licenceModuleId = CheckLicence();
 
-        var service = BuildServiceProvider.ConfigureServices();
+        var service = BuildServiceProvider.ConfigureServices(licenceModuleId);
 
         _credentialsOperation = (CredentialsOperation)service.GetService(typeof(ICredentialsOperation));
         _discountTypeOperation = (DiscountTypeOperation)service.GetService(typeof(IDiscountTypeOperation));
@@ -82,10 +83,11 @@ public sealed class ModuleOperation
             await _waiterService.Connect();
     }
 
-    private void CheckLicence()
+    private int CheckLicence()
     {
         var licence = GetModuleLicence();
         HttpRequest.Request<LicenceDto>($"moduleLicence/check/{licence.ModuleLicenceId}");
+        return licence.ModuleLicenceId;
 
         LicenceModuleAttribute GetModuleLicence()
         {
