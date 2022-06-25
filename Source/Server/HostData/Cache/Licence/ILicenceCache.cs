@@ -6,7 +6,7 @@ public interface ILicenceCache
 {
     public IReadOnlyList<LicenceEntity> Licences { get; }
 
-    public bool AddLicence(int moduleLicenceId, string terminalId);
+    public bool AddLicence(int moduleLicenceId, string terminalId, string organizationId);
 
     public bool RemoveLicence(string terminalId);
 }

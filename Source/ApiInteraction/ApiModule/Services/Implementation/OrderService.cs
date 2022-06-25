@@ -1,5 +1,6 @@
 ﻿using ApiModule.Services.Contrancts;
 using Microsoft.AspNetCore.SignalR.Client;
+using Shared.Data;
 using Shared.Data.Enum;
 using Shared.Factory.Dto;
 
@@ -7,7 +8,8 @@ namespace ApiModule.Services.Implementation;
 
 internal class OrderService : BaseService<OrderDto>, IOrderService
 {
-    public OrderService(Uri url, int moduleLicenceId, Guid terminalId) : base(new Uri(url, "ordersNotification"), moduleLicenceId, terminalId)
+    public OrderService(Uri url, int moduleLicenceId, IConfigSettings settings) 
+        : base(new Uri(url, "ordersNotification"), moduleLicenceId, settings)
     {
         Connection.On<OrderDto, EventType>("OnOrder", (dto, eventType) => RaiseReceiveEvent(dto, eventType));
     }

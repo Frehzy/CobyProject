@@ -19,7 +19,7 @@ public class LicenceCache : ILicenceCache
         _licences.CollectionChanged += Licences_CollectionChanged;
     }
 
-    public bool AddLicence(int moduleLicenceId, string terminalId)
+    public bool AddLicence(int moduleLicenceId, string terminalId, string organizationId)
     {
         lock (_locker)
         {
@@ -32,6 +32,7 @@ public class LicenceCache : ILicenceCache
                 }
                 else
                 {
+                    //запрос в БД за количеством лицензий на организацию
                     var licenceEntity = new LicenceEntity();
                     licenceEntity.ReservedLicence(terminalId);
                     _licences.TryAdd(moduleLicenceId, licenceEntity);

@@ -20,8 +20,9 @@ public abstract class BaseHub : Hub
         var httpContext = Context.GetHttpContext();
         httpContext.Request.Headers.TryGetValue(nameof(LicenceDto.ModuleLicenceId), out var moduleLicenceId);
         httpContext.Request.Headers.TryGetValue(nameof(ConfigSettings.TerminalId), out var terminalId);
+        httpContext.Request.Headers.TryGetValue(nameof(ConfigSettings.OrganizationId), out var organizationId);
 
-        if (_licenceCache.AddLicence(Convert.ToInt32(moduleLicenceId), terminalId) is true)
+        if (_licenceCache.AddLicence(Convert.ToInt32(moduleLicenceId), terminalId, organizationId) is true)
             return true;
         else
             await Clients.Client(Context.ConnectionId).SendAsync("ExceptionConnection", nameof(InvalidLicenceModuleException));

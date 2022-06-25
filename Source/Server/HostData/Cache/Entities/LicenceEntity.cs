@@ -8,7 +8,7 @@ public class LicenceEntity
 
     public int MaxReservedLicence { get; set; }
 
-    public LicenceEntity(int maxReservedLicence = 1)
+    public LicenceEntity(int maxReservedLicence)
     {
         MaxReservedLicence = maxReservedLicence;
     }

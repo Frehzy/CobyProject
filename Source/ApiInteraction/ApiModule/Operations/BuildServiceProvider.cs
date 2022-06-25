@@ -27,8 +27,8 @@ internal static class BuildServiceProvider
             .AddSingleton<ITableOperation, TableOperation>()
             .AddSingleton<IWaiterOperation, WaiterOperation>()
             .AddSingleton<INotificationService, NotificationService>()
-            .AddSingleton<IOrderService, OrderService>(_ => new OrderService(url, moduleLicenceId, settings.TerminalId))
-            .AddSingleton<IWaiterService, WaiterService>(_ => new WaiterService(url, moduleLicenceId, settings.TerminalId))
+            .AddSingleton<IOrderService, OrderService>(_ => new OrderService(url, moduleLicenceId, settings))
+            .AddSingleton<IWaiterService, WaiterService>(_ => new WaiterService(url, moduleLicenceId, settings))
             .BuildServiceProvider();
     }
 }

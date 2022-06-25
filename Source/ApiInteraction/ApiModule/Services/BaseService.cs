@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Shared.Data;
 using Shared.Data.Enum;
 using Shared.Exceptions;
 using Shared.Factory.Dto;
@@ -14,12 +15,13 @@ internal abstract class BaseService<TDto> where TDto : class
 
     public event Action<EntityChangedEvent<TDto>>? ReceiveEvent;
 
-    public BaseService(Uri url, int moduleLicenceId, Guid terminalId)
+    public BaseService(Uri url, int moduleLicenceId, IConfigSettings settings)
     {
         Connection ??= new HubConnectionBuilder().WithUrl(url, options =>
         {
             options.Headers.Add(nameof(LicenceDto.ModuleLicenceId), moduleLicenceId.ToString());
-            options.Headers.Add(nameof(ConfigSettings.TerminalId), terminalId.ToString());
+            options.Headers.Add(nameof(ConfigSettings.TerminalId), settings.TerminalId.ToString());
+            options.Headers.Add(nameof(ConfigSettings.OrganizationId), settings.OrganizationId.ToString());
         }).Build();
 
         Connection.On<string>("ExceptionConnection", async (message) =>
