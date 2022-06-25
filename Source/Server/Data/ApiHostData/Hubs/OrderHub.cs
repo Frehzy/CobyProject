@@ -12,7 +12,7 @@ public class OrderHub : BaseHub
 {
     private readonly IOrderService _orderService;
 
-    public OrderHub(IOrderService orderService, ILicenceCache licenceCache, ICredentialsController credentialsController) 
+    public OrderHub(IOrderService orderService, ILicenceCache licenceCache, ICredentialsController credentialsController)
         : base(licenceCache, credentialsController)
     {
         _orderService = orderService;

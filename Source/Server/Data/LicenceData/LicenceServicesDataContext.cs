@@ -32,7 +32,7 @@ public class LicenceServicesDataContext : DbContext
                 CreatedTime = DateTime.Now,
                 IsDeleted = false,
                 OrganizationId = Guid.Empty,
-                MaxReservedLicence = 10,
+                MaxReservedLicence = 1,
                 ModuleLicenceId = 5050,
                 WaiterCreatedId = Guid.Empty
             };

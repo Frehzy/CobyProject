@@ -12,7 +12,7 @@ public class WaiterHub : BaseHub
 {
     private readonly IWaiterService _waiterService;
 
-    public WaiterHub(IWaiterService waiterService, ILicenceCache licenceCache, ICredentialsController credentialsController) 
+    public WaiterHub(IWaiterService waiterService, ILicenceCache licenceCache, ICredentialsController credentialsController)
         : base(licenceCache, credentialsController)
     {
         _waiterService = waiterService;

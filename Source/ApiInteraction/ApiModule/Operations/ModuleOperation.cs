@@ -47,8 +47,27 @@ public sealed class ModuleOperation
 
     public INotificationService NotificationService => _notificationService;
 
-    public static ModuleOperation GetInstance() =>
+    [Obsolete($"Use {nameof(GetInstanceAsync)}")]
+    public static ModuleOperation GetInstance()
+    {
+        try
+        {
+            _instance ??= new ModuleOperation();
+            Task.Run(async () => await _instance.ConnectToSignalR()).GetAwaiter().GetResult();
+            return _instance;
+        }
+        catch(Exception ex)
+        {
+            throw ex.InnerException;
+        }
+    }
+
+    public static async Task<ModuleOperation> GetInstanceAsync()
+    {
         _instance ??= new ModuleOperation();
+        await _instance.ConnectToSignalR();
+        return _instance;
+    }
 
     public ISessionOperation SessionOperation(ISession session) =>
         new SessionOperation(session, _orderService);
@@ -71,12 +90,13 @@ public sealed class ModuleOperation
 
         _orderService = (OrderService)service.GetService(typeof(IOrderService));
         _waiterService = (WaiterService)service.GetService(typeof(IWaiterService));
-
-        ConnectToSignalR();
     }
 
     private async Task ConnectToSignalR()
     {
+        if (_orderService is null || _waiterService is null)
+            throw new ArgumentNullException();
+
         if (_orderService.IsConnected is false)
             await _orderService.Connect();
         if (_waiterService.IsConnected is false)
@@ -110,10 +130,10 @@ public sealed class ModuleOperation
 
     ~ModuleOperation()
     {
-        if (_orderService.IsConnected is true)
-            _orderService.Disconnect();
-        if (_waiterService.IsConnected is true)
-            _waiterService.Disconnect();
+        if (_orderService?.IsConnected is true)
+            _orderService.Disconnect().ConfigureAwait(false);
+        if (_waiterService?.IsConnected is true)
+            _waiterService.Disconnect().ConfigureAwait(false);
         GC.Collect();
     }
 }
