@@ -1,7 +1,7 @@
 ﻿using HostData.Domain.Repository;
 using HostData.Repository;
 
-namespace ASPHost.ConfigureServices;
+namespace ApiHostServices.ConfigureServices;
 
 public static class ConfigureRepository
 {

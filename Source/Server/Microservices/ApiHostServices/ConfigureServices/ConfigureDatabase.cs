@@ -1,7 +1,7 @@
 ﻿using HostData.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace ASPHost.ConfigureServices;
+namespace ApiHostServices.ConfigureServices;
 
 public static class ConfigureDatabase
 {

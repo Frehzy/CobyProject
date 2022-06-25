@@ -1,6 +1,6 @@
 ﻿using HostData.Mapper;
 
-namespace ASPHost.ConfigureServices;
+namespace ApiHostServices.ConfigureServices;
 
 public static class ConfigureMapper
 {

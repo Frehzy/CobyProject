@@ -1,7 +1,7 @@
 ﻿using HostData.Controller.Contract;
 using HostData.Controller.Implementation;
 
-namespace ASPHost.ConfigureServices;
+namespace ApiHostServices.ConfigureServices;
 
 public static class ConfigureController
 {

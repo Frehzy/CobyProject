@@ -2,7 +2,7 @@
 using HostData.Cache.Licence;
 using HostData.Cache.Orders;
 
-namespace ASPHost.ConfigureServices;
+namespace ApiHostServices.ConfigureServices;
 
 public static class ConfigureCache
 {

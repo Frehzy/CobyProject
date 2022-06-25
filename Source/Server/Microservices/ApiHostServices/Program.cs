@@ -4,7 +4,7 @@ using Shared.Configuration;
 using System.Net;
 using System.Text;
 
-namespace ASPHost;
+namespace ApiHostServices;
 
 public class Program
 {

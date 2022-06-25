@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ASPHost.Migrations
+namespace ApiHostServices.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20220622203120_Initialize")]

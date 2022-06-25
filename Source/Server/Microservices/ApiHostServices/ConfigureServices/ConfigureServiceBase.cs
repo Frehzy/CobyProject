@@ -1,7 +1,7 @@
 ﻿using HostData.Domain.Contracts.Services;
 using HostData.Services;
 
-namespace ASPHost.ConfigureServices;
+namespace ApiHostServices.ConfigureServices;
 
 public static class ConfigureServiceBase
 {
