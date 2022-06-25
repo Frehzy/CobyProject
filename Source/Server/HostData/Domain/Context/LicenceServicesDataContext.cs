@@ -34,7 +34,6 @@ public class LicenceServicesDataContext : DbContext
                 OrganizationId = Guid.Empty,
                 MaxReservedLicence = 10,
                 ModuleLicenceId = 5050,
-                Version = 0,
                 WaiterCreatedId = Guid.Empty
             };
     }

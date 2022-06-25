@@ -1,3 +1,3 @@
 ﻿namespace Shared.Factory.Dto;
 
-public record LicenceDto(int ModuleLicenceId);
+public record LicenceDto(Guid OrganizationId, int ModuleLicenceId, int MaxReservedLicence);

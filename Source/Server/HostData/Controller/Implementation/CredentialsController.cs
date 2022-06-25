@@ -23,7 +23,7 @@ public class CredentialsController : BaseController, ICredentialsController
     {
         int mLId = int.Parse(moduleLicenceId);
         //тут нужен запрос в базу данных
-        return new LicenceDto(mLId);
+        return new LicenceDto(default, default, default);
     }
 
     public async Task<CredentialsDto> CreateCredentials(dynamic password)
