@@ -1,6 +1,6 @@
-﻿using HostData.Cache.Credentials;
-using HostData.Cache.Licence;
-using HostData.Cache.Orders;
+﻿using ApiHostData.Cache.Credentials;
+using ApiHostData.Cache.Licence;
+using ApiHostData.Cache.Session;
 
 namespace ApiHostServices.ConfigureServices;
 

@@ -1,4 +1,4 @@
-﻿using HostData.Domain.Context;
+﻿using LicenceData;
 using Microsoft.EntityFrameworkCore;
 
 namespace LicenceServices.ConfigureServices;

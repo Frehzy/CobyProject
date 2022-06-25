@@ -1,5 +1,5 @@
-﻿using HostData.Controller.Contract;
-using HostData.Controller.Implementation;
+﻿using LicenceData.Controller.Contract;
+using LicenceData.Controller.Implementation;
 
 namespace LicenceServices.ConfigureServices;
 

@@ -1,4 +1,4 @@
-﻿using HostData.Mapper;
+﻿using SharedData.Mapper;
 
 namespace LicenceServices.ConfigureServices;
 

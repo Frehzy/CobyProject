@@ -1,5 +1,4 @@
-﻿using HostData.Repository.Contracts;
-using HostData.Repository.Implementation;
+﻿using LicenceData.Repository;
 
 namespace LicenceServices.ConfigureServices;
 

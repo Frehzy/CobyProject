@@ -8,13 +8,13 @@ namespace Shared.Exceptions;
 
 public class CantChangeAndRemoveOrderException : ViolationBusinessLogicException
 {
-    public IOrder Order { get; set; }
+    public Guid OrderId { get; set; }
 
     public override string Message => ToString();
 
-    public CantChangeAndRemoveOrderException(IOrder order) : base(nameof(CantChangeAndRemoveOrderException))
+    public CantChangeAndRemoveOrderException(Guid orderId) : base(nameof(CantChangeAndRemoveOrderException))
     {
-        Order = order;
+        OrderId = orderId;
     }
 
     protected CantChangeAndRemoveOrderException(SerializationInfo info, StreamingContext context) : base(info, context)
@@ -22,14 +22,13 @@ public class CantChangeAndRemoveOrderException : ViolationBusinessLogicException
         if (info is null)
             throw new ArgumentNullException(nameof(info));
 
-        Order = (Order)info.GetValue(nameof(Order), typeof(Order));
+        OrderId = (Guid)info.GetValue(nameof(OrderId), typeof(Guid));
     }
 
     public override Dictionary<string, object> CreateDictionary()
     {
         var dic = base.CreateDictionary();
-        foreach (var item in typeof(Product).GetProperties())
-            dic.Add(nameof(item.Name), item.GetValue(Order));
+        dic.Add(nameof(OrderId), OrderId);
 
         foreach (DictionaryEntry data in Data)
             dic.Add(data.Key.ToString(), data.Value);
@@ -47,16 +46,13 @@ public class CantChangeAndRemoveOrderException : ViolationBusinessLogicException
     {
         var strBuilder = new StringBuilder();
         strBuilder.Append(base.ToString());
-
-        var properties = typeof(Product).GetProperties();
-        var result = properties.Select(x => $"{x.Name}: {x.GetValue(Order, null)}");
-        strBuilder.AppendFormat(string.Join(Environment.NewLine, result), Environment.NewLine);
+        strBuilder.AppendFormat(string.Format(@"OrderId: [{0}]. ", OrderId), Environment.NewLine);
         return strBuilder.ToString();
     }
 
     protected override void Init()
     {
         base.Init();
-        Order = default;
+        OrderId = default;
     }
 }

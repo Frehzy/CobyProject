@@ -1,5 +1,5 @@
-﻿using HostData.Domain.Contracts.Services;
-using HostData.Services;
+﻿using LicenceData.Services.Contract;
+using LicenceData.Services.Implementation;
 
 namespace LicenceServices.ConfigureServices;
 

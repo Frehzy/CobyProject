@@ -1,10 +1,6 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Shared.Configuration;
-using System;
-using System.IO;
 using System.Net;
 using System.Text;
 

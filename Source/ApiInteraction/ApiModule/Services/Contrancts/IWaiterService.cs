@@ -1,5 +1,4 @@
-﻿using ApiModule.Services;
-using Shared.Data.Enum;
+﻿using Shared.Data.Enum;
 using Shared.Factory.Dto;
 
 namespace ApiModule.Services.Contrancts;

@@ -1,5 +1,4 @@
-﻿using HostData.Repository.Contracts;
-using HostData.Repository.Implementation;
+﻿using ApiHostData.Repository;
 
 namespace ApiHostServices.ConfigureServices;
 

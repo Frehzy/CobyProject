@@ -8,7 +8,7 @@ namespace ApiModule.Services.Implementation;
 
 internal class OrderService : BaseService<OrderDto>, IOrderService
 {
-    public OrderService(Uri url, int moduleLicenceId, IConfigSettings settings) 
+    public OrderService(Uri url, int moduleLicenceId, IConfigSettings settings)
         : base(new Uri(url, "ordersNotification"), moduleLicenceId, settings)
     {
         Connection.On<OrderDto, EventType>("OnOrder", (dto, eventType) => RaiseReceiveEvent(dto, eventType));

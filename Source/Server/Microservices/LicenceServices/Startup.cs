@@ -1,4 +1,4 @@
-using HostData.Domain.Context;
+using LicenceData;
 using LicenceServices.ConfigureServices;
 using Microsoft.EntityFrameworkCore;
 using Nancy.Owin;

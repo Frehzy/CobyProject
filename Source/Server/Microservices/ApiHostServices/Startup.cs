@@ -1,6 +1,6 @@
+using ApiHostData;
+using ApiHostData.Hubs;
 using ApiHostServices.ConfigureServices;
-using HostData.Domain.Context;
-using HostData.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Nancy.Owin;
 

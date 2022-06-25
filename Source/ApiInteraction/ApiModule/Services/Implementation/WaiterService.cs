@@ -8,7 +8,7 @@ namespace ApiModule.Services.Implementation;
 
 internal class WaiterService : BaseService<WaiterDto>, IWaiterService
 {
-    public WaiterService(Uri url, int moduleLicenceId, IConfigSettings settings) 
+    public WaiterService(Uri url, int moduleLicenceId, IConfigSettings settings)
         : base(new Uri(url, "waitersNotification"), moduleLicenceId, settings)
     {
         Connection.On<WaiterDto, EventType>("OnWaiter", (dto, eventType) => RaiseReceiveEvent(dto, eventType));

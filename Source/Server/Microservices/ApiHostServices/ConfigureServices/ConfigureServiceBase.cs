@@ -1,5 +1,5 @@
-﻿using HostData.Domain.Contracts.Services;
-using HostData.Services;
+﻿using ApiHostData.Services.Contract;
+using ApiHostData.Services.Implementation;
 
 namespace ApiHostServices.ConfigureServices;
 

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\HostData\HostData.csproj" />
+    <ProjectReference Include="..\..\Data\LicenceData\LicenceData.csproj" />
   </ItemGroup>
 
 </Project>
