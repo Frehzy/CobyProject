@@ -36,7 +36,7 @@ public class Startup
         DbContextOptionsBuilder<LicenceServicesDataContext> options = new();
         options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"),
                     assembly =>
-                        assembly.MigrationsAssembly(nameof(LicenceServices)));
+                        assembly.MigrationsAssembly(nameof(LicenceData)));
 
         ConfigureServiceBase.ConfigureService(services);
         ConfigureMapper.ConfigureService(services);

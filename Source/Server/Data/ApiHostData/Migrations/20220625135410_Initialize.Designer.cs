@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ApiHostServices.Migrations
+namespace ApiHostData.Migrations
 {
     [DbContext(typeof(ApiHostServicesDataContext))]
-    [Migration("20220622203120_Initialize")]
+    [Migration("20220625135410_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace ApiHostServices.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.DiscountTypeEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.DiscountTypeEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -57,7 +57,7 @@ namespace ApiHostServices.Migrations
                     b.ToTable("AllDiscountTypes");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderDiscountEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderDiscountEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,7 +82,7 @@ namespace ApiHostServices.Migrations
                     b.ToTable("OrderDiscountEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderGuestEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderGuestEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,7 +105,7 @@ namespace ApiHostServices.Migrations
                     b.ToTable("OrderGuestEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderPaymentEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderPaymentEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,7 +130,7 @@ namespace ApiHostServices.Migrations
                     b.ToTable("OrderPaymentEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderProductEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderProductEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,7 +164,7 @@ namespace ApiHostServices.Migrations
                     b.ToTable("OrderProductEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderTableEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderTableEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -183,7 +183,7 @@ namespace ApiHostServices.Migrations
                     b.ToTable("OrderTableEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderWaiterEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderWaiterEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -203,7 +203,7 @@ namespace ApiHostServices.Migrations
                     b.ToTable("OrderWaiterEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.OrderEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.OrderEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -244,7 +244,7 @@ namespace ApiHostServices.Migrations
                     b.ToTable("AllOrders");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.PaymentTypeEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.PaymentTypeEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -283,7 +283,7 @@ namespace ApiHostServices.Migrations
                     b.ToTable("AllPaymentTypes");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.ProductItemEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.ProductItemEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -322,7 +322,7 @@ namespace ApiHostServices.Migrations
                     b.ToTable("AllProducts");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.TableEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.TableEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -358,7 +358,7 @@ namespace ApiHostServices.Migrations
                     b.ToTable("AllTables");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.WaiterEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.WaiterEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -405,7 +405,7 @@ namespace ApiHostServices.Migrations
                         new
                         {
                             Id = new Guid("2c4c850c-728e-45a9-bb41-615f5723e0aa"),
-                            CreatedTime = new DateTime(2022, 6, 23, 1, 31, 2, 936, DateTimeKind.Local).AddTicks(9267),
+                            CreatedTime = new DateTime(2022, 6, 25, 18, 54, 10, 118, DateTimeKind.Local).AddTicks(4290),
                             IsDeleted = false,
                             IsSessionOpen = false,
                             Name = "ADMIN",
@@ -417,9 +417,9 @@ namespace ApiHostServices.Migrations
                         });
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderDiscountEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderDiscountEntity", b =>
                 {
-                    b.HasOne("HostData.Domain.Contracts.Entities.OrderEntity", "OrderEntity")
+                    b.HasOne("ApiHostData.Domain.Entities.OrderEntity", "OrderEntity")
                         .WithMany("OrderDiscountEntities")
                         .HasForeignKey("OrderEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -428,9 +428,9 @@ namespace ApiHostServices.Migrations
                     b.Navigation("OrderEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderGuestEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderGuestEntity", b =>
                 {
-                    b.HasOne("HostData.Domain.Contracts.Entities.OrderEntity", "OrderEntity")
+                    b.HasOne("ApiHostData.Domain.Entities.OrderEntity", "OrderEntity")
                         .WithMany("OrderGuestEntities")
                         .HasForeignKey("OrderEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -439,9 +439,9 @@ namespace ApiHostServices.Migrations
                     b.Navigation("OrderEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderPaymentEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderPaymentEntity", b =>
                 {
-                    b.HasOne("HostData.Domain.Contracts.Entities.OrderEntity", "OrderEntity")
+                    b.HasOne("ApiHostData.Domain.Entities.OrderEntity", "OrderEntity")
                         .WithMany("OrderPaymentEntities")
                         .HasForeignKey("OrderEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -450,9 +450,9 @@ namespace ApiHostServices.Migrations
                     b.Navigation("OrderEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderProductEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderProductEntity", b =>
                 {
-                    b.HasOne("HostData.Domain.Contracts.Entities.OrderEntity", "OrderEntity")
+                    b.HasOne("ApiHostData.Domain.Entities.OrderEntity", "OrderEntity")
                         .WithMany("OrderProductEntities")
                         .HasForeignKey("OrderEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -461,9 +461,9 @@ namespace ApiHostServices.Migrations
                     b.Navigation("OrderEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderTableEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderTableEntity", b =>
                 {
-                    b.HasOne("HostData.Domain.Contracts.Entities.OrderEntity", "OrderEntity")
+                    b.HasOne("ApiHostData.Domain.Entities.OrderEntity", "OrderEntity")
                         .WithMany("OrderTableEntities")
                         .HasForeignKey("OrderEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -472,18 +472,18 @@ namespace ApiHostServices.Migrations
                     b.Navigation("OrderEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.Order.OrderWaiterEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.Order.OrderWaiterEntity", b =>
                 {
-                    b.HasOne("HostData.Domain.Contracts.Entities.OrderEntity", "OrderEntity")
+                    b.HasOne("ApiHostData.Domain.Entities.OrderEntity", "OrderEntity")
                         .WithOne("OrderWaiterEntity")
-                        .HasForeignKey("HostData.Domain.Contracts.Entities.Order.OrderWaiterEntity", "OrderEntityId")
+                        .HasForeignKey("ApiHostData.Domain.Entities.Order.OrderWaiterEntity", "OrderEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("OrderEntity");
                 });
 
-            modelBuilder.Entity("HostData.Domain.Contracts.Entities.OrderEntity", b =>
+            modelBuilder.Entity("ApiHostData.Domain.Entities.OrderEntity", b =>
                 {
                     b.Navigation("OrderDiscountEntities");
 
