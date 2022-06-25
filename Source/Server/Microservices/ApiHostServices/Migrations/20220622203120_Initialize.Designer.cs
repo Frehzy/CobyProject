@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ApiHostServices.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(ApiHostServicesDataContext))]
     [Migration("20220622203120_Initialize")]
     partial class Initialize
     {

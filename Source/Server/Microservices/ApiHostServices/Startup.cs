@@ -40,12 +40,16 @@ public class Startup
     {
         services.AddMvc();
 
-        ConfigureRepository.ConfigureService(services);
+        DbContextOptionsBuilder<ApiHostServicesDataContext> options = new();
+        options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"),
+                    assembly =>
+                        assembly.MigrationsAssembly("ApiHostServices"));
+
         ConfigureServiceBase.ConfigureService(services);
         ConfigureMapper.ConfigureService(services);
         ConfigureController.ConfigureService(services);
         ConfigureCache.ConfigureService(services);
-        ConfigureDatabase.ConfigureService(services, _configuration);
+        ConfigureDatabase.ConfigureService(services, options.Options);
 
         services.AddSignalR(options => options.EnableDetailedErrors = true);
     }

@@ -1,10 +1,14 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Shared.Configuration;
+using System;
+using System.IO;
 using System.Net;
 using System.Text;
 
-namespace ApiHostServices;
+namespace LicenceServices;
 
 public class Program
 {
@@ -17,7 +21,7 @@ public class Program
                           rollOnFileSizeLimit: true,
                           shared: true,
                           outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {Level:u3}] {Message:lj}{NewLine}{Exception}",
-                          path: string.Concat(AppDomain.CurrentDomain.BaseDirectory, @"Logs\ApiHostServicesLog.log"),
+                          path: string.Concat(AppDomain.CurrentDomain.BaseDirectory, @"Logs\LicenceServicesLog.log"),
                           encoding: Encoding.UTF8)
             .WriteTo.Console(outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {Level:u3}] {Message:lj}{NewLine}{Exception}")
             .CreateLogger();
@@ -26,7 +30,7 @@ public class Program
         var hostBuilder = Host.CreateDefaultBuilder(args);
         var host = ConfigureHostBuilder(hostBuilder, ip);
         host.Run();
-        Log.Information($"Starting {nameof(ApiHostServices)} host");
+        Log.Information($"Starting {nameof(LicenceServices)} host");
     }
 
     public static IHost ConfigureHostBuilder(IHostBuilder hostBuilder, IPAddress ip) =>
@@ -38,7 +42,7 @@ public class Program
                                  {
                                      x.AllowSynchronousIO = true;
                                  })
-                                 .UseUrls($"http://{ip}:5050")
+                                 .UseUrls($"http://{ip}:5051")
                                  .UseStartup<Startup>();
                    }).Build();
 }

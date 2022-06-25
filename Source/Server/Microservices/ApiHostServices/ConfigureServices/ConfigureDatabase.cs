@@ -5,13 +5,8 @@ namespace ApiHostServices.ConfigureServices;
 
 public static class ConfigureDatabase
 {
-    public static void ConfigureService(IServiceCollection services, IConfiguration configuration)
+    public static void ConfigureService(IServiceCollection services, DbContextOptions<ApiHostServicesDataContext> options)
     {
-        DbContextOptionsBuilder<DataContext> options = new();
-        options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
-                    assembly =>
-                        assembly.MigrationsAssembly("ASPHost"));
-
-        services.AddSingleton(typeof(DataContext), _ = new DataContext(options.Options));
+        services.AddSingleton(typeof(ApiHostServicesDataContext), options);
     }
 }

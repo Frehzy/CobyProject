@@ -9,10 +9,10 @@ namespace HostData.Cache.Licence;
 
 public class LicenceCache : ILicenceCache
 {
-    private readonly ObservableConcurrentDictionary<int, LicenceEntity> _licences = new();
+    private readonly ObservableConcurrentDictionary<int, LicenceAction> _licences = new();
     private object _locker = new();
 
-    public IReadOnlyList<LicenceEntity> Licences => _licences.Values.ToList();
+    public IReadOnlyList<LicenceAction> Licences => _licences.Values.ToList();
 
     public LicenceCache()
     {
@@ -33,7 +33,7 @@ public class LicenceCache : ILicenceCache
                 else
                 {
                     //запрос в БД за количеством лицензий на организацию
-                    var licenceEntity = new LicenceEntity();
+                    var licenceEntity = new LicenceAction(default);
                     licenceEntity.ReservedLicence(terminalId);
                     _licences.TryAdd(moduleLicenceId, licenceEntity);
                 }
@@ -68,11 +68,11 @@ public class LicenceCache : ILicenceCache
     private void Licences_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.NewItems != null)
-            foreach (LicenceEntity newItem in e.NewItems)
+            foreach (LicenceAction newItem in e.NewItems)
                 Log.Information($"{nameof(LicenceCache)}. Added item: {JsonSerializer.Serialize(newItem, Options.JsonSerializerOptions)}");
 
         if (e.OldItems != null)
-            foreach (LicenceEntity oldItem in e.OldItems)
+            foreach (LicenceAction oldItem in e.OldItems)
                 Log.Information($"{nameof(LicenceCache)}. Remove item: {JsonSerializer.Serialize(oldItem, Options.JsonSerializerOptions)}");
     }
 }

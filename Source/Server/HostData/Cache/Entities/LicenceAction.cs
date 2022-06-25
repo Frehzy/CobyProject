@@ -1,6 +1,6 @@
 ﻿namespace HostData.Cache.Entities;
 
-public class LicenceEntity
+public class LicenceAction
 {
     public List<string> TerminalsId { get; } = new();
 
@@ -8,7 +8,7 @@ public class LicenceEntity
 
     public int MaxReservedLicence { get; set; }
 
-    public LicenceEntity(int maxReservedLicence)
+    public LicenceAction(int maxReservedLicence)
     {
         MaxReservedLicence = maxReservedLicence;
     }
